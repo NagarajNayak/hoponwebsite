@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ <managed-bean>
+  <managed-bean-name>userAction</managed-bean-name>
+  <managed-bean-class>com.hopon.action.UserAction</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>baseAction</managed-bean-name>
+  <managed-bean-class>com.hopon.action.BaseAction</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>rideAction</managed-bean-name>
+  <managed-bean-class>com.hopon.action.RideAction</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>circleAction</managed-bean-name>
+  <managed-bean-class>com.hopon.action.CircleAction</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>vehicleAction</managed-bean-name>
+  <managed-bean-class>com.hopon.action.VehicleAction</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+ </managed-bean>
+ 
+ <navigation-rule>
+ 	<from-view-id>/*</from-view-id>
+ 	<navigation-case>
+ 		<from-outcome>signOut</from-outcome>
+ 		<to-view-id>/pages/signin.xhtml</to-view-id>
+ 		<redirect />
+ 	</navigation-case>
+ </navigation-rule>
+ 
+ <navigation-rule>
+  <from-view-id>/pages/signin.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>P</from-outcome>
+   <to-view-id>/pages/settings/master-gr-my-msg.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>B</from-outcome>
+   <to-view-id>/pages/settings/master-gr-my-msg.xhtml</to-view-id>
+   <redirect />
+   </navigation-case>
+  <navigation-case>
+   <from-outcome>C</from-outcome>
+   <to-view-id>/pages/settings/master-gr-my-msg.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>T</from-outcome>
+   <to-view-id>/pages/settings/master-gr-my-msg.xhtml</to-view-id>
+   <redirect />
+   </navigation-case>
+  <navigation-case>
+   <from-outcome>changePassword</from-outcome>
+   <to-view-id>/pages/settings/changePassword.xhtml</to-view-id>
+   <redirect />
+   </navigation-case>
+  <navigation-case>
+   <from-outcome>preference</from-outcome>
+   <to-view-id>/pages/settings/Pref-ind.xhtml</to-view-id>
+   <redirect />
+   </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/pages/signup.xhtml</from-view-id> 
+  <navigation-case>
+   <from-outcome>registerCompany</from-outcome>
+   <to-view-id>/pages/signup.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>clear</from-outcome>
+   <to-view-id>/pages/signup.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>userRegister</from-outcome>
+   <to-view-id>/pages/settings/master-gr-my-msg.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>userPending</from-outcome>
+   <to-view-id>/pages/signin.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+ </navigation-rule>
+ 
+ 
+ <navigation-rule>
+  <from-view-id>/pages/settings/master-gr-my-msg.xhtml</from-view-id>
+  
+  <navigation-case>
+   <from-outcome>giveRide</from-outcome>
+   <to-view-id>/pages/settings/master-gr-my-msg.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>takeRide</from-outcome>
+   <to-view-id>/pages/settings/master-gr-my-msg.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+ </navigation-rule>
+ 
+ <navigation-rule>
+  <from-view-id>/pages/settings/master-my-circle.xhtml</from-view-id>
+ 
+  <navigation-case>
+   <from-outcome>giveRide</from-outcome>
+   <to-view-id>/pages/settings/master-my-circle.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>takeRide</from-outcome>
+   <to-view-id>/pages/settings/master-my-circle.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+ </navigation-rule>
+ 
+ <navigation-rule>
+  <from-view-id>/pages/rides/master_gr-new-ride.xhtml</from-view-id>
+
+  <navigation-case>
+   <from-outcome>rideRegistered</from-outcome>
+   <to-view-id>/pages/rides/master-gr-pending-trips.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>giveRide</from-outcome>
+   <to-view-id>/pages/rides/master_gr-new-ride.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>takeRide</from-outcome>
+   <to-view-id>/pages/rides/master_gr-new-ride.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+ </navigation-rule>
+ 
+ <navigation-rule>
+  <from-view-id>/pages/rides/master-gr-completedride.xhtml</from-view-id>
+ 
+  <navigation-case>
+   <from-outcome>giveRide</from-outcome>
+   <to-view-id>/pages/rides/master-gr-completedride.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>copyrideManager</from-outcome>
+   <to-view-id>/pages/rides/master-gr-pending-trips.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>copyrideSeeker</from-outcome>
+   <to-view-id>/pages/rides/master-gr-pending-trips.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+ </navigation-rule>
+ 
+ <navigation-rule>
+  <from-view-id>/pages/rides/master-gr-pending-trips.xhtml</from-view-id>
+
+  <navigation-case>
+   <from-outcome>giveRide</from-outcome>
+   <to-view-id>/pages/rides/master-gr-pending-trips.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+   <navigation-case>
+   <from-outcome>takeRide</from-outcome>
+   <to-view-id>/pages/rides/master-gr-pending-trips.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+ </navigation-rule>
+
+ <navigation-rule>
+  <from-view-id>/pages/provider/create-circle.xhtml</from-view-id> 
+  <navigation-case>
+   <from-outcome>circleRegistered</from-outcome>
+   <to-view-id>/pages/settings/master-my-circle.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/pages/taxi/taxi-link-manual.xhtml</from-view-id> 
+  <navigation-case>
+   <from-outcome>matched</from-outcome>
+   <to-view-id>/pages/rides/master-gr-pending-trips.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/pages/taxi/ride-pre-match.xhtml</from-view-id> 
+  <navigation-case>
+   <from-outcome>matched</from-outcome>
+   <to-view-id>/pages/rides/master-gr-pending-trips.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/pages/settings/Pref-ind.xhtml</from-view-id> 
+  <navigation-case>
+   <from-outcome>close</from-outcome>
+   <to-view-id>/pages/signin.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>page</from-outcome>
+   <to-view-id>/pages/settings/editcompany.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  <from-view-id>/pages/consumer/Pref-ind.xhtml</from-view-id> 
+  <navigation-case>
+   <from-outcome>page</from-outcome>
+   <to-view-id>/pages/settings/editcompany.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  <from-view-id>/pages/companysignup.xhtml</from-view-id> 
+  <navigation-case>
+   <from-outcome>registerCompany</from-outcome>
+   <to-view-id>/pages/settings/editcompany.xhtml</to-view-id>
+   <redirect />
+  </navigation-case>
+  </navigation-rule>
+  
+ <application>
+		<locale-config>
+			<default-locale>en</default-locale>			
+			<supported-locale>en</supported-locale>
+			<supported-locale>fr</supported-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>resource.MessageResources</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+	</application> 
+</faces-config>

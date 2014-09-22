@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"      
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common/headerScript.xhtml"></ui:include>
+		<link href="../pages/css/excite-bike/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+ 
+   <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="../../resources/js/bootstrap-slider.js"></script>
+<link href="../../resources/css/slider.css" rel="stylesheet"></link>
+    <script type="text/javascript">var s2=jQuery.noConflict();s2(function(){s2("#sl1").slider({min:0,max:6,step:1,value:10,tooltip:"show",handle:"round",formater:function(a){return"Current value: "+(a*10)+""}}).on("change",function(a){console.log("00:12:00")})});</script>
+
+<script>$(document).ready(function(){googleLoc();});
+</script>
+<script>var x=jQuery.noConflict();function googleLoc(){x(function(){x("#tab\\:Address").autocomplete({source:function(b,a){$("#tab\\:city_input").val("");$("#tab\\:pincode").val("");$("#tab\\:state").val("");$("#tab\\:country").val("");$("#tab\\:latitude").val("");$("#tab\\:longitude").val("");x.ajax({url:"http://maps.googleapis.com/maps/api/geocode/json",data:{sensor:false,address:b.term,components:"country:IN"},success:function(h){var m=new Array();for(var l in h.results){var f="";var n="";var c="";var d="";for(var g in h.results[l]["address_components"]){for(var e in h.results[l]["address_components"][g]["types"]){if(h.results[l]["address_components"][g]["types"][e]=="locality"){f=h.results[l]["address_components"][g]["long_name"];break}if(h.results[l]["address_components"][g]["types"][e]=="postal_code"){n=h.results[l]["address_components"][g]["long_name"];break}if(h.results[l]["address_components"][g]["types"][e]=="administrative_area_level_1"){c=h.results[l]["address_components"][g]["long_name"];break}if(h.results[l]["address_components"][g]["types"][e]=="country"){d=h.results[l]["address_components"][g]["long_name"];break}}}m.push({formatted_address:h.results[l]["formatted_address"],lat:h.results[l]["geometry"]["location"]["lat"],lng:h.results[l]["geometry"]["location"]["lng"],city:f,state:c,country:d,postal_code:n})}a($.map(m,function(i){return{label:i.formatted_address,value:i.formatted_address,lat:i.lat,lng:i.lng,city:i.city,postal_code:i.postal_code,state:i.state,country:i.country}}))}})},minLength:2,select:function(a,b){$("#tab\\:city_input").val(b.item.city);$("#tab\\:pincode").val(b.item.postal_code);$("#tab\\:state").val(b.item.state);$("#tab\\:country").val(b.item.country);$("#tab\\:latitude").val(b.item.lat);$("#tab\\:longitude").val(b.item.lng);}});x("#tab1\\:compAddress").autocomplete({source:function(b,a){$("#tab1\\:compCity").val("");$("#tab1\\:compPinCode").val("");$("#tab1\\:compState").val("");x.ajax({url:"http://maps.googleapis.com/maps/api/geocode/json",data:{sensor:false,address:b.term,components:"country:IN"},success:function(g){var m=new Array();for(var e in g.results){var l="";var h="";var f="";for(var d in g.results[e]["address_components"]){for(var c in g.results[e]["address_components"][d]["types"]){if(g.results[e]["address_components"][d]["types"][c]=="locality"){l=g.results[e]["address_components"][d]["long_name"];break}if(g.results[e]["address_components"][d]["types"][c]=="postal_code"){h=g.results[e]["address_components"][d]["long_name"];break}if(g.results[e]["address_components"][d]["types"][c]=="administrative_area_level_1"){f=g.results[e]["address_components"][d]["long_name"];break}}}m.push({formatted_address:g.results[e]["formatted_address"],lat:g.results[e]["geometry"]["location"]["lat"],lng:g.results[e]["geometry"]["location"]["lng"],city:l,postal_code:h,state:f})}a($.map(m,function(i){return{label:i.formatted_address,value:i.formatted_address,lat:i.lat,lng:i.lng,city:i.city,postal_code:i.postal_code,state:i.state}}))}})},minLength:2,select:function(a,b){$("#tab1\\:compCity").val(b.item.city);$("#tab1\\:compPinCode").val(b.item.postal_code);$("#tab1\\:compState").val(b.item.state)}})})};</script>
+
+    
+<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+    	<div class="row">
+    		<div class="span2">
+          		<div class="smv-leftnav">
+          			<!-- Include leftPanel.xhtml -->
+          			<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include> 
+          		</div>    		
+    		</div>
+    		<div class="span10">
+    			<div class="page-header">
+			    	<h1>Preferences</h1>
+				</div>
+				<div class="row">
+					<div class="span10">
+	
+					 
+						<pm:content rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'B' || sessionScope.user_role == 'P' ||sessionScope.user_role == 'T'}">
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane active in" id="login">
+		<h:form id="tab" class="form-horizontal">
+			<p:messages id="messages" showDetail="false" autoUpdate="true"/> 
+			<pm:content rendered="#{userAction.userRegistrationDTO.oldPassword == 'Fault'}">
+				<span class="error"><h:outputText value="YOUR OLD PASSWORD IS WRONG PLZ ENTER CORRECT PASSWORD" ></h:outputText></span>
+			</pm:content>
+			<br></br>
+			
+			<fieldset>
+			<span style="display:none;"> ${userAction.rideManagementList()} </span>
+			<script type="text/javascript">function validateAccountClose(){if(confirm("Are You sure want to close account.")){if(${userAction.pendingRideTest}){if(confirm("There are still pending rides. Are You sure want to close account immediately.")){return true}else{return false}}}else{return false}};</script>
+			
+			
+			<span class="span5">
+				<div class="control-group">
+					<label class="control-label">User Rating</label>
+					<div class="controls">
+						<!-- <p:rating readonly="true" value="#{userAction.userRegistrationDTO.averageRating ne null ? 2 : userAction.userRegistrationDTO.averageRating}"></p:rating> -->
+						${userAction.setRedirectUri("")}
+						${userAction.userRatingUpdate()}
+						<c:set var="rate_val" value="#{userAction.userRegistrationDTO.averageRating ne null ? userAction.userRegistrationDTO.averageRating * 20 : 0}"/>
+						<script type="text/javascript">$(document).ready(function(){$("#rating_bar1").css("width", Math.round(#{rate_val}) + "%");$("#rating_text_bar").html(Math.round(#{rate_val} / 20) + " out of 5");$("#tab1\\:fromNight").timepicker({hourMin:18});$("#tab1\\:toNight").timepicker({hourMax:06});});</script>
+						<c:set var="rat_val" value="#{userAction.userRegistrationDTO.averageRating ne null ? 0 : userAction.userRegistrationDTO.averageRating * 20}"/>
+						<div style="width: 210px;background: none repeat scroll 0px 0px #F9EC73; border: 1px solid #4BAAD3; border-radius: 4px; box-shadow: 0px 0px 2px 0.5px #5CBCB5; height: 19px; float: left; position: relative;">
+							<span id="rating_bar1" style="background: none repeat scroll 0 0 #95EC73; border-radius: 4px;display: inline;position: absolute;height: 100%;">&nbsp;</span>
+						</div>
+						<span id="rating_text_bar" style="display: inline; float: left; position: relative; margin-left: 12px; color: rgb(83, 168, 83);"> </span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="Name">First Name<i class="icon-asterisk error-icon"></i></label>
+					<div class="controls"><h:inputText id="Name"  styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.first_name}"/></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="lastName">Last Name</label>
+					<div class="controls"><h:inputText id="lastName"  styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.last_name}"/></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="Address">Address<i class="icon-asterisk error-icon"></i></label>
+					<div class="controls"><h:inputText id="Address" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.address}" /></div>
+				</div>
+				<div class="control-group" style="display: block; float: left;">
+					<label class="control-label" for="city">City</label>
+					<div class="controls">
+					<p:autoComplete id="city" style="display: inline-flex;width: 123px;" size="640" value="#{userAction.userRegistrationDTO.city}" styleClass="input-xlarge" completeMethod="#{userAction.cityAutoCompleateMethod}" effect="" label="#{userAction.userRegistrationDTO.city}" onchange="googleLoc();"/>
+					</div>
+				</div>
+				<div class="control-group" style="float: left; display: inline;">
+					<label class="control-label" for="pincode" style="padding-right: 10px; width: 62px;">Pin Code</label>
+					<div class="controls" style="margin: 1px 0 0 1px;display: block;float: left;">
+						<h:inputText id="pincode" style="width:77px;" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.pincode}" >
+							<f:validateRegex pattern="[0-9]+" ></f:validateRegex>
+						</h:inputText>
+						<h:inputHidden id="state" value="#{userAction.userRegistrationDTO.state}"/>
+						<h:inputHidden id="country" value="#{userAction.userRegistrationDTO.country}"/>
+						<h:inputHidden id="latitude" value="#{userAction.userRegistrationDTO.latitude}"/>
+						<h:inputHidden id="longitude" value="#{userAction.userRegistrationDTO.longitude}"/>
+					</div>
+				</div>
+				<div class="control-group" style="float: left; clear: both; display: inline;">
+					<label class="control-label" for="mobile">Mobile<i class="icon-asterisk error-icon"></i></label>
+					<div class="controls">
+						<h:inputText id="mobile" style="width:110px;" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.mobile_no}">
+							<f:validateRegex pattern="[0-9]+"></f:validateRegex>
+						</h:inputText>						
+					</div>
+				</div>
+				<div class="control-group" style="float: left; margin: 0px 1px 2px 2px; padding: 2px; display: inline;">
+					<label class="control-label" for="sex" style="width: 26px;">Sex</label>
+					<div class="controls" style="margin-top: 7px; margin-left: 43px;">
+						<h:selectOneRadio style="width:75px;" id="sex" value="#{userAction.userRegistrationDTO.gender}"  styleClass="input-xlarge">
+							<f:selectItem itemValue="male" itemLabel="M" />
+							<f:selectItem itemValue="female" itemLabel="F" />
+						</h:selectOneRadio>
+					</div>
+				</div>
+				<div class="control-group" style="float: left; display: inline; width: 100%;">
+					<label class="control-label" for="travel">Travel<i class="icon-asterisk error-icon"></i></label>
+					<div class="controls">
+						<h:selectOneMenu id="travel" style="width: 113px; float: left;" styleClass="input-large" value="#{userAction.userRegistrationDTO.travel}">
+							<f:selectItem itemValue="C" itemLabel="Passenger" />
+							<f:selectItem itemValue="P" itemLabel="Driver" />
+							<f:selectItem itemValue="B" itemLabel="Both" />
+							<f:selectItem itemValue="T" itemLabel="Taxi" />
+						</h:selectOneMenu>
+						<label style="margin: 5px 5px auto 9px; float: left;">Min Wait Time</label>
+						<!-- <h:inputText id="sl1Post" readonly="true" style="width: 37px; display: inline; margin-left: 2px;" value="#{userAction.userRegistrationDTO.defaultTimeSlice}"></h:inputText> -->
+						<h:selectOneMenu value="#{userAction.userRegistrationDTO.defaultTimeSlice}" style="width: 110px; display: inline; margin-left: 2px;">
+							<f:selectItem itemValue="00:10:00" itemLabel="10 Minutes" />
+							<f:selectItem itemValue="00:20:00" itemLabel="20 Minutes" />
+							<f:selectItem itemValue="00:30:00" itemLabel="30 Minutes" />
+							<f:selectItem itemValue="00:40:00" itemLabel="40 Minutes" />
+							<f:selectItem itemValue="00:50:00" itemLabel="50 Minutes" />
+							<f:selectItem itemValue="00:60:00" itemLabel="60 Minutes" />
+						</h:selectOneMenu>	
+						<!-- <input type="text" class="span2" value="1" id="sl1" /> -->
+					</div>			
+				</div>
+				<div class="control-group" style="float: left; display: inline; width: 100%;">
+					<label class="control-label" for="preference">Preference</label>
+					<div class="controls">
+						<h:selectOneMenu id="preference" value="#{userAction.userPreferences.gender}" style="width:140px;">
+							<f:selectItem itemValue="no-preferences" itemLabel="No Preferences" />
+							<f:selectItem itemValue="male" itemLabel="Male" />
+							<f:selectItem itemValue="female" itemLabel="Female" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+			</span>
+			
+			
+			</fieldset>
+				
+			<span class="span8">
+				<div class="control-group">
+					<label class="control-label"></label>
+					<div class="controls">
+						<h:commandLink  styleClass="btn btn-success" value="Save">
+							<p:ajax oncomplete="googleLoc();modalUpdate();" listener="#{userAction.editUserInformation}" process=":tab" update=":tab,:messagePanel"></p:ajax>
+						</h:commandLink>
+						
+						<pm:content rendered="#{userAction.allCircleList.size() gt 0}">
+						<span class="modal-link-span-1" style="float:none;">
+							<h:commandLink id="company_button" value="#{(empty userAction.listofCompanyForLoginUser) ? 'Add Company' : 'Edit Company'}" styleClass="btn btn-link" onclick="return false;"/>
+						</span>		
+						</pm:content>
+						
+						
+						<h:commandButton styleClass="btn btn-link" value="Close Account" action="#{userAction.userAcountClose()}" onclick="return validateAccountClose();" />
+						
+						<pm:content rendered="#{sessionScope.user_role ne 'T' and not empty userAction.allCircleList}">
+						<span class="modal-link-span-2" style="float:none;margin-left: 10px;">
+							<h:commandLink value="Approvers" styleClass="btn btn-link" onclick="return false;"/>
+						</span>
+						</pm:content>
+						
+					</div>
+				</div>
+			</span>
+			
+		</h:form>
+		<h:form> 
+			<h:commandButton styleClass="btn " value="Edit Company" action="#{userAction.showEditCompanyPage}"  rendered="#{false and  not empty userAction.listofCompanyForLoginUser}" />
+			<div class="control-group">
+				<div class="controls">
+					
+					<label></label>
+					
+				</div>
+			</div>
+		</h:form>
+		
+		<pm:content rendered="#{sessionScope.user_role ne 'T' }"></pm:content>
+		
+		<div id="modalPanel-1" class="modal hide fade in" style="display: none; ">
+      		<div class="modal-header">
+      			<a class="close" data-dismiss="modal">×</a>
+      			<h3> <h:outputText value="#{(empty userAction.listofCompanyForLoginUser) ? 'Add Company' : 'Edit Company'}"></h:outputText> </h3>
+      		</div>  
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-4-panel">
+        		${userAction.clearScreenMessage()}
+        			<h:form id="tab1">
+                 		<h:panelGrid columns="2">
+                  	 		<h:outputText value="Company Name"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.companyName}" />
+                  	 		<h:outputText value="Company Address"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.companyAddress}" id="compAddress"/>
+                  	 		<h:outputText value="Company Pin Code"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.pinCode}" id="compPinCode"/>
+                  	 		<h:outputText value="City"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.city}" id="compCity"/>
+                  	 		<h:outputText value="State"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.state}" id="compState"/>
+                  	 		<h:outputText value="Branch office"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.companyBranches}" />
+                  	 		<h:outputText value="Employee strength"></h:outputText>
+                  	 		<h:selectOneListbox value="#{userAction.companyRegisterDTO.companyEmployee}" size="1">
+                  	 			<f:selectItem itemLabel="0-500" itemValue="0-500"></f:selectItem>
+                  	 			<f:selectItem itemLabel="500-2000" itemValue="500-2000"></f:selectItem>
+                  	 			<f:selectItem itemLabel="2000+" itemValue="2000+"></f:selectItem>
+                  	 		</h:selectOneListbox>
+                  	 		<h:outputText value="Type of company" style="line-height:30px;"></h:outputText>
+                  	 		<pm:content rendered="${sessionScope.user_role eq 'T'}">Taxi</pm:content>
+                  	 		<pm:content rendered="${sessionScope.user_role ne 'T'}">Non-Taxi</pm:content>
+                  	 		<pm:content rendered="${sessionScope.user_role ne 'T'}">
+                  	 		<h:outputText value="Sector" id="sectorLabel"></h:outputText> </pm:content>
+                  	 		<pm:content rendered="${sessionScope.user_role ne 'T'}">
+                  	 		<h:selectOneListbox value="#{userAction.companyRegisterDTO.companySector}" size="1" id="sectorSelect">
+                  	 			<f:selectItem itemLabel="Education" itemValue="Education"></f:selectItem>
+                  	 			<f:selectItem itemLabel="IT" itemValue="IT"></f:selectItem>
+                  	 			<f:selectItem itemLabel="Manufacturing" itemValue="Manufacturing"></f:selectItem>
+                  	 			<f:selectItem itemLabel="Media" itemValue="Media"></f:selectItem>
+                  	 			<f:selectItem itemLabel="Auto" itemValue="Auto"></f:selectItem>
+                  	 			<f:selectItem itemLabel="Oil and Gas" itemValue="Oil and Gas"></f:selectItem>
+                  	 			<f:selectItem itemLabel="Banking" itemValue="Banking"></f:selectItem>
+                  	 			<f:selectItem itemLabel="others" itemValue="others"></f:selectItem>
+                  	 		</h:selectOneListbox>
+                  	 		</pm:content>
+                  	 		<h:outputText value="Phone Number"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.phoneNumber}" />
+                  	 		<h:outputText value="Night Time - From"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.fromNight}" id="fromNight"/>
+                  	 		<h:outputText value="Night Time - To"></h:outputText>
+                  	 		<h:inputText value="#{userAction.companyRegisterDTO.toNight}" id="toNight"/>
+                  	 		&nbsp; 
+                   			<h:commandButton styleClass="btn btn-info" value="Save" >
+                   				<p:ajax oncomplete="modalUpdate();updateDataTable();" listener="#{userAction.companyRegister}" process="@form" update="@form,:tab"></p:ajax>
+                   			</h:commandButton>
+                  		</h:panelGrid> <br/>
+                  		<c:forEach var="sucMessage" items="${userAction.successMessage}">
+							<div class="alert fade in alert-success" syle="display:none;">
+								<button class="close" data-dismiss="alert" type="button">×</button>
+								<span class="form-message">${sucMessage}</span>
+							</div>
+						</c:forEach>
+                  		<c:forEach var="errMessage" items="${userAction.errorMessage}">
+							<div class="alert fade in alert-error" syle="display:none;">
+								<button class="close" data-dismiss="alert" type="button">×</button>
+								<span class="form-message">${errMessage}</span>
+							</div>
+						</c:forEach>
+          				${userAction.clearScreenMessage()}
+                  	</h:form>
+            	</p:panel>
+        	</div>
+      	</div>
+      	
+      	
+      	<div id="modalPanel-2" class="modal hide fade in" style="display: none;margin:-250px 0 0 -430px;width: 860px;">
+      		<div class="modal-header">
+      			<a class="close" data-dismiss="modal">×</a>
+      			<h3> Add Approver </h3>
+      		</div>  
+        	<div class="modal-body">	
+	        	${userAction.clearScreenMessage()}
+        		<p:panel style="border: medium none;" id="modalPanel-2-panel">
+        		${userAction.populateApprover()}
+        		<c:if test="#{userAction.approverdtoList.size() eq 0}"><span class="muted lead">NO Approver</span></c:if>
+        		<c:if test="#{userAction.approverdtoList.size() gt 0}">
+        		<table class="table table-bordered table-striped">
+        		<tr><th>S NO</th><th>B Code</th><th>Name</th><th>Hopon ID</th><th>Name 2</th><th>Hopon ID 2</th></tr>
+		      	<c:forEach var="approver" items="#{userAction.approverdtoList}" varStatus="loop">
+		      	<tr><td>${loop.index + 1}</td><td>${approver.bCode}</td><td>${approver.name}</td><td>${approver.hoponId}</td><td>${approver.name2}</td><td>${approver.hoponId2}</td></tr>
+		      	</c:forEach>
+		      	</table>
+        		</c:if>
+        		<h:form id="tab2">
+                	<h:panelGrid columns="5">
+                		<h:outputText value="BCode"></h:outputText>
+                		<h:outputText value="First Approver Name"></h:outputText>
+                		<h:outputText value="Hopon ID"></h:outputText>
+                		<h:outputText value="Second Approver Name"></h:outputText>
+                		<h:outputText value="Hopon ID"></h:outputText>
+                		<h:inputText value="#{userAction.approverdto.bCode}" style="width:90px;"/>
+                		<h:inputText value="#{userAction.approverdto.name}" style="width:160px;"/>
+                		<h:inputText value="#{userAction.approverdto.hoponId}" style="width:150px;"/>
+                		<h:inputText value="#{userAction.approverdto.name2}" style="width:160px;"/>
+                		<h:inputText value="#{userAction.approverdto.hoponId2}" style="width:150px;"/>
+                		
+                		<h:commandButton styleClass="btn btn-info" value="Save" >
+                			<p:ajax oncomplete="modalUpdate();updateDataTable();" listener="#{userAction.addApprover}" process="@form" update="@form,:tab,:modalPanel-2-panel"></p:ajax>
+                		</h:commandButton>
+                  	</h:panelGrid> <br/>
+                  	<c:forEach var="sucMessage" items="${userAction.successMessage}">
+						<c:if test="${not empty sucMessage}">
+						<div class="alert fade in alert-success" syle="display:none;">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							<span class="form-message">${sucMessage}</span>
+						</div>
+						</c:if>
+					</c:forEach>
+                  	<c:forEach var="errMessage" items="${userAction.errorMessage}">
+						<c:if test="${not empty errMessage}">
+						<div class="alert fade in alert-error" syle="display:none;">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							<span class="form-message">${errMessage}</span>
+						</div>
+						</c:if>
+					</c:forEach>
+          			${userAction.clearScreenMessage()}
+              	</h:form>
+        		</p:panel>
+        	</div>
+        </div>
+        	
+        	${userAction.clearScreenMessage()}	
+        	<br/><br/>
+		<p:panel id="messagePanel" style="border:none;">		
+			<c:forEach var="sucMessage" items="${userAction.successMessage}">
+					<div class="alert fade in alert-success" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${sucMessage}</span>
+					</div>
+			</c:forEach>
+			<c:forEach var="errMessage" items="${userAction.errorMessage}">
+					<div class="alert fade in alert-error" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${errMessage}</span>
+					</div>
+			</c:forEach>	
+			${userAction.clearScreenMessage()}
+		</p:panel>	
+	</div>
+</div>
+			</pm:content>
+					</div>
+				</div>
+    		</div>
+    	</div>
+    	
+    	
+      
+    </div>
+  </div>
+  
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+
+
+
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

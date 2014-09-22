@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common//headerScript.xhtml"></ui:include>
+		<style type="text/css">
+		.circle-div ul li {
+			background: none repeat scroll 0 0 #FFFFFF;
+		    border: 1px solid #ffffff;
+		    border-radius: 0;
+		    color: #313131;
+		    margin: auto 2px;
+		    padding:1px 0 1px 3px;
+		}
+		.circle-div ul li:hover {
+			background: none repeat scroll 0 0 #3399FF;
+		    border: 1px solid #2F96B4;
+		    border-radius: 0;
+		    color: #FFFFFF;
+		    margin: auto 2px;
+		    padding:1px 0 1px 3px;
+		}
+		.circle-div ul li.ui-state-highlight {
+			background: none repeat scroll 0 0 #5BC0DE;
+		    border: 1px solid #56AD56;
+		    border-radius: 0;
+		    color: #FFFFFF;
+		    margin: auto 2px;
+		    padding:1px 0 1px 3px;
+		}
+		</style>
+   <h:head></h:head>
+   <h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="span2">
+
+          <div class="smv-leftnav">	
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>Manage Circles</h1>
+          </div>
+          <div class="row">
+           
+        <pm:content rendered="#{userAction.allCircleForLoginUserList != null}">
+        
+			
+			<pm:content rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'P' || sessionScope.user_role == 'B' || sessionScope.user_role == 'T'}">
+			<div class="span10">	
+				<div id="confirmation-message" class="alert fade in alert-error" style="display:none;">
+					<button class="close" data-dismiss="alert" type="button">×</button>
+					<span class="form-message"></span>
+				</div>
+			</div>
+<h:form styleClass="form-horizontal">
+	<div class="span10">
+		<h3><label class="" for="mycircles">My Circles</label></h3>
+		<div class="circle-div">
+			<p:selectOneListbox  id="mycircles" styleClass="input-xlarge" value="#{userAction.circleDTO.circleID}" style="width:215px;height:100px" >
+				<f:selectItems value="#{userAction.allCilcleForLoginUserDropDownList}"></f:selectItems>
+				<p:ajax  listener="#{userAction.processValueChange2}" process="@this,mycircles" update="member,pendingMember"/>
+			</p:selectOneListbox>
+		</div>
+	</div>
+
+	<div class="span10">
+		<h3><label class="" for="inputtext">Member Name</label></h3>                  
+		<p:autoComplete id="member_name" panelStyle="width:295px;" style="width:290px;" completeMethod="#{userAction.userAutoCompleateMethod}" value="#{userAction.forregistrationOnly.first_name}"></p:autoComplete>&nbsp;
+		<h:commandButton  styleClass="btn btn-info ui-corner-all" value="Add" >
+			<p:ajax process="@this,member_name" oncomplete="$('input[id*=\'member_name_input\']').val('');" listener="#{userAction.addMemberToCircle}" update="member,pendingMember" onsuccess="$('#confirmation-message').removeClass('alert-error').addClass('alert-success');$('#confirmation-message').show();$('#confirmation-message .form-message').html('User added to Circle. Let user approvd your request. !!!!!');"></p:ajax>
+		</h:commandButton>
+	</div>
+
+	<div class="span5">
+		<h3><label class="" for="mycircles">Circle Members</label></h3>
+		<span class="circle-div">
+			<p:selectOneListbox id="member" name="mycircles" styleClass="input-xlarge" style="width:340px;height:100px;display: inline-block;"  value="#{userAction.circleOwnerManagerDTO.combineUserAndCircleID}">
+				<f:selectItems  value="#{userAction.allCilcleMemberForLoginUserDropDownList}" > </f:selectItems>
+			</p:selectOneListbox>
+		</span>
+		<h:commandButton  styleClass="btn btn-danger ui-corner-all" value="Remove" style="display: inline;margin-left: 4px;vertical-align: top;">
+			<f:param value="2" name="declinebyowner"></f:param>
+			<p:ajax process="@this,member" listener="#{userAction.confirmOrDeclineUser}" update="member,pendingMember"/>
+		</h:commandButton>
+	</div>
+	
+	<div class="span4">
+		<h3 class=""><label>Circle Pending Members</label></h3>
+			<p:panel id="pendingMember" style="background: none repeat scroll 0 0 #FFFFFF;border: 2px solid #A1A1A1;border-radius: 4px;box-shadow: 0 0 6px #A1A1A1;color: #FFFFFF;display: block;height: 103px;overflow: auto;padding: 0;width: 320px;">
+			<c:forEach items="#{userAction.allPendingCilcleMemberForLoginUser}" var="mem">
+				${mem}<br></br>
+			</c:forEach>
+			</p:panel>
+	</div>
+
+	<div class="span10" style="margin-top:15px;">
+		<h:commandButton styleClass="btn btn-success" value="Make Admin">
+			<p:ajax process="@form" listener="#{userAction.makeAdmin}" update="@form"></p:ajax>
+		</h:commandButton> &nbsp;
+		<h:commandButton styleClass="btn btn-danger" value="Remove Admin">
+			<p:ajax process="@this" listener="#{userAction.removeAdmin}" update="@form"></p:ajax>
+		</h:commandButton>
+	</div>
+</h:form>
+              
+			</pm:content>
+			
+			
+         </pm:content>
+         <pm:content rendered="#{userAction.allCircleForLoginUserList == null}">
+         	 <span class="span10 muted lead"><h3><h:outputText value="${msgs['error.permissionDenied']}"></h:outputText></h3></span>
+         </pm:content> 
+          
+          </div>
+        </div>
+        <!-- table section ends here -->
+      </div>
+    </div>
+  </div><br/><br/><br/><br/>
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/boot-business.js"></script>
+</h:body>
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

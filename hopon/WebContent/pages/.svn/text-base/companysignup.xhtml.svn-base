@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>     
+        <pm:page>
+<pm:view>
+<pm:header>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="bp circles" />
+  <meta name="author" content="Your name" />
+  <title>BP Circles</title>
+  <!-- Bootstrap -->
+  <link type="text/css" href="../resources/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap responsive -->
+  <link type="text/css" href="../resources/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <!-- Font awesome - iconic font with IE7 support --> 
+  <link type="text/css" href="../resources/css/font-awesome.css" rel="stylesheet" />
+  <link type="text/css" href="../resources/css/font-awesome-ie7.css" rel="stylesheet" />
+  <!-- Bootbusiness theme -->
+  <link type="text/css" href="../resources/css/boot-business.css" rel="stylesheet" />
+   <script type="text/javascript" src="../resources/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../resources/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../resources/js/boot-business.js"></script>
+
+  <script language="javascript" >
+  
+  function yesnoCheck() {
+	 
+      if (document.getElementById('tab1:id:1').checked) {
+          document.getElementById('ifYes').style.visibility = 'visible';
+      }
+      else document.getElementById('ifYes').style.visibility = 'hidden';
+
+  }
+ </script>
+  
+</pm:header>
+<h:body>
+
+ <header>
+    <!-- Start: Navigation wrapper -->
+    <div class="navbar ">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="index.html" class="brand brand-bootbus">HopOn</a>
+          <!-- Below button used for responsive navigation -->
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          
+          
+          <!-- Start: Primary navigation -->
+          <div class="nav-collapse collapse">        
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+              </li>
+              
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="contact_us.html">Contact us</a></li>
+              <li><a href="../pages/signup.xhtml" class="active-link">Sign up</a></li>
+              <li><a href="../pages/signin.xhtml">Sign in</a></li>
+            </ul>
+          </div>
+        </div>	
+      </div>
+    </div>
+    <!-- End: Navigation wrapper -->   
+  </header>
+
+				<div class="content">
+					<div class="container">
+					
+						<div class="page-header">
+							<center>
+								<h1>Signup to HopOn</h1>
+							</center>
+						</div>
+						
+						<div class="row">
+                        <div class="span6 offset3">
+                        <div class="well">
+		<div id="myTabContent" class="tab-content">
+              <div class="tab-pane active in" id="login">	
+              <pm:content>
+                <h:form id="tab1" styleClass="form-horizontal">
+                  <fieldset>
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="textinput">Company</label>
+                      <div class="controls">
+                        <h:inputText  id="textinput"  styleClass="input-large" value="#{userAction.companyRegisterDTO.companyName}" />
+
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="textinput">Address</label>
+                      <div class="controls">
+                        <h:inputText   styleClass="input-large" value="#{userAction.companyRegisterDTO.companyAddress}" />
+
+                      </div>
+                    </div>
+
+                    <!-- Select Basic -->
+                  
+                    <div class="control-group">
+                      <label class="control-label" for="company">Company/Taxi</label>
+                      <div class="controls">
+                      <h:selectOneRadio id="id"  onclick="javascript:yesnoCheck();" value="#{userAction.companyRegisterDTO.companyOrTexi}" styleClass="input-xlarge">
+                         <f:selectItem itemValue="C" itemLabel="Company" id="company" />
+   	                      <f:selectItem itemValue="T" itemLabel="Texi"  id="texi"/>
+   	                      </h:selectOneRadio>
+                       
+                      </div>
+                    </div>
+                               <!-- texi radio is checked then open-->
+                               <div id="ifYes" style="visibility:hidden">
+							      <h:panelGrid columns="2">
+							      <h:outputText styleClass="input-large" value="Rates"></h:outputText>
+							      <h:inputText styleClass="input-large"></h:inputText>
+							      <h:outputText styleClass="input-large" value="Area"></h:outputText>
+							      <h:inputText styleClass="input-large"></h:inputText>
+							      <h:outputText styleClass="input-large" value="Service"></h:outputText>
+							      <h:inputText styleClass="input-large"></h:inputText>
+							      </h:panelGrid>
+                         </div>
+                          <!-- close-->
+                          
+                         <div class="control-group">
+                      <label class="control-label" for="textinput">Company Sector</label>
+                      <div class="controls">
+                        
+                        <h:selectOneMenu styleClass="input-large" value="#{userAction.companyRegisterDTO.companySector}">
+                        <f:selectItems value="#{userAction.companySectorOptions}"></f:selectItems>
+                        
+                        </h:selectOneMenu>
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="textinput">Phone No</label>
+                      <div class="controls">
+                        <h:inputText  styleClass="input-large" value="#{userAction.companyRegisterDTO.companyPhoneNo}" />
+
+                      </div>
+                    </div>
+
+                    <!-- Textarea -->
+                    <div class="control-group">
+                      <label class="control-label" for="textarea">Areas</label>
+                      <div class="controls">                     
+                        <h:inputTextarea value="#{userAction.companyRegisterDTO.companyAreas}" />
+                      </div>
+                    </div>
+
+                    <!-- Select Multiple -->
+                    <div class="control-group">
+                      <label class="control-label" for="selectmultiple">Branches(Enter multiple with a comma)</label>
+                      <div class="controls">
+                       <h:inputTextarea id="selectmultiple" styleClass="input-large" value="#{userAction.companyRegisterDTO.companyBranches}" />
+                        
+                        
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="textinput">Rates</label>
+                      <div class="controls">
+                        <h:inputText  styleClass="input-large" value="#{userAction.companyRegisterDTO.companyRates}" />
+
+                      </div>
+                    </div>
+
+                    <!-- Select Basic -->
+                    <div class="control-group">
+                      <label class="control-label" for="selectbasic">Employees</label>
+                      <div class="controls">
+                      <h:selectOneMenu id="selectbasic" styleClass="input-large" value="#{userAction.companyRegisterDTO.companyEmployee}">
+                        <f:selectItem itemValue="1-10" itemLabel="1-10" />
+                 	    <f:selectItem itemValue="1-100" itemLabel="1-100" />
+   	                    <f:selectItem itemValue="1-200" itemLabel="1-200" />
+                          
+                        </h:selectOneMenu>
+                        
+                      </div>
+                    </div>
+
+                 <!-- Text input-->
+                   
+
+                    <!-- Button (Double) -->
+                    <div class="control-group">
+                      <label class="control-label" for="button1id"></label>
+                      <div class="controls">
+                        <h:commandButton styleClass="btn btn-primary " value="Register" action="#{userAction.registerCompany}" />
+                       <h:commandButton styleClass="btn btn-primary " value="Clear" action="#{userAction.clearCompanyData}" />
+                      </div>
+                    </div>
+
+                  </fieldset>
+                </h:form>
+                </pm:content>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+              </div>
+					</div>
+				
+
+				<footer>
+    <div class="container">
+      <div class="row">
+        <div class="span6">
+          <p class="smv-footer">
+            &copy; 2013 BPCircles, Inc. All Rights Reserved.
+          </p>
+        </div>
+        <div class="span6">
+          <p class="smv-footer pull-right">
+            <a href="#">About Us</a> | <a href="#">Site Map</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</h:body>
+
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

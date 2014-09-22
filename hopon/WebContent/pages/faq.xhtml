@@ -1,0 +1,780 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+<f:view>
+	<pm:page>
+		<pm:view>
+			<ui:include src="../pages/common/headerScript.xhtml"></ui:include>
+			<link href="../pages/css/excite-bike/jquery-ui-1.10.4.custom.css"
+				rel="stylesheet" />
+			<link rel="stylesheet"
+				href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+
+			<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+			<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+			<script src="../resources/js/bootstrap-slider.js"></script>
+			<link href="../resources/css/slider.css" rel="stylesheet"></link>
+			<style>
+.accordion-group {
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	margin-bottom: 2px
+}
+
+.accordion-inner {
+	border-top: 1px solid #e5e5e5
+}
+</style>
+			<h:head></h:head>
+			<h:body>
+				<ui:include src="../pages/common/headerContent.xhtml"></ui:include>
+				<!-- Start: MAIN CONTENT -->
+				<div class="content">
+					<div class="container">
+						<div class="row">
+							<div class="span2">
+								<div class="smv-leftnav">
+									<!-- Include leftPanel.xhtml -->
+									<ui:include src="../pages/common/leftPanel.xhtml"></ui:include>
+								</div>
+							</div>
+							<div class="span10">
+								<div class="page-header">
+									<h1>Frequently asked questions</h1>
+								</div>
+								<div class="row">
+									<div class="span10">
+
+
+
+										<div id="accordion" class="accordion">
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														In New Ride what is the approver and custom fields for?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse" id="collapseOne">
+													<div class="accordion-inner">
+
+														<p>Approver can be used by corporate employees who
+															require approval for their cab requests. 'Custom' field
+															is for putting any notes on your ride and for future
+															purposes. 'Approver' and 'Custom' fields aren't mandatory
+
+														</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne2"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														How does the 'Approval' process work?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne2">
+													<div class="accordion-inner">
+
+														<p>The 'Approver' list is configured by the circle
+															owner. The 'Approver' list can have a simple budget code
+															or a first level approver or a first and second level
+															approver. If it's a first level approver then the
+															approver has to approve before the ride gets activated.
+															If its first and second two persons will have to approve
+															the ride request. The approval can happen over email or
+															the messages screen or SMS (future release)</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne3"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What are the 'tags' in new ride?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne3">
+													<div class="accordion-inner">
+
+														<p>For addresses that will be used frequently a 'tag'
+															name can be saved. These 'tags' will appear in the
+															drop-down in the new ride. Selecting the 'tag' from the
+															drop-down will auto-populate the address</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne4"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>What
+														are the check-boxes 'carpool' and 'Auto match - In circle
+														only'?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne4">
+													<div class="accordion-inner">
+
+														<p>Carpool is for peer-to-peer ride matching. It
+															matches a ride taker with a ride giver provided both of
+															them are travelling in a similar route and the same time.
+															If carpool is not 'selected' the ride matches can only
+															happen by a cab-provider. In 'Auto-match -In Circle..'
+															the ride match happens only with hopon-users in the same
+															circles.</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne5"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														In Pending rides what does the 'matched' column refer to?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne5">
+													<div class="accordion-inner">
+
+														<p>The 'matched' column indicates if the ride is
+															matched or not. If the ride is matched the value in the
+															column displays the vehicle registration number. Clicking
+															the link will show a pop-up with the ride giver/taker
+															details</p>
+													</div>
+												</div>
+											</div>
+
+
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne6"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What rides appear in 'completed rides'?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne6">
+													<div class="accordion-inner">
+
+														<p>Completed rides are matched rides which occurred
+															before 'today'. The system will not know if the ride
+															actually occurred or not. At this moment 'no-shows'
+															aren't tracked in the system.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne7"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What happens when I cancel my ride?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne7">
+													<div class="accordion-inner">
+
+														<p>There are two situations 'matched' and
+															'non-matched'. If the ride is 'not matched' the ride is
+															cancelled. If the ride is matched, the other participant
+															in the ride is informed by SMS and email that the ride is
+															cancelled.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne8"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What are the various roles of users in 'Hopon'?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne8">
+													<div class="accordion-inner">
+
+														<p>There are primarily four roles(ride giver, ride
+															taker, ride giver and taker(both) and taxi) and each role
+															can be a circle owners/admin. "Taker" only takes drops
+															from others or office cabs. "Giver" only gives drops to
+															others. "Taxi" is a cab service provider or the driver of
+															a taxi. "Both" is a person who can be either be a "Taker"
+															or "Giver". Any user can become a circle owner/admin.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne9"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What is the role of a circle owner and who can become one?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne9">
+													<div class="accordion-inner">
+
+														<p>Anybody can become a circle owner. Circle owners
+															have a few additional privileges - they can add invite
+															new members, remove members, give ownership to other
+															members, affiliate the circle with other circles and
+															manage rides of circle members. The circle owner can bulk
+															upload circle members</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne10"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What are the additional privileges of a circle owner who
+														is of type 'Taxi'?
+
+													</a>
+
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne10">
+													<div class="accordion-inner">
+														<p>The 'Taxi' circle owner can link vehicles with ride
+															requests. The 'Taxi' owner can only view ride requests of
+															affiliated circles. The 'Taxi' circle owner can bulk
+															upload circle members(drivers) and taxi vehicles.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne11"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														How can a circle owner affiliate 'taxi' circles?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne11">
+													<div class="accordion-inner">
+
+														<p>The link on the left menu - 'Manage Taxis' is for
+															affiliating with other 'Taxi' circles. Enrolling in an
+															affiliation gives the taxi circle owner to view all ride
+															requests of the circle members</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne12"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														Can a 'Taxi' circle owner link it with drivers?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne12">
+													<div class="accordion-inner">
+
+														<p>On the left menu of 'Taxi' circle owners there is
+															an item called 'Manage vehicle-driver'. This page lets a
+															circle-owner link a vehicle with a driver. The driver has
+															to be a member of the 'Taxi' owner's circle.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne13"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														For ride-matches involving cab vehicles do the drivers
+														linked with the cab get informed by SMS/email?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne13">
+													<div class="accordion-inner">
+
+														<p>This is a key feature of the system that will get
+															done in the next release. As of now all ride-matches
+															intimate the 'Taxi' circle owner.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne14"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>What
+														are communication modes supported by Hopon?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne14">
+													<div class="accordion-inner">
+
+														<p>There are three modes - 'Message board' which is
+															the same as 'My Messages' on the left menu, email and
+															SMS. Currently all modes aren't being provided for all
+															message types. In future all messages will flow through
+															all the channels. SMS will be a charge-able facility in
+															the future.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne15"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What is 'Create Message' on the left menu for?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne15">
+													<div class="accordion-inner">
+
+														<p>Its for sending a common message to all the
+															'Circle' members.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne16"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What is the difference between 'Ride-Match' and
+														'Ride-Pre-Match' for a 'Taxi' circle owner?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne16">
+													<div class="accordion-inner">
+
+														<p>Ride-Match' is for matching individual rides.
+															'Ride-pre-match' groups rides of ride-requesters going in
+															the same direction at the same time. A group of
+															ride-requesters can be assigned to a common cab.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne17"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														How does ride-grouping work?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne17">
+													<div class="accordion-inner">
+
+														<p>Ride grouping groups rides of people going in the
+															same direction and whose travel times are somewhat the
+															same (+- 5mins). The ride grouping takes into account
+															travel time to between two ride requesters</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne18"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														If am a person getting picked up 2nd or later in a
+														group/shared ride can my ride be delayed?
+
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne18">
+													<div class="accordion-inner">
+
+														<p>Yes this could happen because of traffic. The ride
+															requester would know the start-time and start-location of
+															the ride on which the person is going to be picked up.
+															The system does a basic calculation of the typical ride
+															time between the start-location and pick-up location but
+															there could be delays.</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne19"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														How does 'ride rating' work?
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne19">
+													<div class="accordion-inner">
+
+														<p>Ride rating can be given between 'peers' and
+															between 'ride taker' and 'cabs'. The ride-rating given by
+															a ride-taker after a cab ride is assigned to the owner of
+															taxi-circle. In a future release the ride-rating will
+															assigned to the circle-owner and the taxi-driver.</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne20"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														Misc. known issues (which will be addressed as a patch or
+														in the next release)
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne20">
+													<div class="accordion-inner">
+
+														<p>Peer to peer requests which are matched, doesn't
+															show the details of the rider/giver on the pending rides
+															screen. When a user-clicks the matched ride link the
+															pop-up is empty. The user will know about the ride
+															giver/taker only via email/SMS when the match happens. .
+														</p>
+													</div>
+												</div>
+											</div>
+											
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne21"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														In New-Request how does self-paid option work?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne21">
+													<div class="accordion-inner">
+
+														<p>Self-paid rides are linked with a taxi provider.
+															There is a minimum charge/km. Please refer the pricing
+															page. As soon as a ride is requested the ride amount is
+															deducted from the users balance with Hopon</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne22"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														How does the pricing work with sharing?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne22">
+													<div class="accordion-inner">
+
+														<p>All rides are typically charged at the minimum
+															charge/km rate. When a ride is shared with another
+															passenger ride credits are accrued. More sharing means
+															more credits. These ride credits will top-up your
+															existing balance. In a sense the your cost for the
+															current ride has gone down.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne23"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														New-ride request failed because of in-adequate balance?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne23">
+													<div class="accordion-inner">
+
+														<p>In the self-paid option the ride requester should
+															have an adequate balance to pay for the ride. The ride
+															balance required would be the "charge/km x distance" to
+															be travelled. The distance travelled could be buffered a
+															bit for minor route changes.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne24"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														I am a taxi provider how do I benefit with sharing?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne24">
+													<div class="accordion-inner">
+
+														<p>Currently the pricing has been done only for sedans
+															( 3-4 passengers). As a new passenger is added to the
+															existing ride the taxi-provider's rate/km essentially
+															goes up.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne25"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														Are there cancellation charges once I book my ride and
+														after I get intimation of the assignment of a
+														vehicle/driver?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne25">
+													<div class="accordion-inner">
+
+														<p>Will Be Updated Soon....!!!</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne26"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														Is there a minimum charge when I book a self-paid ride?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne26">
+													<div class="accordion-inner">
+
+														<p>Yes, there is a minimum charge. The charge is based
+															on covering 4kms. This minimum charge is reduced or
+															waived if there are co-passengers(ride sharing) or one of
+															the co-passengers covers more than 4 kms.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne27"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														Circle creation - Is there a limit on the number of
+														circles I can create?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne27">
+													<div class="accordion-inner">
+
+														<p>Every user can be the creater/owner of only one
+															"Corporate" or "Taxi" circle type. The number of social
+															circles that one can create is unlimited.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne28"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What are social circles?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne28">
+													<div class="accordion-inner">
+
+														<p>Social circles are only for car-pooling. Social
+															circle rides will not be matched with a taxi-provider.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne29"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														How do I transfer funds or top-up my balance?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne29">
+													<div class="accordion-inner">
+
+														<p>There is a payment transfer link on the left menu.
+															This page will also show your existing balance.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne30"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														My balance isn't reflecting the amount that I just
+														transferred (the web page mentioned it was a success)?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne30">
+													<div class="accordion-inner">
+
+														<p>The account balance gets updated periodically.
+															Please ensure you give half a day to check for updates on
+															your balance.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne31"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														Can I withdraw the balance in my account?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne31">
+													<div class="accordion-inner">
+
+														<p>Yes, the balance can be withdrawn anytime. The
+															process is not automatic and somebody from Hopon will
+															contact you on the mode of payment.</p>
+													</div>
+												</div>
+											</div>
+
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne32"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														Taxi - how does the payment work?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne32">
+													<div class="accordion-inner">
+
+														<p>The payment is calculated after the ride is
+															completed. The payment amount is transferred to the users
+															account by the end of the day. The balance can be
+															withdrawn anytime.</p>
+													</div>
+												</div>
+											</div>
+											<div class="accordion-group">
+												<div class="accordion-heading">
+
+													<a class="accordion-toggle collapsed" href="#collapseOne33"
+														data-parent="#accordion" data-toggle="collapse"> <i></i>
+														What all features are available on SMS?
+
+													</a>
+
+												</div>
+												<div class="accordion-body collapse " id="collapseOne33">
+													<div class="accordion-inner">
+
+														<p>One gets updates on confirmed rides on SMS. SMS can
+															also be used for cancellation of rides. For corporate
+															rides, ride approval updates and ride approval can be
+															done on SMS.</p>
+													</div>
+												</div> 
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+
+				<!-- End: MAIN CONTENT -->
+
+				<ui:include src="../pages/common/footer-content.xhtml"></ui:include>
+
+			</h:body>
+
+
+
+
+		</pm:view>
+	</pm:page>
+</f:view>
+</html>

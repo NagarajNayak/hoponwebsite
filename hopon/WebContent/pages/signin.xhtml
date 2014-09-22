@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+<f:view>
+	<pm:page>
+		<pm:view>
+			<ui:include src="../pages/common/headerScript.xhtml"></ui:include>
+			<h:head></h:head>
+			<body>
+				<ui:include src="../pages/common/headerContent.xhtml"></ui:include>
+				<!-- Start: MAIN CONTENT -->
+
+
+
+				<div class="content">
+					<div class="container">
+						<div class="page-header">
+							<center>
+								<h1>Signin to Hopon</h1>
+							</center>
+						</div>
+						<div class="row">
+							<div class="span6 offset3">
+								<!-- login section -->
+								<div class="well">
+									<br />
+
+									<pm:content>
+										<h:form id="tab" styleClass="form-horizontal"
+											onsubmit="return validateForm();">
+											<fieldset>
+												<div class="control-group">
+													<label class="control-label" for="Name">Login ID</label>
+													<div class="controls">
+														<h:inputText id="Name" styleClass="input-large"
+															value="#{userAction.userRegistrationDTO.email_id}" />
+														<span style="color: #FF0000" id="Name_msg"></span>
+													</div>
+
+												</div>
+
+												<!-- Text input-->
+												<div class="control-group">
+													<label class="control-label" for="Address">Password</label>
+													<div class="controls">
+														<h:inputSecret autocomplete="off" id="Password"
+															styleClass="input-large"
+															value="#{userAction.userRegistrationDTO.password}" />
+														<span style="color: #FF0000" id="Password_msg"></span>
+													</div>
+												</div>
+
+												<div class="control-group">
+													<div class="controls">
+														<h:commandButton onclick="return validateForm();"
+															style="float:left;margin-right:2px;height: 30px;"
+															styleClass="btn btn-primary" value="Sign in"
+															action="#{userAction.validateUser}" />
+														<span class="modal-link-span-1" style="margin-left: 2px;">
+															<h:commandLink style="float:left;margin-left:0px;"
+																styleClass="btn btn-info" id="forget_password"
+																value="Forgot Password" onclick="return false;" />
+														</span>
+													</div>
+												</div>
+												<div class="control-group">
+													<div class="controls"
+														style="margin-top: -15px; color: #FF0000;">
+														<c:forEach var="errMessage"
+															items="${userAction.errorMessage}">
+															<span class="form-message">${errMessage}</span>
+														</c:forEach>
+														${userAction.clearScreenMessage()}
+													</div>
+												</div>
+											</fieldset>
+
+
+										</h:form>
+
+										<script type="text/javascript">
+											function validateForm() {
+												var d = $("#tab\\:Name").val()
+														.trim();
+												var a = $("#tab\\:Password")
+														.val().trim();
+												var c = true;
+												$("#Name_msg").html("");
+												$("#Password_msg").html("");
+												if (d.length == 0) {
+													$("#Name_msg")
+															.html(
+																	"Please Enter Login ID.");
+													c = false
+												}
+												var b = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+												if (c) {
+													if (!b.test(d)) {
+														$("#Name_msg")
+																.html(
+																		"Please Enter Valid Email Id.");
+														c = false
+													}
+												}
+												if (a.length == 0) {
+													$("#Password_msg")
+															.html(
+																	"Please Enter Password.");
+													c = false
+												}
+												return c
+											}
+											function validateEmail() {
+												var a = $("#fp_tab\\:email")
+														.val().trim();
+												$("#fp_email_msg").html("");
+												var c = true;
+												if (a.length == 0) {
+													$("#fp_email_msg")
+															.html(
+																	"Please Enter Login ID.");
+													c = false
+												}
+												var b = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+												if (c) {
+													if (!b.test(a)) {
+														$("#fp_email_msg")
+																.html(
+																		"Please Enter Valid Email Id.");
+														c = false
+													}
+												}
+												return c
+											};
+										</script>
+
+										<div id="modalPanel-1" class="modal hide fade in"
+											style="display: none;">
+											<div class="modal-header">
+												<a class="close" data-dismiss="modal">×</a>
+												<h3>Recover Password</h3>
+											</div>
+											<div class="modal-body">
+												<h:form id="fp_tab" onsubmit="return false;">
+													<fieldset>
+														<div class="control-group">
+															<label class="control-label" for="Name">Enter
+																your Email ID</label>
+															<div class="controls">
+																<h:inputText id="email" styleClass="input-large"
+																	value="#{userAction.userName}" />
+																<span style="color: #FF0000" id="fp_email_msg"> <c:forEach
+																		var="errMessage" items="${userAction.errorMessage}">
+																		<span class="form-message">${errMessage}</span>
+																	</c:forEach>
+																</span>
+															</div>
+														</div>
+														<div class="control-group">
+															<label></label>
+															<div class="controls">
+																<h:commandLink onclick="return validateEmail();"
+																	value="Recover Password" styleClass="btn btn-danger">
+																	<p:ajax listener="#{userAction.forgotPassword}"
+																		process="@form" update="fp_tab" />
+																</h:commandLink>
+															</div>
+														</div>
+														<c:forEach var="sucMessage"
+															items="${userAction.successMessage}">
+															<span class="form-message" style="color: #379EBC;">${sucMessage}</span>
+														</c:forEach>
+														${userAction.clearScreenMessage()}
+													</fieldset>
+												</h:form>
+											</div>
+										</div>
+
+									</pm:content>
+								</div>
+								<!-- end of login section -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<!-- End: MAIN CONTENT -->
+				<ui:include src="../pages/common/footer-content.xhtml"></ui:include>
+			</body>
+		</pm:view>
+	</pm:page>
+</f:view>
+</html>

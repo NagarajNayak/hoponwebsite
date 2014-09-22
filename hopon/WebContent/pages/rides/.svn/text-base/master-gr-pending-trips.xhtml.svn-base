@@ -1,0 +1,491 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common//headerScript.xhtml"></ui:include>
+
+<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+
+      <div class="row">
+        <div class="span2">
+          <div class="smv-leftnav">
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>Pending Trips</h1>
+          </div>
+          <div>
+			<pm:content rendered="#{sessionScope.user_role == 'C' }">
+			<h:form id="form1">
+          <!--  datatable  for  ride manager  -->
+          
+                      <!--  datatable  for  ride seeker  -->
+          <div id="ui-table-1">
+          	<p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.rideSeekerList}" var="rideSeeker"> <!--  if want to revert back use classes table  table-striped -->
+                <p:column headerText="Match" style="width:160px;">
+                	<span class="modal-link-span-10">
+               		<p:commandLink  value="Yes" oncomplete="updateDataTable(); $('.dateJsForm').each(function(){ if(Date.parseString($(this).html(), 'yyyy-MM-dd HH:mm:ss.0') != null) { $(this).html(Date.parseString($(this).html(), 'yyyy-MM-dd HH:mm:ss.0').format('dd MMM yy, hh:mm a'));} }); return false;" action="#{userAction.showRideSeekerPopup}" update=":modalPanel-10-panel"  rendered="#{rideSeeker.status == '2'}">
+                  		<f:param name="rideId" value="#{rideSeeker.seekerID}"/>
+               		</p:commandLink>  
+               		</span>
+               		<h:outputText  value="No" rendered="#{rideSeeker.status ne '2'}"/> 
+                </p:column>
+                <p:column headerText="From" style="width:150px;">
+                <h:outputText value="#{rideSeeker.fromAddress1}" />
+                </p:column>
+                
+                <p:column headerText="To" style="width:150px;">
+                <h:outputText value="#{rideSeeker.toAddress1}" />
+                </p:column>
+                <p:column headerText="Date" style="width:250px;">
+                <h:outputText value="#{rideSeeker.startdateValue}" />
+                </p:column>
+                <p:column headerText="Frequency"  style="width:180px;">
+                <h:outputText value="#{rideSeeker.frequencyinweek}"></h:outputText>
+                </p:column>
+                <p:column>
+                <span class="modal-link-span-2">
+                <p:commandLink id="modalDialogButton" value="Duplicate"  oncomplete="return false;" update=":modalPanel-2-panel">  
+                <f:setPropertyActionListener target="#{userAction.rideSeekerDTO}" value="#{rideSeeker}"></f:setPropertyActionListener>
+                </p:commandLink>
+                </span>
+                </p:column> 
+                <p:column>
+                  <h:commandLink value="Cancel"  action="#{userAction.cancleRideSeeker}">
+                  <f:setPropertyActionListener target="#{userAction.rideSeekerDTO}" value="#{rideSeeker}"></f:setPropertyActionListener>
+                  </h:commandLink>
+                </p:column> 
+               </p:dataTable>
+</div>
+         
+            
+            
+      <!-- End of modal -->
+</h:form>
+               
+        <div id="modalPanel-1" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Copy Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-1-panel">
+        		<h:form>
+        		<h:panelGrid columns="2">
+                 <h:outputText value="From"></h:outputText>
+                 <h:outputText value="#{userAction.rideRegistered.fromAddress1}"></h:outputText>
+                 <h:outputText value="To"></h:outputText>
+                 <h:outputText value="#{userAction.rideRegistered.toAddress1}"></h:outputText>
+                 <h:outputText value="Start Date"></h:outputText>
+                 <p:calendar mindate="#{userAction.currentDate}" pattern="dd MMM yy, HH.mm a" value="#{userAction.rideRegistered.startDate}"></p:calendar>
+                 <h:outputText value=""></h:outputText>
+                 <h:commandButton styleClass="btn btn-info" value="Create Copy" action="#{userAction.copyRideManager}">
+                 	<f:param name="rideSeeker" value="rideSeeker" />
+                 </h:commandButton>
+                 </h:panelGrid>
+                 </h:form>
+                 </p:panel>
+        	</div>
+        </div> 
+       
+        
+        <div id="modalPanel-2" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Copy Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-2-panel">
+        		<h:form>
+        		<h:panelGrid columns="2">
+                 <h:outputText value="From"></h:outputText>
+                 <h:outputText value="#{userAction.rideSeekerDTO.fromAddress1}"></h:outputText>
+                 <h:outputText value="To"></h:outputText>
+                 <h:outputText value="#{userAction.rideSeekerDTO.toAddress1}"></h:outputText>
+                 <h:outputText value="Start Date"></h:outputText>
+                 <p:calendar mindate="#{userAction.currentDate}" pattern="dd MMM yy, HH.mm a" value="#{userAction.rideRegistered.startDate}"></p:calendar>
+                 <h:outputText value=""></h:outputText>
+                 <h:commandButton styleClass="btn btn-info" value="Create Copy" action="#{userAction.copyRideSeeker}">
+                 	<f:param name="rideSeeker" value="rideSeeker" />
+                 </h:commandButton>
+                 </h:panelGrid>
+                 </h:form>
+                 </p:panel>
+        	</div>
+        </div>      
+        
+        
+      	<div id="modalPanel-3" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Matched Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-3-panel"> </p:panel>
+        	</div>
+        </div> 
+        
+			</pm:content>
+			
+			<pm:content rendered="#{sessionScope.user_role == 'P' || sessionScope.user_role == 'B'}">
+			<h:form id="form3">
+          <!--  datatable  for  ride manager  -->
+          <div id="ui-table-1">
+          <p:dataTable   styleClass="table table-bordered table-striped" value="#{userAction.rideManagementList}" var="ride" rowIndexVar="index"  rendered="#{userAction.ridePicker ==2}"> <!--  if want to revert back use classes table  table-striped -->
+                <p:column headerText="Match" style="width:160px;">
+                <span class="modal-link-span-4">
+                <p:commandLink value="#{ride.vehicleID}"  oncomplete="updateDataTable(); return false;" action="#{userAction.showAllRideSeekerForRideInPopup}" update=":modalPanel-4-panel" rendered="#{ride.status == '2'}" >  
+                <f:param value="#{ride.rideID}" name="rideID"></f:param>
+                <f:param name="row" value="#{index}" ></f:param>
+                <f:param name="vehicleID" value="#{ride.vehicleID}"></f:param>
+                <f:setPropertyActionListener target="#{userAction.rideRegistered}" value="#{ride}"></f:setPropertyActionListener>
+                </p:commandLink>
+                
+                </span>
+                <h:outputText  value="No" rendered="#{ride.status ne '2'}"/>  
+               
+                </p:column>
+                <p:column headerText="Ride ID">
+                 <h:outputText value="#{ride.rideID}" />
+                </p:column>
+                <p:column headerText="From" style="width:150px;">
+                <h:outputText value="#{ride.fromAddress1}" />
+                </p:column>
+                <p:column headerText="To" style="width:150px;">
+                <h:outputText value="#{ride.toAddress1}" />
+                </p:column>
+                <p:column headerText="Date" style="width:250px;">
+                <h:outputText value="#{ride.startdateValue}" />
+                </p:column>
+                <p:column headerText="Frequency"  style="width:180px;">
+                <h:outputText value="#{ride.frequencyinweek}"></h:outputText>
+                </p:column>
+                <p:column>
+                <span class="modal-link-span-8">
+                <p:commandLink id="modalDialogButton" value="Duplicate"  oncomplete="return false;" update=":modalPanel-8-panel">  
+                  <f:setPropertyActionListener target="#{userAction.rideRegistered}" value="#{ride}"></f:setPropertyActionListener>
+                </p:commandLink>
+                </span>
+                </p:column> 
+                <p:column>
+                  <h:commandLink value="Cancel" action="#{userAction.cancleRideManager}" >
+                   <f:setPropertyActionListener target="#{userAction.rideRegistered}" value="#{ride}"></f:setPropertyActionListener>
+                  </h:commandLink>
+               </p:column> 
+               </p:dataTable>
+           </div>
+           <div id="ui-table-2">
+                      <!--  datatable  for  ride seeker  -->
+          <p:dataTable styleClass="table table-bordered table-striped" rowIndexVar="row" value="#{userAction.rideSeekerList}" var="rideSeeker" rendered="#{userAction.ridePicker ==1}"> <!--  if want to revert back use classes table  table-striped -->
+                <p:column headerText="Match" style="width:160px;">
+                	<span class="modal-link-span-10">
+               		<p:commandLink  value="Yes" oncomplete="updateDataTable(); $('.dateJsForm').each(function(){ if(Date.parseString($(this).html(), 'yyyy-MM-dd HH:mm:ss.0') != null) { $(this).html(Date.parseString($(this).html(), 'yyyy-MM-dd HH:mm:ss.0').format('dd MMM yy, hh:mm a'));} }); return false;" action="#{userAction.showRideSeekerPopup}" update=":modalPanel-10-panel"  rendered="#{rideSeeker.status == '2'}">
+                  		<f:param name="rideId" value="#{rideSeeker.seekerID}"/>
+               		</p:commandLink>  
+               		</span>
+               		<h:outputText  value="No" rendered="#{rideSeeker.status ne '2'}"/>               
+               	</p:column>
+                
+                <p:column headerText="From" style="width:150px;">
+                <h:outputText value="#{rideSeeker.fromAddress1}" />
+                </p:column>
+                
+                <p:column headerText="To" style="width:150px;">
+                <h:outputText value="#{rideSeeker.toAddress1}" />
+                </p:column>
+                <p:column headerText="Date" style="width:250px;">
+                <h:outputText value="#{rideSeeker.startdateValue}" />
+                </p:column>
+                <p:column headerText="Frequency"  style="width:180px;">
+                <h:outputText value="#{rideSeeker.frequencyinweek}"></h:outputText>
+                </p:column>
+                <p:column>
+                <span class="modal-link-span-9">
+                <p:commandLink id="modalDialogButton" value="Duplicate"  oncomplete="return false;" update=":modalPanel-9-panel">  
+                <f:setPropertyActionListener target="#{userAction.rideSeekerDTO}" value="#{rideSeeker}"></f:setPropertyActionListener>
+                </p:commandLink>
+                </span>
+                </p:column> 
+                <p:column>
+                  <h:commandLink value="Cancel"  action="#{userAction.cancleRideSeeker}">
+                  <f:setPropertyActionListener target="#{userAction.rideSeekerDTO}" value="#{rideSeeker}"></f:setPropertyActionListener>
+                  </h:commandLink>
+                </p:column> 
+               </p:dataTable>
+           </div>
+		
+		
+      
+      <!-- End of modal -->
+</h:form>
+		
+		<div id="modalPanel-8" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Copy Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-8-panel">
+        		<h:form>
+        		<h:panelGrid columns="2">
+                 <h:outputText value="From"></h:outputText>
+                 <h:outputText value="#{userAction.rideRegistered.fromAddress1}"></h:outputText>
+                 <h:outputText value="To"></h:outputText>
+                 <h:outputText value="#{userAction.rideRegistered.toAddress1}"></h:outputText>
+                 <h:outputText value="Start Date"></h:outputText>
+                 <p:calendar mindate="#{userAction.currentDate}" pattern="dd MMM yy, HH.mm a" value="#{userAction.rideRegistered.startDate}"></p:calendar>
+                 <h:outputText value=""></h:outputText>
+                 <h:commandButton styleClass="btn btn-info" value="Create Copy" action="#{userAction.copyRideManager}">
+                 <f:param name="rideManagement" value="rideManagement"></f:param>
+                 </h:commandButton>
+                 </h:panelGrid>
+                 </h:form>
+                 </p:panel>
+        	</div>
+        </div> 
+
+            
+		<div id="modalPanel-9" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Copy Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-9-panel">
+        		<h:form>
+        		<h:panelGrid columns="2">
+                <h:outputText value="From"></h:outputText>
+                <h:outputText value="#{userAction.rideSeekerDTO.fromAddress1}"></h:outputText>
+                <h:outputText value="To"></h:outputText>
+                <h:outputText value="#{userAction.rideSeekerDTO.toAddress1}"></h:outputText>
+                <h:outputText value="Start Date"></h:outputText>
+                <p:calendar mindate="#{userAction.currentDate}" pattern="dd MMM yy, HH.mm a" value="#{userAction.rideRegistered.startDate}"></p:calendar>
+                <h:outputText value=""></h:outputText>
+                <h:commandButton styleClass="btn btn-info" value="Create Copy" action="#{userAction.copyRideSeeker}">
+                <f:param name="rideSeeker" value="rideSeeker"></f:param>
+                </h:commandButton>
+                </h:panelGrid>
+                </h:form>
+                </p:panel>
+        	</div>
+        </div> 
+
+			</pm:content>
+			
+			<pm:content rendered="#{sessionScope.user_role == 'T' }">
+			<h:form id="form2">
+          <!--  datatable  for  ride manager  -->
+          <div id="ui-table-1">
+          <p:dataTable   styleClass="table table-bordered table-striped" value="#{userAction.rideManagementList}" var="ride" rowIndexVar="index"  rendered="#{userAction.ridePicker ==2}"> <!--  if want to revert back use classes table  table-striped -->
+                <p:column headerText="Match" style="width:160px;">               
+                <span class="modal-link-span-4">
+                <p:commandLink value="#{ride.vehicleID}"  oncomplete="updateDataTable(); return false;" action="#{userAction.showAllRideSeekerForRideInPopup}" update=":modalPanel-4-panel" rendered="#{ride.status == '2'}" >  
+                <f:param value="#{ride.rideID}" name="rideID"></f:param>
+                <f:param name="row" value="#{index}" ></f:param>
+                <f:param name="vehicleID" value="#{ride.vehicleID}"></f:param>
+                <f:setPropertyActionListener target="#{userAction.rideRegistered}" value="#{ride}"></f:setPropertyActionListener>
+                </p:commandLink>
+                
+                </span>
+                <h:outputText  value="No" rendered="#{ride.status ne '2'}"/>  
+                </p:column>
+                <p:column headerText="Ride ID">
+                 <h:outputText value="#{ride.rideID}" />
+                </p:column>
+                <p:column headerText="From" style="width:150px;">
+                <h:outputText value="#{ride.fromAddress1}" />
+                </p:column>
+                <p:column headerText="To" style="width:150px;">
+                <h:outputText value="#{ride.toAddress1}" />
+                </p:column>
+                <p:column headerText="Date" style="width:250px;">
+                <h:outputText value="#{ride.startdateValue}" />
+                </p:column>
+                <p:column headerText="Frequency"  style="width:180px;">
+                <h:outputText value="#{ride.frequencyinweek}"></h:outputText>
+                </p:column>
+                <!-- <p:column>
+                <p:commandLink id="modalDialogButton" value="Duplicate"  oncomplete="dlg5.show(); return false;" update=":form2:modalDialog4">  
+                  <f:setPropertyActionListener target="#{userAction.rideRegistered}" value="#{ride}"></f:setPropertyActionListener>
+                </p:commandLink>
+                </p:column>  -->
+                <p:column>
+                  <h:commandLink value="Cancel" action="#{userAction.cancleRideManager}" >
+                   <f:setPropertyActionListener target="#{userAction.rideRegistered}" value="#{ride}"></f:setPropertyActionListener>
+                  </h:commandLink>
+               </p:column> 
+               </p:dataTable>
+</div>
+           
+                      <!--  datatable  for  ride seeker  -->
+          <div id="ui-table-2">
+          <p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.rideSeekerList}" var="rideSeeker" rendered="#{userAction.ridePicker ==1}"> <!--  if want to revert back use classes table  table-striped -->
+                <p:column headerText="Match" style="width:160px;">
+                <span class="modal-link-span-4">
+               	<p:commandLink  value="#{ride.vehicleID}"  onclick="return false;" update=":modalPanel-4-panel"  rendered="#{rideSeeker.status eq '2'}"/>
+                 </span> 
+               <h:outputText  value="No" rendered="#{rideSeeker.status ne '2'}"/>
+                </p:column>
+                <p:column headerText="From" style="width:150px;">
+                <h:outputText value="#{rideSeeker.fromAddress1}" />
+                </p:column>                
+                <p:column headerText="To" style="width:150px;">
+                <h:outputText value="#{rideSeeker.toAddress1}" />
+                </p:column>
+                <p:column headerText="Date" style="width:250px;">
+                 <h:outputText value="#{rideSeeker.startdateValue}" />
+                </p:column>
+                <p:column headerText="Frequency"  style="width:180px;">
+                <h:outputText value="#{rideSeeker.frequencyinweek}"></h:outputText>
+                </p:column>
+                <p:column>
+                <span class="modal-link-span-6">
+                <p:commandLink id="modalDialogButton" value="Duplicate"  oncomplete="return false;" update="">  
+                <f:setPropertyActionListener target="#{userAction.rideSeekerDTO}" value="#{rideSeeker}"></f:setPropertyActionListener>
+                </p:commandLink>
+                </span>
+                </p:column> 
+                <p:column>
+                <h:commandLink value="Cancel"  action="#{userAction.cancleRideSeeker}">
+                  <f:setPropertyActionListener target="#{userAction.rideSeekerDTO}" value="#{rideSeeker}"></f:setPropertyActionListener>
+                  </h:commandLink>
+                </p:column> 
+               </p:dataTable>
+</div>
+        
+      <!-- End of modal -->
+</h:form>
+     	
+      	<div id="modalPanel-6" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Copy Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-6-panel">
+        		<h:form>
+					<h:panelGrid columns="2">
+                		 <h:outputText value="From"></h:outputText>
+                         <h:outputText value="#{userAction.rideSeekerDTO.fromAddress1}"></h:outputText>
+                         <h:outputText value="To"></h:outputText>
+                         <h:outputText value="#{userAction.rideSeekerDTO.toAddress1}"></h:outputText>
+                         <h:outputText value="Start Date"></h:outputText>
+                         <p:calendar mindate="#{userAction.currentDate}" pattern="dd MMM yy, HH.mm a" value="#{userAction.rideSeekerDTO.startDate}"></p:calendar>
+                         <h:outputText value=""></h:outputText>
+                 		 <h:commandButton styleClass="btn btn-info" value="Create Copy" action="#{userAction.copyRideSeeker}">
+                         <f:param name="rideSeeker" value="rideSeeker"></f:param>
+                         </h:commandButton>
+					</h:panelGrid> 
+				</h:form>
+				</p:panel>
+        	</div>
+        </div>    
+        
+        
+        
+      	<div id="modalPanel-5" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Copy Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-5-panel">
+        		<h:form>
+					<h:panelGrid columns="2">
+                		 <h:outputText value="From"></h:outputText>
+                         <h:outputText value="#{userAction.rideRegistered.fromAddress1}"></h:outputText>
+                         <h:outputText value="To"></h:outputText>
+                         <h:outputText value="#{userAction.rideRegistered.toAddress1}"></h:outputText>
+                         <h:outputText value="Start Date"></h:outputText>
+                         <p:calendar mindate="#{userAction.currentDate}" pattern="dd MMM yy, HH.mm a" value="#{userAction.rideRegistered.startDate}"></p:calendar>
+                         <h:outputText value=""></h:outputText>
+                         <h:commandButton styleClass="btn btn-info" value="Create Copy" action="#{userAction.copyRideManager}">
+                         <f:param name="rideManagement" value="rideManagement"></f:param>
+                         </h:commandButton>
+					</h:panelGrid> 
+				</h:form>
+				</p:panel>
+        	</div>
+        </div> 
+                     
+          
+			</pm:content>
+			
+         <div id="modalPanel-4" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3> Ride Seekers Details</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-4-panel">
+        		<div class="controls">
+	              <div class="well changer-green">
+	                <ul class="smv-payment">
+	                 <h:panelGrid columns="2">
+	                  <li><b>Vehicle Reg.No:</b></li><h:outputText value="#{userAction.vehicleMasterDTO.reg_NO}"></h:outputText>
+	                  <li><b>Make  Model:</b></li> <h:outputText value="#{userAction.vehicleMasterDTO.make}  #{userAction.vehicleMasterDTO.model }"></h:outputText>
+	                  <li><b>Date:</b></li> <h:outputText styleClass="dateJsForm" value="#{userAction.rideRegistered.startdateValue}"></h:outputText>
+	                  </h:panelGrid>
+	                  </ul> 
+	              </div>
+            	</div>
+              
+             	<div id="ui-table-3">
+	               <p:dataTable value="#{userAction.allSeekerForGivenRide}" var="ride">
+	               <p:column headerText="Name">
+	               <h:outputText value="#{ride.userName}"></h:outputText>
+	               </p:column>
+	               <p:column headerText="From">
+	               <h:outputText value="#{ride.fromAddress1}"></h:outputText>
+	               </p:column>
+	               <p:column headerText="To">
+	               <h:outputText value="#{ride.toAddress1}"></h:outputText>
+	               </p:column>
+	               <p:column headerText="Time">
+	               <h:outputText value="#{ride.startdateValue}"></h:outputText>
+	               </p:column>	               
+	               </p:dataTable>
+	     		</div>
+	     		</p:panel>
+        	</div>
+        </div>
+        
+        <div id="modalPanel-10" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3> Ride Manager Details</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-10-panel">
+        		<div class="controls">
+	              <div class="well changer-green">
+	                <ul class="smv-payment">
+	                 <h:panelGrid columns="2">
+	                  <li><b>Vehicle Reg.No:</b></li><h:outputText value="#{userAction.vehicleMasterDTO.reg_NO}"></h:outputText>
+	                  <li><b>Make  Model:</b></li> <h:outputText value="#{userAction.vehicleMasterDTO.make}  #{userAction.vehicleMasterDTO.model }"></h:outputText>
+	                  <li><b>Date:</b></li> <h:outputText styleClass="dateJsForm" value="#{userAction.rideManagerInfoForRideSeeker.startdateValue}"></h:outputText>
+	                  <li><b>Ride ID:</b></li> <h:outputText styleClass="dateJsForm" value="#{userAction.rideManagerInfoForRideSeeker.rideID}"></h:outputText>
+	                  </h:panelGrid>
+	                  </ul> 
+	              </div>
+            	</div>
+              
+             	<div id="ui-table-3">
+	               <h:panelGrid columns="2">
+	               		Name : <h:outputText value="#{userAction.rideManagerInfoForRideSeeker.createdBy}"></h:outputText>
+	               		From : <h:outputText value="#{userAction.rideManagerInfoForRideSeeker.fromAddress1}"></h:outputText>
+	               		To : <h:outputText value="#{userAction.rideManagerInfoForRideSeeker.toAddress1}"/>
+	               		Date : <h:outputText styleClass="dateJsForm" value="#{userAction.rideManagerInfoForRideSeeker.startdateValue}"></h:outputText>
+	               </h:panelGrid>
+	     		</div>
+	     		</p:panel>
+        	</div>
+        </div>
+			
+</div>
+</div>
+</div>
+
+
+  </div>
+  </div><br/><br/><br/><br/>  
+ 
+  <!-- End: MAIN CONTENT -->
+
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+</h:body>
+</pm:view>
+</pm:page>
+</f:view>
+</html>

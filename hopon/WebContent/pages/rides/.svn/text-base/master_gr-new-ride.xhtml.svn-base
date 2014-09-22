@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>     
+        <pm:page>
+<pm:view>
+		<ui:include src="../../pages/common//headerScript.xhtml"></ui:include>
+
+  <script type="text/javascript">
+  	Date.prototype.format = function(format) {
+		var o = {
+		  "M+" : this.getMonth()+1, //month
+		  "d+" : this.getDate(),    //day
+		  "h+" : this.getHours(),   //hour
+		  "m+" : this.getMinutes(), //minute
+		  "s+" : this.getSeconds(), //second
+		  "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+		  "S" : this.getMilliseconds() //millisecond
+		}
+
+		if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+		  (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+		for(var k in o)if(new RegExp("("+ k +")").test(format))
+		  format = format.replace(RegExp.$1,
+		    RegExp.$1.length==1 ? o[k] :
+		      ("00"+ o[k]).substr((""+ o[k]).length));
+		return format;
+	}
+                        
+  	jQuery(document).ready(function(){
+		$("#tab1\\:curentDate").datetimepicker({
+			dateFormat : "dd M y,",
+			timeFormat : "hh.mm TT",
+			minDate : Date.parseString('#{userAction.currentDate}','dd NNN yy, HH.mm a'),
+			onSelect : function(){
+				var tempDate = $("#tab1\\:curentDate").datepicker("getDate");
+				tempDate.setDate(tempDate.getDate() + 1);
+				$("#tab1\\:curentDate2").datepicker("option", "minDate", tempDate);
+			},
+		});
+		$("#tab1\\:curentDate2").datetimepicker({
+			dateFormat : "dd M y,",
+			timeFormat : "hh.mm TT",
+			minDate : Date.parseString('#{userAction.minDate}','dd NNN yy, HH.mm a'),
+		});
+	});
+	</script>
+                        
+   <script language="javascript" >
+  
+  function yesnoCheck() {
+	
+      if (document.getElementById('tab1:id').checked = true) {
+          document.getElementById('ifYes').style.visibility = 'visible';
+      }
+      else document.getElementById('ifYes').style.visibility = 'hidden';
+
+  }
+  
+ </script>
+ <script type="text/javascript"> 
+ jQuery(document).ready(function() {
+ 		
+ 		if($('#tab1\\:id').is(':checked')) {
+			$("#ifYes").show();
+		} else {
+			$("#ifYes").hide();
+		}
+		$('#tab1\\:id').click(function(){
+			if($(this).is(':checked')) {
+				$("#ifYes").show();
+			} else {
+				$("#ifYes").hide();
+			}
+		});
+	});
+ </script>
+<script language="javascript" >
+function check(){
+  document.getElementById('form:takeride').className += " btn btn-small btn-success";
+}
+</script>
+
+<h:head></h:head>
+
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+
+      <div class="row">
+        <!-- <div class="span2"></div>  bs-docs-sidenav affix nav-tabs nav-stacked-->
+        <div class="span2">
+
+          <div class="smv-leftnav">
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>
+        <!-- table section -->
+			<c:choose>  
+			<c:when var="test" test="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'P' || sessionScope.user_role == 'B'}">
+         <pm:content>
+          <h:form id="tab1" styleClass="form-horizontal">
+        
+        <div class="span10">
+        
+			
+          <div class="page-header">
+            <h1>New Ride</h1>
+          </div>
+          <p:messages id="messages" showDetail="false" autoUpdate="true"/>
+          <div>
+            <div class="row">
+              <div class="span4 ">
+              
+               <div class="well changer" style="height: 125px;">
+					<div class="control-group">
+						<label class="control-label" for="inputPassword"><b> Trip date/time</b></label>
+						<div class="controls">                                                
+							<h:inputText id="curentDate"  value="#{userAction.rideRegistered.startDate1}" required="true" requiredMessage="${msgs['error.startDate']}"/>
+						</div>
+					</div>					
+					<div class="control-group">
+                    	<label class="control-label" for="custom"><b><h:outputLabel value="Custom" rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'B'}" /> </b></label>
+                    	<div class="controls" style="display: inline-block;margin-left: 8px;"> &nbsp;
+                        	<h:inputText id="custom"  value="#{userAction.rideRegistered.custom}" requiredMessage="${msgs['error.custom']}" rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'B'}"/>
+                      	</div>
+					</div>
+					<div class="control-group">
+                    	<label class="control-label" for="inputPassword"><b><h:outputLabel value="My Vehicles" rendered="#{(userAction.ridePicker ==2 and userAction.userRegistrationDTO.travel eq 'B') or (userAction.userRegistrationDTO.travel eq 'P')}" /> </b></label>
+                    	<div class="controls" style="display: inline-block;margin-left: 8px;"> &nbsp;
+                        	<h:selectOneMenu rendered="#{(userAction.ridePicker ==2 and userAction.userRegistrationDTO.travel eq 'B') or (userAction.userRegistrationDTO.travel eq 'P')}"  value="#{userAction.rideRegistered.vehicleID}" required="true" requiredMessage="${msgs['error.vehicle']}" >
+                        		<f:selectItems  value="#{userAction.allVehicleList}"></f:selectItems>
+                        	</h:selectOneMenu>
+                      	</div>
+					</div>
+				</div>
+                <div class="well changer">
+                    <p><strong>Address From</strong></p>
+                    <div class="control-group">
+                      <label class="control-label" for="inputEmail">Address Tag</label>
+                      <div class="controls">
+                      <h:selectOneMenu id="from" value="#{userAction.rideRegistered.fromAddressTag}"  >
+                      
+                      <f:selectItem itemLabel="New" itemValue="new"></f:selectItem>
+                       <f:selectItems value="#{userAction.allPlacesList}" />
+                        <p:ajax  listener="#{userAction.processValueChange}" process="@this,from" update="fromaddress,fromcity,frompin"/>
+                       </h:selectOneMenu>
+                      </div>
+                    </div>
+                    <!-- <div class="control-group">
+                      <label class="control-label" for="inputEmail">Address1</label>
+                      <div class="controls">
+                        <input type="text" id="inputEmail" placeholder="Address1">
+                      </div>
+                    </div> -->
+                    <div class="control-group">
+                      <label class="control-label" for="inputPassword">Address1</label>
+                      <div class="controls">
+                        <h:inputTextarea id="fromaddress"  value="#{userAction.rideRegistered.fromAddress1}" required="true" requiredMessage="${msgs['error.fromAddress']}"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="inputEmail">City</label>
+                      <div class="controls">
+                        <p:autoComplete id="fromcity" completeMethod="#{userAction.cityAutoCompleateMethod}" value="#{userAction.rideRegistered.fromAddressCity}" minQueryLength="3" required="true" requiredMessage="${msgs['error.cityValue']}"></p:autoComplete>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="inputPassword">Pin</label>
+                      <div class="controls">
+                        <h:inputText id="frompin" value="#{userAction.rideRegistered.fromAddressPin}" required="true" requiredMessage="${msgs['error.pin']}"/>
+                      </div>
+                    </div>
+                  
+                    <div class="control-group">
+                      <label class="control-label" for="inputPassword">Tag (20 limit)</label>
+                      <div class="controls">
+                         <h:inputText value="#{userAction.rideRegistered.fromAddressTagLimit}" />
+                      </div>
+                    </div>
+                 
+                </div>
+                <!-- for lower -->
+                <div class="well changer" style="height:150px">
+                  <p><strong>Recurring</strong> 
+                         <h:selectBooleanCheckbox id="id"  value="#{userAction.recurring}" styleClass="input-xlarge">
+   	                      <!-- <f:ajax event="click" render="@form" />  -->
+   	                     </h:selectBooleanCheckbox></p>
+   	               
+                  <div id="ifYes">
+                    
+                    <div class="control-group">
+                      <label class="control-label" for="inputEmail">Frequency</label>
+                      <div class="controls">
+                       
+                      <p:selectManyCheckbox columns="4" layout="grid" style="width:100px;"   value="#{userAction.frequencyDTO.frequency}" >
+                   
+                      <f:selectItem itemLabel="Mon" itemValue="M" />  
+                      <f:selectItem itemLabel="Tus" itemValue="T" />  
+                      <f:selectItem itemLabel="Wed" itemValue="W" />  
+                      <f:selectItem itemLabel="Thu" itemValue="Th" />  
+                      <f:selectItem itemLabel="Fir" itemValue="F" />  
+                      <f:selectItem itemLabel="Sat" itemValue="Sa" />
+                      <f:selectItem itemLabel="Sun" itemValue="S" />  
+                      
+                      </p:selectManyCheckbox>
+                        
+                      </div>
+                    </div>
+                     <div class="control-group">
+                      <label class="control-label" for="inputPassword">End Date</label>
+                     
+						<div class="controls">
+                        	<h:inputText id="curentDate2"  value="#{userAction.rideRegistered.endDate1}" />
+                      	</div>
+                        
+                    </div>
+                   
+                    
+                    </div>
+                  <br/><br/>
+                </div>
+                <!-- end of lower -->
+              </div>
+              <!-- div for other one form -->
+              <div class="span4 ">
+              
+              <pm:content rendered="#{(userAction.userRegistrationDTO.travel == 'B') or userAction.userRegistrationDTO.travel == 'C'}">
+               <div class="well changer" style="height: 125px;">
+                    <div class="control-group">
+                       <div class="controls">
+                      	<label class="checkbox inline" for="checkboxes-0">
+                        <h:selectBooleanCheckbox  id="checkboxes-0" value="#{userAction.rideRegistered.automatchInCircle}"  />
+                        Auto Match - In circle only   <br/>   <br/>  
+                      	</label>
+                      	</div>
+                     </div>
+                     <div class="control-group">
+                       <div class="controls"> &nbsp;
+		       <pm:content rendered="#{(userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==1) or userAction.userRegistrationDTO.travel == 'C'}">
+						<label class="checkbox">
+							Is Shared Taxi Ok? 
+							<h:selectBooleanCheckbox  value="#{userAction.rideRegistered.sharedTaxi}"  />
+						</label>
+						</pm:content>
+                      </div>              
+                    </div>
+                      </div>
+               </pm:content>
+                <div class="well changer">
+
+                    <!-- Form Name -->
+                    
+                    <p><strong>Address To</strong> &nbsp; 
+                      
+                    </p>
+                    <div class="control-group">
+                      <label class="control-label" for="inputEmail">Address Tag</label>
+                      <div class="controls">
+                      <h:selectOneMenu id="to" value="#{userAction.rideRegistered.toAddressTag}"  >
+                      
+                      <f:selectItem itemLabel="New" itemValue="new"></f:selectItem>
+                       <f:selectItems value="#{userAction.allPlacesList}" />
+                        <p:ajax  listener="#{userAction.processValueChange1}" process="@this,to" update="toaddress,tocity,topin"/>
+                       </h:selectOneMenu>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="inputEmail">Address1</label>
+                      <div class="controls">
+                        <h:inputTextarea id="toaddress" value="#{userAction.rideRegistered.toAddress1}" required="true" requiredMessage="${msgs['error.toAddress']}" />
+                      </div>
+                    </div>
+                    <!-- <div class="control-group">
+                      <label class="control-label" for="inputPassword">Address1</label>
+                      <div class="controls">
+                        <input type="password" id="inputPassword" placeholder="Address1">
+                      </div>
+                    </div> -->
+                    <div class="control-group">
+                      <label class="control-label" for="inputEmail">City</label>
+                      <div class="controls">
+                        <p:autoComplete id="tocity" completeMethod="#{userAction.cityAutoCompleateMethod}" value="#{userAction.rideRegistered.toAddressCity}" minQueryLength="3" required="true" requiredMessage="${msgs['error.toCity']}"></p:autoComplete>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="inputPassword">Pin</label>
+                      <div class="controls">
+                         <h:inputText id="topin" value="#{userAction.rideRegistered.toAddressPin}" required="true" requiredMessage="${msgs['error.toPin']}"/>
+                      </div>
+                    </div>
+                   
+                    <div class="control-group">
+                      <label class="control-label" for="inputPassword">Tag (20 limit)</label>
+                      <div class="controls">
+                        <h:inputText value="#{userAction.rideRegistered.toAddressTagLimit}" />
+                      </div>
+                    </div>
+                </div>
+                <!-- for lower -->
+                 <div class="well changer" style="height:150px;">
+                  
+                    <p><strong>Flexibility (Time) </strong></p>
+                    
+                    <!--  -->
+                    ${userAction.userRatingUpdate()}
+                       <script type="text/javascript">
+jQuery(document).ready(function(){
+	var val = '#{userAction.userRegistrationDTO.defaultTimeSlice}';
+	if(val.length > 5) {
+		val = val.substring(0, 5);
+	}
+	$("#tab1\\:before_input").val(val);
+	$("#tab1\\:after_input").val(val);
+});
+</script>
+                    <div class="control-group">
+                      <label class="control-label" for="inputPassword">Time before</label>
+                       <div class="controls">
+                        <p:calendar  id="before" value="#{userAction.rideRegistered.flexiTimeBefore}" pattern="HH:mm" timeOnly="true" label="00:30"></p:calendar>
+                      </div>
+                    </div>
+                 
+                    <div class="control-group">
+                      <label class="control-label" for="inputPassword">Time After</label>
+                       <div class="controls">
+                        <p:calendar id="after" value="#{userAction.rideRegistered.flexiTimeAfter}" pattern="HH:mm"  timeOnly="true"></p:calendar>
+                      </div>
+                    </div>
+                                     
+                </div>
+                
+                <!-- end of lower -->
+              </div>
+            
+          </div>
+        </div>
+        <p>
+          <h:commandButton rendered="#{(sessionScope.user_role == 'P' || sessionScope.user_role == 'B') and userAction.ridePicker ==2}" styleClass="btn btn-large btn-success" value="Register" action="#{userAction.registerRide}">
+          	<f:param value="giveRide" name="ride"></f:param>
+          </h:commandButton> &nbsp;
+          <h:commandButton rendered="#{(sessionScope.user_role == 'P' || sessionScope.user_role == 'B') and userAction.ridePicker ==1}" styleClass="btn btn-large btn-success" value="Register" action="#{userAction.registerRide}">
+          	<f:param value="takeRide" name="ride"></f:param>
+          </h:commandButton> &nbsp;
+          <h:commandButton rendered="#{sessionScope.user_role == 'C' }" styleClass="btn btn-large btn-success" value="Register" action="#{userAction.registerRide}">
+	   		<f:param value="takeRide" name="ride"></f:param>          
+          </h:commandButton> &nbsp;
+          <h:commandButton styleClass="btn btn-large btn-danger" value="Clear" action="#{userAction.clearNewRide}"/> &nbsp;
+         </p>
+        
+        <!-- table section ends here -->
+			
+      </div>
+      </h:form>
+      </pm:content>
+			</c:when>
+			<c:otherwise>
+				<span class="span10 muted lead"><h3><h:outputText value="${msgs['error.permissionDenied']}"></h:outputText></h3></span>
+			</c:otherwise> </c:choose>
+    </div>
+    
+  </div></div><br/><br/><br/><br/>
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+</pm:view>
+</pm:page>
+</f:view>
+
+</html>

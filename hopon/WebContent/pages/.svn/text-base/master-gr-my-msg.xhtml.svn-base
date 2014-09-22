@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>  
+  <pm:page>  
+  <pm:view>
+  <pm:header>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="bp circles" />
+  <meta name="author" content="Your name" />
+  <title>BP Circles</title>
+  <!-- Bootstrap -->
+  <link type="text/css" href="../resources/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap responsive -->
+  <link type="text/css" href="../resources/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <!-- Font awesome - iconic font with IE7 support --> 
+  <link type="text/css" href="../resources/css/font-awesome.css" rel="stylesheet" />
+  <link type="text/css" href="../resources/css/font-awesome-ie7.css" rel="stylesheet" />
+  <!-- Bootbusiness theme -->
+  <link type="text/css" href="../resources/css/boot-business.css" rel="stylesheet" />
+   <script type="text/javascript" src="../resources/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../resources/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../resources/js/boot-business.js"></script>
+</pm:header>
+<h:head></h:head>
+<h:body>
+
+ <header>
+  <!-- Start: HEADER -->
+    <!-- Start: Navigation wrapper -->
+    <div class="navbar ">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="index.html" class="brand brand-bootbus">HopOn</a>
+          <!-- Below button used for responsive navigation -->
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- Start: Primary navigation -->
+          <div class="nav-collapse collapse">        
+            <ul class="nav pull-right">
+
+              <li><a href="#">About</a></li>
+              <li><a href="faq.html" >FAQ</a></li>
+              <li><a href="contact_us.html">Contact us</a></li>
+               <li class="smv-welcomeuser"><a href="#">Welcome <h:outputText value="#{userAction.userRegistrationDTO.first_name}" />, <i class="icon-user"></i></a></li>
+              <li><a href="#"><h:form><h:commandLink action="#{userAction.signOut}" value="Logout" /></h:form></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End: Navigation wrapper -->   
+  </header>
+  <!-- End: HEADER -->
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="span2">
+
+          <div class="smv-leftnav">
+            <div class="btn-toolbar">
+              <div class="btn-group">
+                <a class="btn btn-small" href="tr-new-ride.html">Take Ride</a>
+                <a class="btn btn-small btn-success" href="gr-new-ride.html">Give Ride</a>
+              </div>
+            </div>
+            <div class="well" style="padding: 8px 0;">
+              <ul class="nav nav-list">
+                <li class="nav-header">
+                  Ride Section
+                </li>
+                <li>
+                  <a href="../pages/master_gr-new-ride.xhtml"><i class="icon-edit"></i> New Rides</a>
+                </li>
+                <li>
+                  <a href="../pages/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a>
+                </li>
+                <li>
+                  <a href="../pages/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a>
+                </li>
+                <li>
+                  <a href="gr-pay.html"><i class="icon-shopping-cart"></i> Payment</a>
+                </li>
+                <li class="nav-header">
+                  Your Account
+                </li>
+                <li>
+                  <a href="../pages/Pref-ind.xhtml"><i class="icon-user"></i> Preferences</a>
+                </li>
+                <li>
+                  <a href="../pages/create-circle.xhtml"><i class="icon-cog"></i> Create Circle</a>
+                </li>
+                <li >
+                  <a href="gr-create-msg.html"><i class="icon-comment"></i> Create Message</a>
+                </li>
+                <li class="active">
+                  <a href="../pages/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>My Messages</h1>
+          </div>
+          <div class="row">
+            <div class="span10">
+              <h4>My circles - membership requests</h4>
+              
+              <pm:content>
+              <h:form styleClass="form-inline">
+               
+              <p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.allMessageForLoginUserList}" var="tripList">
+             
+              <p:column headerText="Circle">
+              <h:outputText value="#{tripList.circleName}" />
+              </p:column>
+              <p:column headerText="Name">
+              <h:outputText value="#{tripList.memberName}" />
+              </p:column>
+              <p:column headerText="Rating">
+              <h:outputText value="4" />
+              </p:column>
+              <p:column headerText="Address">
+              <h:outputText value="#{tripList.address}"></h:outputText>
+              </p:column>
+              
+              <p:column headerText="Note">
+               <h:outputText value="#{tripList.circleDescription}"></h:outputText>
+              </p:column>
+              <p:column >
+              	<h:commandButton  styleClass="btn btn-small btn-primary" value="Accept ?" >
+              		<f:setPropertyActionListener target="#{userAction.circleOwnerManagerDTO}" value="#{tripList}" />
+					<f:param value="1" name="confirm"></f:param>
+					<p:ajax process="@this" listener="#{userAction.confirmOrDeclineUser}" update="@form"/>
+				</h:commandButton>				
+              </p:column>
+              <p:column>
+              	<h:commandButton  styleClass="btn btn-small btn-danger" value="Decline" >
+              		<f:setPropertyActionListener target="#{userAction.circleOwnerManagerDTO}" value="#{tripList}" />
+					<f:param value="2" name="decline"></f:param>
+					<p:ajax process="@this" listener="#{userAction.confirmOrDeclineUser}" update="@form"/>
+				</h:commandButton>
+             
+              </p:column>
+              
+              </p:dataTable>
+              </h:form>
+              </pm:content>
+              
+             <br />
+                 <h4>Circle membership invitations</h4>
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Circle Name</th>  
+                    <th>Circle Owner name</th>
+                    <th>Address</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Project X</td>  
+                    <td>Ram</td>
+                    <td>Koramangala</td>
+                    <td><button class="btn btn-small btn-primary" type="button">Accept ?</button></td>
+                    <td><button class="btn btn-small" type="button">Decline</button></td>
+                  </tr>
+                  <tr>
+                    <td>Our Locality</td>  
+                    <td>Ram</td>
+                    <td>Koramangala</td>
+                    <td><button class="btn btn-small btn-primary" type="button">Accept ?</button></td>
+                    <td><button class="btn btn-small " type="button">Decline</button></td>
+                  </tr>
+                  <tr>
+                    <td>Blr Sindhi Gang</td>  
+                    <td>Ram</td>
+                    <td>Koramangala</td>
+                    <td><button class="btn btn-small btn-primary" type="button">Accept ?</button></td>
+                    <td><button class="btn btn-small" type="button">Decline</button></td>
+                  </tr>
+
+                </tbody>
+              </table><br />
+                  <!-- <p>
+                    <button class="btn btn-small" type="button">Edit</button>
+                    <button class="btn btn-small btn-primary" type="button">Save</button>
+                  </p> -->
+                  <h4>Ride match confirmation messages</h4>
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>From</th>  
+                        <th>To</th>
+                        <th>Date</th>
+                        <th>Role</th>
+                        <th>Share Name</th>
+                        <th>Share no.</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>M.G.Road</td>  
+                        <td>Hiranandani</td>
+                        <td>13/09/2013</td>
+                        <td>Give</td>
+                        <td>Satish</td>
+                        <td>+91-0000000000</td>
+                        <td><a href="#">Cancel</a></td>
+                      </tr>
+                      <tr>
+                        <td>M.G.Road</td>  
+                        <td>Hiranandani</td>
+                        <td>13/09/2013</td>
+                        <td>Give</td>
+                        <td>Satish</td>
+                        <td>+91-0000000000</td>
+                        <td><a href="#">Cancel</a></td>
+                      </tr>
+                      <tr>
+                        <td>M.G.Road</td>  
+                        <td>Hiranandani</td>
+                        <td>13/09/2013</td>
+                        <td>Give</td>
+                        <td>Satish</td>
+                        <td>+91-0000000000</td>
+                        <td><a href="#">Cancel</a></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                  <h4>Rate Completed Rides</h4>
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>From</th>  
+                        <th>To</th>
+                        <th>Date</th>
+                        <th>Role</th>
+                        <th>Share Name</th>
+                        <th>Rate ride</th>
+                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>M.G.Road</td>  
+                        <td>Hiranandani</td>
+                        <td>13/09/2013</td>
+                        <td>Give</td>
+                        <td>Satish</td>
+                        <td><a href="#">Give Rating</a></td>
+                      </tr>
+                      <tr>
+                        <td>M.G.Road</td>  
+                        <td>Hiranandani</td>
+                        <td>13/09/2013</td>
+                        <td>Give</td>
+                        <td>Satish</td>
+                       
+                         <td><a href="#">Give Rating</a></td>
+                      </tr>
+                      <tr>
+                        <td>M.G.Road</td>  
+                        <td>Hiranandani</td>
+                        <td>13/09/2013</td>
+                        <td>Give</td>
+                        <td>Satish</td>
+                        
+                          <td><a href="#">Give Rating</a></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- table section ends here -->
+          </div>
+        </div>
+      </div><br/><br/><br/><br/><br/><br/>
+      <!-- End: MAIN CONTENT -->
+
+      <!-- Start: FOOTER -->
+      <footer>
+        <div class="container">
+          <div class="row">
+            <div class="span6">
+              <p class="smv-footer">
+                &copy; 2013 BPCircles, Inc. All Rights Reserved.
+              </p>
+            </div>
+            <div class="span6">
+              <p class="smv-footer pull-right">
+                <a href="#">About Us</a> | <a href="#">Site Map</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <!-- End: FOOTER -->
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+      <script type="text/javascript" src="js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="js/boot-business.js"></script>
+    </h:body>
+    </pm:view>
+    </pm:page>
+    
+   
+   </f:view>
+   </html>

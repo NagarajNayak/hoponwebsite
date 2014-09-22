@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"   
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"       
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common//headerScript.xhtml"></ui:include>
+	
+		
+		<script type="text/javascript">$(document).ready(function(){if($("#ui-table-1 tr th:first").length>0){$("#ui-table-1 tr th:first").attr("class","").html("")}});function linkingTest(){var b=[];$("#form select[id^=form\\:member]").each(function(){var d=$(this).parent().parent().index()+1;var c=$(this).find(":selected").val();if($(this).parent().parent().find("td:first").find(".ui-chkbox-box").hasClass("ui-state-active")){b[d]=c}});if(b.length==0){alert("select a ride to link");return false}for(var a in b){if(b[a]==parseInt(b[a])){if(0>parseInt(b[a])){alert("Select vehicle before linking.");return false}}else{alert("Select vehicle before linking.");return false}}return true}function xhr2(){var a=[];$("#form select[id^=form\\:member]").each(function(){var d=$(this).parent().parent().index()+1;var c=$(this).find(":selected").val();var b=$(this).parent().parent().find("td:last").find("input:first").val();if(parseInt(c)>0){if(a[c]==undefined||b>parseInt(a[c])){a[c]=b}}});$("#form select[id^=form\\:member]").each(function(){var d=$(this).parent().parent().index()+1;var c=$(this).find(":selected").val();var b=$(this).parent().parent().find("td:last").find("input:first").val();if(a[c]>0){$(this).parent().parent().find("td:last").find("span").html(a[c]);$(this).parent().parent().find("td:last").find("input:nth-child(2)").val(a[c]);a[c]=a[c]-1}else{if(a[c]==0){$(this).parent().parent().find("td:last").find("span").html("Seat Full");$(this).parent().parent().find("td:last").find("input:nth-child(2)").val(0);$(this).parent().parent().find("td:first").find("input[type=checkbox]").attr("disabled",true);$(this).parent().parent().find("td:first").find("span").attr("class","")}}})}function xr1(){var a=1000;var b=0;$("#form select[id^=form\\:member]").each(function(){var e=$(this).parent().parent().index()+1;var d=$(this).find(":selected").val();var c=$(this).parent().parent().find("td:last").find("input").val();if(d==($("#link_count_value").val())){b++;if(a>c){a=c}}});$("#form select[id^=form\\:member]").each(function(){var e=$(this).parent().parent().index()+1;var d=$(this).find(":selected").val();var c=$(this).parent().parent().find("td:last").find("input").val();if(e==($("#link_count_number").val())){if(d==($("#link_count_value").val())){if(b>1){$(this).parent().parent().find("td:last").find("input").val(a-1);$(this).parent().parent().find("td:last").find("span").html(a-1);if(1>$(this).parent().parent().find("td:last").find("input").val()){$(this).parent().parent().find("td:first").find("input[type=checkbox]").attr("disabled",true)}}}}})};</script>
+		
+<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+	<script type="text/javascript" src="../../resources/js/bootstrap-tooltip.js"></script>
+	<script type="text/javascript">jQuery(document).ready(function(){$("[data-toggle='tooltip']").tooltip({trigger:"hover focus",delay:{show:500,hide:100}})});</script>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="span2">
+
+          <div class="smv-leftnav">
+            
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>Trip Selection </h1>
+          </div>
+          <div class="row">
+            <div class="span10">
+                        
+               <h:outputText rendered="#{userAction.allCircleForLoginUserList == null and (sessionScope.user_role == 'C' || sessionScope.user_role == 'P' || sessionScope.user_role == 'B')}"></h:outputText>
+                            
+			<c:choose>  
+				<c:when test="#{userAction.allCircleForLoginUserList != null and sessionScope.user_role == 'T'}">
+          <!-- auto taxi selection -->
+          		<pm:content rendered="${!userAction.rideMatchFormTest}">
+          		${userAction.clearMatchTripList()}
+          		</pm:content>
+              	<pm:content rendered="#{empty userAction.allAffiliateCircleForTaxiUser}">
+         			<span class="span10 muted lead"><h3><h:outputText value="You are not affiliated with any circle."></h:outputText></h3></span>
+          		</pm:content>
+          
+          		<pm:content rendered="#{not empty userAction.allAffiliateCircleForTaxiUser}">
+              	<h:form styleClass="form-inline">
+	               	<h:inputText id="from" value="#{userAction.rideSeekerDTO.fromAddress1}" style="width:180px;"></h:inputText> &nbsp;
+	               	<p:watermark for="from" value="From"></p:watermark>
+	               	<h:inputText id="to" value="#{userAction.rideSeekerDTO.toAddress1}" style="width:180px;"></h:inputText> &nbsp;
+	               	<p:watermark for="to" value="To"></p:watermark>
+	               	<p:calendar id="calendar" value="#{userAction.rideSeekerDTO.startDate}" pattern="dd MMM yyyy"></p:calendar>
+	               	<p:watermark for="calendar" value="Date"></p:watermark> &nbsp;
+	               	<h:selectOneMenu rendered="#{not empty userAction.allAffiliateCircleForTaxiUser and sessionScope.user_role == 'T'}" value="#{userAction.circleDTO.circleID}" style="height: 30px;;width: 150px;">
+	               		<f:selectItem itemLabel="Affiliated Circles"></f:selectItem>
+						<f:selectItems value="#{userAction.allAffiliateCircleForTaxiUser}"/>
+					</h:selectOneMenu> &nbsp;
+	             	<h:commandLink styleClass="btn btn-info" value="Search" action="#{userAction.matchedTripListByCondition}" onclick="if(!$(this).parent().find('select:last').val() > 0) { alert('Please Select affiliated circle.'); return false; }"/>
+             	</h:form>
+             	</pm:content>
+             	
+             	${userAction.clearScreenMessage()}
+             	<p:panel id="messagePanel" style="border:none;margin-left: -18px;margin-right: -18px;">			
+			<c:forEach var="sucMessage" items="${userAction.successMessage}">
+					<div class="alert fade in alert-success" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${sucMessage}</span>
+					</div>
+			</c:forEach>
+			<c:forEach var="errMessage" items="${userAction.errorMessage}">
+					<div class="alert fade in alert-error" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${errMessage}</span>
+					</div>
+			</c:forEach>
+			${userAction.clearScreenMessage()}
+			</p:panel>	
+             
+              <!-- auto taxi ends here -->
+              <div class="">
+              <pm:content>
+				<input type="hidden" value="0" id="link_count_number"/>
+				<input type="hidden" value="0" id="link_count_value"/>
+              <div id="ui-table-1">
+              	<h:form styleClass="form-inline" id="form">
+				<h:outputText value="Matched Trips" styleClass="muted" style="font-size:25px;font-weight:bold;margin:10px 4px;display:block;" rendered="#{not empty userAction.matchedTripByConditionList}"></h:outputText>
+			
+              <h:outputText value="No Matched Trips found" styleClass="muted" style="font-size:25px;font-weight:bold;margin:10px 4px;display:block;" rendered="#{empty userAction.matchedTripByConditionList and userAction.rideMatchFormTest}"></h:outputText>
+				
+				${userAction.makeRideMatchInactive()}
+				
+              <p:dataTable rowKey="#{tripList}" id="member" styleClass="table table-bordered table-striped" value="#{userAction.matchedTripDataModel}" var="tripList"
+                 rendered="#{not empty userAction.matchedTripByConditionList}"  selection="#{userAction.matchedTripDTOs}" rowIndexVar="row" >
+               <p:ajax event="rowSelectCheckbox" process="@this"/>
+               <p:ajax event="rowUnselectCheckbox" process="@this"/>
+              <p:column  headerText="Select"   selectionMode="multiple" style="width:2%"/> 
+             
+             <p:column headerText="Ride Id" style="width:2%">
+             	<span class="modal-link-span-1">
+              <p:commandLink value="#{tripList.rideId}" rendered="#{tripList.rideId != 'NEW'}" action="#{userAction.showAllRideSeekerForRideInPopup}" oncomplete="modalUpdate();updateDataTable();return false;" update=":modalPanel-1-panel" >
+              <f:param name="rideID" value="#{tripList.rideId}"></f:param>
+              </p:commandLink>
+              </span>
+              <h:outputText value="#{tripList.rideId}" rendered="#{tripList.rideId == 'NEW'}"></h:outputText>
+              </p:column>
+              <p:column headerText="Requester" style="width:17%">
+              <h:outputText value="#{tripList.userName}" /><h:outputText value=",#{tripList.companyName}" />
+              </p:column>
+              
+              <p:column headerText="From" sortBy="startPoint" style="width:20%">
+              <span data-toggle="tooltip" title="${tripList.startPoint}">${(fn:length(tripList.startPoint) > 15) ? fn:substring(tripList.startPoint, 0, 15) : tripList.startPoint} ${(fn:length(tripList.startPoint) > 15) ? '...' : ''}</span>
+              </p:column>
+              <p:column headerText="To" sortBy="endPoint" style="width:20%">
+              <span data-toggle="tooltip" title="${tripList.endPoint}">${(fn:length(tripList.endPoint) > 15) ? fn:substring(tripList.endPoint, 0, 15) : tripList.endPoint} ${(fn:length(tripList.endPoint) > 15) ? '...' : ''}</span>
+              </p:column>
+              <p:column headerText="Date Time" sortBy="startDate" style="width:20%">
+              <h:outputText value="#{tripList.startDate}"></h:outputText>
+              </p:column>
+              
+              <p:column headerText="Vehicle Name" style="width:10%">
+              
+              <h:selectOneMenu style="width:auto;" value="#{tripList.vehicleID}" onchange="$('#link_count_value').val($(this).find(':selected').val());$('#link_count_number').val($(this).parent().parent().index() + 1);">
+               <f:selectItem itemLabel="Select Vehicle"></f:selectItem>
+                <f:selectItems value="#{userAction.allVehicleList}"></f:selectItems>
+<p:ajax oncomplete="
+xhr2();
+$('#modalid2').find('a').attr('data-toggle', 'modal');$('#modalid2').find('a').attr('href', '#modalPanel-2');
+if($('#modalid2').find('a').length > 0) {
+$('#modalPanel-2').attr('class', 'modal hide fade in').show();
+$('#x1').attr('class', 'modal-backdrop fade in');
+$('#x1, a.close').bind('click', function(){ $('#x1').attr('class', ''); $('#modalPanel-2').hide(); });
+$('#modalid2').find('a').hide();
+}
+$('#ui-table-1 tr th:first').attr('class', '').html('');updateDataTable1();" listener="#{userAction.processValue}" process="@this" update="@form"/>
+               <f:param value="#{row}" name="row"></f:param>
+               <f:param name="startDate" value="#{tripList.startDate}"></f:param>
+               </h:selectOneMenu>
+              </p:column>
+              <p:column headerText="Count" style="width:3%">
+              <h:inputHidden value="#{tripList.count}" />
+              <h:inputHidden value="#{tripList.countTemp}" id="tempCount"/>
+              <h:inputHidden value="#{tripList.rideId}" />
+              <span><h:outputText value="#{tripList.count}" rendered="#{tripList.rideId != 'NEW'}"/><h:outputText value="#{userAction.vehicleMasterDTO.capacity}" rendered="#{tripList.rideId == 'NEW'}"/></span>
+              </p:column>
+              </p:dataTable>
+               <h:commandButton styleClass="btn btn-success" action="#{userAction.matchTripLinking}" value="Link" rendered="#{not empty userAction.matchedTripByConditionList}" onclick="return linkingTest();"/>
+             	<span class="modal-link-span-2" id="modalid2" style="display:none;">
+             	<p:commandLink id="one" value="popupOne" rendered="#{not empty userAction.rideManagementListForPopupOne}" onclick="return false;" update="modalPanel-2-panel"></p:commandLink>
+             	</span>
+             
+             <div id="x1" class=""> </div>
+             
+        
+        <div id="modalPanel-2" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Vehicle Trips for the Day</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-2-panel">
+					<div class="controls">
+						<div class="well changer-green">
+							<div id="ui-table-3">
+							<ul class="smv-payment">
+								<h:panelGrid columns="2">
+								<li><b>Vehicle</b></li><h:outputText value="#{userAction.vehicleMasterDTO.reg_NO}"></h:outputText>
+								<li><b>Make  Model</b></li> <h:outputText value="#{userAction.vehicleMasterDTO.make} #{userAction.vehicleMasterDTO.model}"></h:outputText>
+								<li><b>Date</b></li> <h:outputText value="#{userAction.matchedTripDTO.startDate}"></h:outputText>
+								</h:panelGrid>
+							</ul> 
+							</div>
+						</div> 
+					</div>
+            
+            		<div id="ui-table-1">
+			             <p:dataTable rowIndexVar="row" value="#{userAction.rideManagementListForPopupOne}" var="one" rendered="#{not empty userAction.rideManagementListForPopupOne}">
+			              <p:column >
+			              <h:commandButton styleClass="btn btn-warning" value="#{one.rideID}" rendered="#{one.seatUsed ne userAction.vehicleMasterDTO.capacity}">
+			              	<p:ajax listener="#{userAction.rideIdSetForLinking}" update="@form" oncomplete="modalUpdate();updateDataTable(); if($('#ui-table-1 tr th:first').length > 0) { $('#ui-table-1 tr th:first').attr('class', '').html(''); } xhr2(); " />	
+			              	<f:param name="row" value="#{row}"></f:param>
+		              		<f:param name="rideID" value="#{one.rideID}"></f:param>		              	
+			              </h:commandButton>			              
+			               <h:outputText rendered="#{one.seatUsed eq userAction.vehicleMasterDTO.capacity}" value="#{one.rideID}"></h:outputText>
+			              </p:column>
+			              <p:column headerText="From">
+			              <h:outputText value="#{one.fromAddress1}"></h:outputText>
+			              </p:column>
+			               <p:column headerText="To">
+			               <h:outputText value="#{one.toAddress1}"></h:outputText>
+			              </p:column>
+			               <p:column headerText="Time">
+			               <h:outputText value="#{one.startdateValue}"></h:outputText>
+			              </p:column>
+			               <p:column headerText="Used Capacity">
+			               <h:outputText rendered="#{empty one.seatUsed and one.seatUsed ne userAction.vehicleMasterDTO.capacity}" value="#{userAction.vehicleMasterDTO.capacity}" />
+			              <h:outputText rendered="#{ not empty one.seatUsed and one.seatUsed ne userAction.vehicleMasterDTO.capacity}" value="#{one.seatUsed} of #{userAction.vehicleMasterDTO.capacity}"></h:outputText>
+			              <h:outputText rendered="#{one.seatUsed eq userAction.vehicleMasterDTO.capacity}" value="No Seat Left"></h:outputText>
+			              </p:column>
+			              </p:dataTable>
+              		</div>
+              	</p:panel>
+        	</div>
+        </div> 
+              </h:form>
+              </div>
+              </pm:content>
+             
+             	                           
+        <div id="modalPanel-1" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Create Copy Of This Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-1-panel">
+        		<div class="controls">
+	              <div class="well changer-green">
+	                <ul class="smv-payment">
+	                <h:panelGrid columns="2">
+	                  <li><b>Vehicle</b></li><h:outputText value="#{userAction.vehicleMasterDTO.reg_NO}"></h:outputText>
+	                  <li><b>Make  Model</b></li> <h:outputText value="#{userAction.vehicleMasterDTO.model} #{userAction.vehicleMasterDTO.model}"></h:outputText>
+	                  <li><b>Date</b></li> <h:outputText value="#{userAction.matchedTripDTO.startDate}"></h:outputText>
+	                  </h:panelGrid>
+	                  </ul> 
+	              </div>
+	            </div>
+	              
+	              <div id="ui-table-2" style="display:block;"> 
+	               <p:dataTable value="#{userAction.allSeekerForGivenRide}" var="ride">
+	               <p:column headerText="Name">
+	               <h:outputText value="#{ride.userName}"></h:outputText>
+	               </p:column>
+	               <p:column headerText="From">
+	               <h:outputText value="#{ride.fromAddress1}"></h:outputText>
+	               </p:column>
+	               <p:column headerText="To">
+	               <h:outputText value="#{ride.toAddress1}"></h:outputText>
+	               </p:column>
+	               <p:column headerText="Time">
+	               <h:outputText value="#{ride.startdateValue}"></h:outputText>
+	               </p:column>
+	               
+	               </p:dataTable>
+	               </div>
+	              </p:panel>
+        	</div>
+        </div> 
+         
+              
+             
+              </div>
+                  <!-- <p>
+                    <button class="btn btn-small" type="button">Edit</button>
+                    <button class="btn btn-small btn-primary" type="button">Save</button>
+                  </p> -->
+
+			</c:when>
+			<c:otherwise>
+				<span class="span10 muted lead"><h3><h:outputText value="${msgs['error.permissionDenied']}"></h:outputText></h3></span>
+			</c:otherwise> </c:choose>
+			
+                </div>
+              </div>
+            </div>
+            <!-- table section ends here -->
+          </div>
+        </div>
+      </div><br/><br/><br/><br/><br/><br/>
+      <!-- End: MAIN CONTENT -->
+
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+ </h:body>
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

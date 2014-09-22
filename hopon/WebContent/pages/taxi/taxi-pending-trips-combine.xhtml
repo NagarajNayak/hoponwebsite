@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"      
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"   
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common//headerScript.xhtml"></ui:include>
+<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <!-- <div class="page-header">
+        <h1>The HopOn frequently asked questions</h1>
+      </div>  --> 
+      <div class="row">
+        <!-- <div class="span2"></div>  bs-docs-sidenav affix nav-tabs nav-stacked-->
+        <div class="span2">
+
+          <div class="smv-leftnav">
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>Combine Vehicles</h1>
+          </div>
+          <div>
+          
+          <pm:content rendered="#{sessionScope.user_role == 'T' }">
+          <script type="text/javascript" src="../../resources/js/bootstrap-tooltip.js"></script>
+	<script type="text/javascript">jQuery(document).ready(function(){updateToolTip();jQuery("#form2\\:noResult").hide()});function updateToolTip(){$("[data-toggle='tooltip']").tooltip({trigger:"hover focus",delay:{show:500,hide:100}})};</script>
+ 		<script type="text/javaScript">function validateDropTake(f,d,b){var c=new Array();var e=0;if(d.attr("id").substring(d.attr("id").lastIndexOf(":"))==":drop"){if(d.is(":checked")){d.parent().parent().find("input[type=checkbox][id$=take]").prop("checked",false)}}else{if(d.attr("id").substring(d.attr("id").lastIndexOf(":"))==":take"){if(d.is(":checked")){d.parent().parent().find("input[type=checkbox][id$=drop]").prop("checked",false)}}}$("#form2\\:member").find("input[type=checkbox][id$=drop]").each(function(){if($(this).is(":checked")){e+=1}});var a=0;$("#form2\\:member").find("input[type=checkbox][id$=take]").each(function(){if($(this).is(":checked")){a+=1}});if(e>1){c.push("Only one ride can be dropped at a time.")}if(a>1){c.push("Only one ride can be taken at a time.")}if(c.length>0){d.prop("checked",false);alert(c.join("\n"))}else{if(d.attr("id").substring(d.attr("id").lastIndexOf(":"))==":drop"){if(d.is(":checked")){$("#form2\\:rideIdToDrop").val(b)}}else{if(d.attr("id").substring(d.attr("id").lastIndexOf(":"))==":take"){if(d.is(":checked")){$("#form2\\:rideIdToTake").val(b)}}}}}function validateCombine(){if(parseInt($("#form2\\:rideIdToDrop").val())>0){if(parseInt($("#form2\\:rideIdToTake").val())>0){return true}}alert("Please select one ride to drop and one ride to take.");return false};</script>
+          
+          	${userAction.clearScreenMessage()}	
+		<p:panel id="messagePanel" style="border:none;">		
+			<c:forEach var="sucMessage" items="${userAction.successMessage}">
+					<div class="alert fade in alert-success" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${sucMessage}</span>
+					</div>
+			</c:forEach>
+			<c:forEach var="errMessage" items="${userAction.errorMessage}">
+					<div class="alert fade in alert-error" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${errMessage}</span>
+					</div>
+			</c:forEach>	
+			${userAction.clearScreenMessage()}
+		</p:panel>	
+            <pm:content>
+            	${userAction.clearCombineVehicleSearch()}
+              <h:form styleClass="form-inline" id="form1">
+              	 	<h:inputText id="from" value="#{userAction.rideManagementDTO.fromAddress1}" style="width:180px;"></h:inputText> &nbsp;
+	               	<p:watermark for="from" value="From"></p:watermark>
+	               	<h:inputText id="to" value="#{userAction.rideManagementDTO.toAddress1}" style="width:180px;"></h:inputText> &nbsp;
+	               	<p:watermark for="to" value="To"></p:watermark>
+	               	<p:calendar id="calendar" value="#{userAction.rideManagementDTO.startDate}" pattern="dd MMM yyyy"></p:calendar>
+	               	<p:watermark for="calendar" value="Date"></p:watermark> &nbsp;
+	               	<h:selectOneMenu rendered="#{not empty userAction.allAffiliateCircleForTaxiUser and sessionScope.user_role == 'T'}" value="#{userAction.circleDTO.circleID}" style="height: 30px;;width: 150px;">
+	               		<f:selectItem itemLabel="Affiliated Circles"></f:selectItem>
+						<f:selectItems value="#{userAction.allAffiliateCircleForTaxiUser}"/>
+					</h:selectOneMenu> &nbsp;
+	             	<h:commandLink styleClass="btn btn-info" value="Search" >
+	             	<p:ajax process="@form" listener="#{userAction.combineVehicleSearch}" update="@form,:form2,:messagePanel" oncomplete="updateDataTable1();updateToolTip();"/>
+	             	</h:commandLink>
+             </h:form>
+             </pm:content>
+             
+             <pm:content>
+              <h:form styleClass="form-inline" id="form2">
+				<p:panel rendered="#{userAction.combineVehicleCondition.size() le 0}" id="noResult" style="border:none;background:#FCFCFC;margin-left: -15px;">No result is found.</p:panel>
+               	<div id="ui-table-1">
+				<p:dataTable rowKey="#{tripList}" id="member" styleClass="table table-bordered table-striped" value="#{userAction.combineVehicleDataModel}" var="tripList" rendered="#{not empty userAction.combineVehicleCondition}" selection="#{userAction.combineVehicleDtos}" rowIndexVar="row" widgetVar="matches">
+             	<p:column headerText="Drop" width="5%"><h:selectBooleanCheckbox value="#{tripList.drop}" onchange="validateDropTake(#{row}, $(this), #{tripList.rideId});" id="drop"/></p:column>
+				<p:column headerText="Take" width="5%"><h:selectBooleanCheckbox value="#{tripList.take}" onchange="validateDropTake(#{row}, $(this), #{tripList.rideId});" id="take"/></p:column>
+              	<p:column headerText="Vehicle" width="8%"><h:outputText value="#{tripList.vehicleRegNo}"/></p:column>
+				<p:column headerText="From" sortBy="startPoint" style="width:29%">
+              	<span data-toggle="tooltip" title="${tripList.startPoint}">${(fn:length(tripList.startPoint) > 30) ? fn:substring(tripList.startPoint, 0, 30) : tripList.startPoint} ${(fn:length(tripList.startPoint) > 30) ? '...' : ''}</span>
+              	</p:column>
+              	<p:column headerText="To" sortBy="endPoint" style="width:29%">
+              	<span data-toggle="tooltip" title="${tripList.endPoint}">${(fn:length(tripList.endPoint) > 30) ? fn:substring(tripList.endPoint, 0, 30) : tripList.endPoint} ${(fn:length(tripList.endPoint) > 30) ? '...' : ''}</span>
+              	</p:column>
+             	<p:column headerText="Ride Time" width="17%"><h:outputText value="#{tripList.rideTime}" /></p:column>
+ 				<p:column headerText="Capacity" width="7%"><h:outputText value="#{tripList.usedCapacity} / #{tripList.capacity}"/></p:column>
+				</p:dataTable>
+              	</div>
+				
+				<h:inputHidden value="#{userAction.rideIdToDrop}" id="rideIdToDrop"/>
+				<h:inputHidden value="#{userAction.rideIdToTake}" id="rideIdToTake"/>
+				
+               	<h:commandLink styleClass="btn btn-success" value="Combine Vehicles" rendered="#{not empty userAction.combineVehicleCondition}" onclick="return validateCombine();">
+               		<p:ajax process="@form" listener="#{userAction.combineVehicle}" update="@form,:form1,:messagePanel" oncomplete="updateDataTable1();updateToolTip();"/>
+               	</h:commandLink>
+              </h:form>
+              </pm:content>
+              </pm:content>
+              
+			<pm:content rendered="#{sessionScope.user_role != 'T' }">
+              	<span class="span10 muted lead"><h3><h:outputText value="${msgs['error.permissionDenied']}"></h:outputText></h3></span>
+			</pm:content>
+              
+        </div>
+        
+                       </div>
+        <!-- table section ends here -->
+      </div>
+
+
+    </div>
+  </div><br/><br/><br/><br/>
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

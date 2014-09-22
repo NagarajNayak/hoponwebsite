@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Contact Page</title>
+<style type="text/css">
+fieldset {
+width: 500px;
+height: 300px;
+background-color:skyblue;
+}
+</style>
+</head>
+<body>
+<fieldset>
+<legend>ContactUs Form</legend>
+<br>
+<br>
+	<form name="ContactUsform" method="post">
+		<table width="450px">
+			
+			<tr>
+				<td valign="top"><label for="first_name">First Name *</label></td>
+				<td valign="top"><input type="text" name="first_name" 
+					maxlength="50" size="30"></td>
+			</tr>
+
+			<tr>
+				<td valign="top""><label for="last_name">Last Name *</label></td>
+				<td valign="top"><input type="text" name="last_name" 
+					maxlength="50" size="30"></td>
+			</tr>
+			<tr>
+				<td valign="top"><label for="email">Email Address *</label></td>
+				<td valign="top"><input type="text" name="email_id" maxlength="80" 
+					size="30"></td>
+
+			</tr>
+			<tr>
+				<td valign="top"><label for="mobileno">Mobile
+						Number *</label></td>
+				<td valign="top"><input type="text" name="mobile_no" 
+					maxlength="30" size="30"></td>
+			</tr>
+			<tr>
+				<td valign="top"><label for="comments">Comment *</label></td>
+				<td valign="top"><textarea name="comment" maxlength="1000" 
+						cols="25" rows="6"></textarea></td>
+
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align: center">
+					
+					<input type="submit" value="Submit" action="#{userAction.contactus}"> 
+				</td>
+			</tr>
+		</table>
+	</form>
+	</fieldset>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+
+
+<div class="btn-toolbar">
+	<div class="btn-group">
+		<h:form>
+	    	<h:commandLink id="takeride" styleClass="btn btn-small" value="Take Ride" action="#{userAction.takeRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==2}"></h:commandLink>
+	    	<h:commandLink id="giveride" styleClass="btn btn-small btn-success"  value="Give Ride" action="#{userAction.giveRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==2}"></h:commandLink>
+	    	<h:commandLink id="takeride1" styleClass="btn btn-small btn-success" value="Take Ride" action="#{userAction.takeRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==1}"></h:commandLink>
+	    	<h:commandLink id="giveride1" styleClass="btn btn-small"  value="Give Ride" action="#{userAction.giveRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==1}"></h:commandLink>
+	 	</h:form>
+	 </div>
+</div>
+	
+			
+	<c:set var="uri" value="${fn:substring(sessionScope.uri, fn:indexOf(sessionScope.uri, '/pages') + 7, -1)}"></c:set>
+	<script type="text/javascript">
+		$( document ).ready(function() {
+			$("ul#left-panel-ul li").each(function(){
+				if($(this).find("a").attr("href")) {
+					if($(this).find("a").attr("href").trim().indexOf("${uri}".substr("${uri}".lastIndexOf("/"), "${uri}".length - "${uri}".lastIndexOf("/"))) > 0) {
+						$(this).attr("class", "active");
+					}
+				}
+			});
+		});
+	</script>	
+	
+	<style type="text/css">
+	#left-panel-ul {
+		padding-left: 5px; 
+		padding-right: 5px;
+		font-size:12px;
+	}
+	#left-panel-ul .nav-header{
+		margin-left: -4px; 
+		margin-right: -4px;
+	}
+	#left-panel-ul li.active a, #left-panel-ul li a:hover {
+		margin-left: -5px;
+    	margin-right: -5px;
+    	padding-left: 5px;
+    	padding-right: 0;
+    	color:#FFFFFF;
+    	background:#4BAAD3;
+    	font-weight:bold;
+	}
+	ul#left-panel-ul li {
+		line-height:17px;
+	}
+	ul#left-panel-ul li.nav-header {
+	    font-family: helvetica;
+	    font-size: 13px;
+	    font-style: normal;
+	    font-weight: bold;
+	    margin-bottom: 2px;
+	    margin-left: 4px;
+	    text-align: left;
+	    word-spacing: 0.15em;
+	}
+	</style>
+
+<div class="well" style="padding: 8px 0;">
+	<ul class="nav nav-list" id="left-panel-ul">
+		<li class="nav-header">Ride Section</li>
+		
+		<pm:content rendered="#{sessionScope.user_role != 'T'}">
+			<li><a href="../rides/master_gr-new-ride.xhtml"><i class="icon-edit"></i> New Ride</a></li>
+		</pm:content>
+		<li><a href="../rides/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a></li>
+		<li><a href="../rides/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a></li>
+		
+		<li><a href="../settings/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a></li>	
+		<li><a href="../settings/master-my-circle.xhtml"><i class="icon-globe"></i> My Circles</a></li>	
+       	<li><a href="../settings/create-circle.xhtml"><i class="icon-cog"></i> Create Circle</a></li>	        
+		<li ><a href="#"><i class="icon-comment"></i> Create Message</a></li>
+	
+		<pm:content rendered="#{userAction.allCircleForLoginUserList != null and sessionScope.user_role == 'T'}">
+			<li><a href="../taxi/taxi-link-manual.xhtml"><i class="icon-globe"></i> Ride Match</a></li>
+			<li><a href="../taxi/ride-pre-match.xhtml"><i class="icon-globe"></i> Ride Pre Match</a></li>						
+		</pm:content>
+		
+		<pm:content rendered="#{sessionScope.user_role == 'T'}">
+			<li><a href="../taxi/taxi-vehicle-driver-admin.xhtml"><i class="icon-globe"></i> Link Driver</a></li>
+		</pm:content>
+		
+		<pm:content rendered="#{sessionScope.user_role == 'T' }">
+			<li><a href="../taxi/taxi-pending-trips-combine.xhtml"><i class="icon-globe"></i> Combine Trips</a></li>
+		</pm:content>
+		
+		<li class="nav-header">Your Account</li>
+		
+		<li><a href="../settings/Pref-ind.xhtml"><i class="icon-user"></i> My Preferences</a></li>
+		
+		<pm:content rendered="#{sessionScope.user_role == 'T'}">
+			<li><a href="../settings/editcompany.xhtml"><i class="icon-user"></i> Company Preferences</a></li>
+		</pm:content>
+		
+		<pm:content rendered="#{userAction.allCircleForLoginUserList != null}">
+			<li><a href="../settings/master-manage-circle.xhtml"><i class="icon-cog"></i> Manage my Circle</a></li>
+		</pm:content>
+		
+		<pm:content rendered="#{sessionScope.user_role == 'P' || sessionScope.user_role == 'B' || sessionScope.user_role == 'T'}">
+			<li><a href="../settings/vehicle-master.xhtml"><i class="icon-globe"></i> Manage Vehicles</a></li>
+		</pm:content>
+		
+		<pm:content rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'B' }">
+			<li><a href="../taxi/circle-taxi-affiliations.xhtml"><i class="icon-globe"></i> Manage Taxi</a></li>
+		</pm:content>
+		
+		<pm:content rendered="#{sessionScope.user_role == 'P' || sessionScope.user_role == 'B' || sessionScope.user_role == 'C'}">
+			<li><a href="../settings/circle-member-upload.xhtml"><i class="icon-globe"></i> Upload circle members</a></li>
+		</pm:content>
+		
+		<pm:content rendered="#{sessionScope.user_role == 'T'}">
+			<li><a href="#"><i class="icon-cog"></i>Taxi-Vehicle Manage</a></li>
+			<li><a href="#"><i class="icon-cog"></i>New Route</a></li>
+			<li><a href="#"><i class="icon-cog"></i>Register Vehicle Rout</a></li>
+			<li><a href="#"><i class="icon-cog"></i>Route-Vehicle</a></li>
+		</pm:content>
+		
+	</ul>
+</div>
+</html>

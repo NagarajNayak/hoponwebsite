@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+    
+<h:head>
+	 <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="bp circles" />
+  <meta name="author" content="Your name" />
+  <title>BP Circles</title>
+  <!-- Bootstrap -->
+  <link type="text/css" href="../../resources/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap responsive -->
+  <link type="text/css" href="../../resources/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <!-- Font awesome - iconic font with IE7 support --> 
+  <link type="text/css" href="../../resources/css/font-awesome.css" rel="stylesheet" />
+  <link type="text/css" href="../../resources/css/font-awesome-ie7.css" rel="stylesheet" />
+  <!-- Bootbusiness theme -->
+  <link type="text/css" href="../../resources/css/boot-business.css" rel="stylesheet" />
+  
+
+</h:head>
+
+<h:body>
+<div id="fb-root"></div>
+ <script type="text/javascript" src="../../resources/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../../resources/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../../resources/js/boot-business.js"></script>
+	<div id="footer" class="footer" style="display:float">
+		<ui:insert name="footer"></ui:insert>
+	</div>	
+	
+</h:body>
+</html>

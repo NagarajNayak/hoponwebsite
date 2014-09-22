@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"      
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common/headerScript.xhtml"></ui:include>
+   		<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+    	<div class="row">
+    		<div class="span2">
+          		<div class="smv-leftnav">
+          			<!-- Include leftPanel.xhtml -->
+          			<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include> 
+          		</div>    		
+    		</div>
+    		<div class="span10">
+    			<div class="page-header">
+			    	<h1>Change Password</h1>
+				</div>
+				<div class="row">
+					<div class="span6">
+						<p:panel id="credit" style="width:0px;border:none;display:inline;"><h3 class="muted">Payment Balance - Rs. ${userAction.userRegistrationDTO.totalCredit}</h3></p:panel> 
+						
+						<h3 class="muted"> Completed Transactions</h3>
+						
+						<div id="ui-table-1">
+               				<p:dataTable paginatorAlwaysVisible="false" styleClass="table table-bordered table-striped" value="#{userAction.paymentTxnList}" var="txnList" rowIndexVar="index" paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rendered="#{not empty userAction.paymentTxnList}">
+                				<p:column ><h:outputText value="#{index + 1}"></h:outputText></p:column>
+                				<p:column headerText="Transaction ID"><h:outputText value="#{txnList.paymentTxnsId}"></h:outputText></p:column>
+                				<p:column headerText="Amount"><h:outputText value="#{txnList.amount}"></h:outputText></p:column>
+                				<p:column headerText="Details"><h:outputText value="#{txnList.TripDetails}"></h:outputText></p:column>
+                				<p:column headerText="Date"><h:outputText value="#{txnList.PaymentDT}"></h:outputText></p:column>
+                				<p:column headerText="Notes"><h:outputText value="#{txnList.Notes}"></h:outputText></p:column>
+                				<p:column headerText="Distance"><h:outputText value="#{txnList.Dist}"></h:outputText></p:column>
+                			</p:dataTable>
+                		</div>
+						<h3 class="muted"> Payment transfers</h3>
+						
+						<div id="ui-table-2">
+               				<p:dataTable paginatorAlwaysVisible="false" styleClass="table table-bordered table-striped" value="#{userAction.paymentRequestList}" var="requestList" rowIndexVar="index" paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rendered="#{not empty userAction.paymentTxnList}">
+                				<p:column ><h:outputText value="#{index + 1}"></h:outputText></p:column>
+                				<p:column headerText="Order ID"><h:outputText value="#{requestList.orderId}"></h:outputText></p:column>
+                				<p:column headerText="Mode of Payment"><h:outputText value="#{requestList.modeOrg}"></h:outputText></p:column>
+                				<p:column headerText="Amount"><h:outputText value="#{requestList.amount}"></h:outputText></p:column>
+                				<p:column headerText="Date"><h:outputText value="#{requestList.dateTime}"></h:outputText></p:column>
+                				<p:column headerText="CreditDebit"><h:outputText value="#{requestList.creditDebit}"></h:outputText></p:column>
+                				<p:column headerText="Status"><h:outputText value="#{requestList.status}"></h:outputText></p:column>
+                				<p:column headerText="Reason"><h:outputText value="#{requestList.reason}"></h:outputText></p:column>
+                			</p:dataTable>
+                		</div>
+						
+					</div>
+				</div>
+    		</div>
+    	</div>
+    </div>
+  </div>
+  
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+</pm:view>
+</pm:page>
+</f:view>
+</html>

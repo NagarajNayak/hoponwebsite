@@ -1,0 +1,1 @@
+$("document").ready(function(){$(".dropdown-menu li a").mousedown(function(){var b=$(this).parents(".dropdown");var a=b.children(":first-child");a.css("background-color","#2E3436");a.css("color","white")});$(".carousel").carousel({interval:4000})});

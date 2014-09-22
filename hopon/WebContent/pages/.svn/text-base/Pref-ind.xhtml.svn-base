@@ -1,0 +1,270 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+   <pm:header>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="bp circles" />
+  <meta name="author" content="Your name" />
+  <title>BP Circles</title>
+  <!-- Bootstrap -->
+  <link type="text/css" href="../resources/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap responsive -->
+  <link type="text/css" href="../resources/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <!-- Font awesome - iconic font with IE7 support --> 
+  <link type="text/css" href="../resources/css/font-awesome.css" rel="stylesheet" />
+  <link type="text/css" href="../resources/css/font-awesome-ie7.css" rel="stylesheet" />
+  <!-- Bootbusiness theme -->
+  <link type="text/css" href="../resources/css/boot-business.css" rel="stylesheet" />
+   <script type="text/javascript" src="../resources/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../resources/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../resources/js/boot-business.js"></script>
+</pm:header>
+<body>
+  <!-- Start: HEADER -->
+  <header>
+    <!-- Start: Navigation wrapper -->
+    <div class="navbar ">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="index.html" class="brand brand-bootbus">HopOn</a>
+          <!-- Below button used for responsive navigation -->
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- Start: Primary navigation -->
+          <div class="nav-collapse collapse">        
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+              </li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Contact us</a></li>
+              <li><a href="../pages/signup.xhtml" class="active-link">Sign up</a></li>
+              <li><a href="../pages/signin.xhtml">Sign in</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End: Navigation wrapper -->   
+  </header>
+  <!-- End: HEADER -->
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="page-header">
+        <center><h1>Preferences</h1></center>
+      </div>
+      <div class="row">
+        <div class="span6 offset3">
+          <div class="well">
+
+            <div id="myTabContent" class="tab-content">
+              <div class="tab-pane active in" id="login">
+                <form id="tab" class="form-horizontal">
+                  <fieldset>
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="Name">Name</label>
+                      <div class="controls">
+                        <input id="Name" name="Name" type="text" placeholder="Name" class="input-xlarge" required="" />
+
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="Address">Address</label>
+                      <div class="controls">
+                        <input id="Address" name="Address" type="text" placeholder="Address" class="input-xlarge" />
+
+                      </div>
+                    </div>
+
+                       <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="Address">City</label>
+                      <div class="controls">
+                        <input id="Text1" name="Address" type="text" placeholder="Address" class="input-xlarge" />
+
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="mobile">Mobile</label>
+                      <div class="controls">
+                        <input id="mobile" name="mobile" type="text" placeholder="Mobile" class="input-xlarge" />
+
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="selectbasic">Company</label>
+                      <div class="controls">
+                        <select id="select1" name="selectbasic" class="input-large">
+                          <option>New</option>
+                          <option>Infy</option>
+                          <option>Wells Fargo</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="locality">Locality</label>
+                      <div class="controls">
+                        <input id="locality" name="locality" type="text" placeholder="Locality" class="input-xlarge" />
+
+                      </div>
+                    </div>
+
+                  
+
+                   
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="age">Date of Birth</label>
+                      <div class="controls">
+                        <input id="age" name="age" type="text" placeholder="Age" class="input-xlarge" />
+
+                      </div>
+                    </div>
+
+                    <!-- Multiple Radios (inline) -->
+                    <div class="control-group">
+                      <label class="control-label" for="sex">Sex</label>
+                      <div class="controls">
+                        <label class="radio inline" for="sex-0">
+                          <input type="radio" name="sex" id="sex-0" value="M" checked="checked" />
+                          M
+                        </label>
+                        <label class="radio inline" for="sex-1">
+                          <input type="radio" name="sex" id="sex-1" value="F" />
+                          F
+                        </label>
+                      </div>
+                    </div>
+
+                       <!-- Password input-->
+                    <div class="control-group">
+                      <label class="control-label" for="password">Old Password</label>
+                      <div class="controls">
+                        <input id="password1" name="password" type="password" placeholder="Password" class="input-xlarge" required="" />
+
+                      </div>
+                    </div>
+                   
+
+                    <!-- Password input-->
+                    <div class="control-group">
+                      <label class="control-label" for="password">New Password</label>
+                      <div class="controls">
+                        <input id="password" name="password" type="password" placeholder="Password" class="input-xlarge" required="" />
+
+                      </div>
+                    </div>
+
+                    <!-- Password input-->
+                    <div class="control-group">
+                      <label class="control-label" for="re password">Retype New Password</label>
+                      <div class="controls">
+                        <input id="re password" name="re password" type="password" placeholder="Retype Password" class="input-xlarge" required="" />
+
+                      </div>
+                    </div>
+
+                    <!-- Select Multiple -->
+                    <div class="control-group">
+                      <label class="control-label" for="travel">Travel</label>
+                      <div class="controls">
+                        <select id="travel" name="travel" class="input-xlarge" multiple="multiple">
+                          <option>Consumer</option>
+                          <option>Provider</option>
+                          <option>Both</option>
+                          <option>Taxi</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- Select Basic -->
+                  
+                    <!-- add more -->
+                    <div class="control-group">
+                      <label class="control-label" for="textinput"></label>
+                      <div class="controls">
+                        <a href="#">Add More Vehicle</a>
+
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <div class="controls">
+                        <button type="submit" class="btn btn-primary ">Save</button>
+                        <button type="submit" class="btn ">Edit</button>
+                          <button type="submit" class="btn ">Edit Company</button>
+                      </div>
+                    </div>
+
+                  </fieldset>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="create">
+                <form id="tab" class="form-horizontal">
+                  <fieldset>
+                    <!-- Text input-->
+                  
+
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End: MAIN CONTENT -->
+  <!-- Start: FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="span6">
+          <p class="smv-footer">
+            &copy; 2013 BPCircles, Inc. All Rights Reserved.
+          </p>
+        </div>
+        <div class="span6">
+          <p class="smv-footer pull-right">
+            <a href="#">About Us</a> | <a href="#">Site Map</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End: FOOTER -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/boot-business.js"></script>
+</body>
+
+
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

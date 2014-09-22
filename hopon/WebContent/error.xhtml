@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+   <ui:include src="/pages/common/headerScript.xhtml"></ui:include>
+   <h:head></h:head>
+   <h:body>
+   <ui:include src="/pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        	
+          	<!-- Include leftPanel.xhtml -->
+          	<pm:content rendered="#{not empty sessionScope.LoggedIn}">
+          		<div class="span2">
+	          		<div class="smv-leftnav"><ui:include src="/pages/common/leftPanel.xhtml"></ui:include></div>
+	          	</div>
+          	</pm:content>
+  
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>Error Page</h1>
+          </div>
+          <div class="row">
+            <div class="span10">
+              
+			<pm:content rendered="#{requestScope['javax.servlet.error.status_code'] > 399 and requestScope['javax.servlet.error.status_code'] lt 500}">
+				<div class="row-fluid">
+					<div class="span4" style="color:#7BBBD6;font-size:140px;font-weight: 300;letter-spacing: -10px;line-height: 158px;margin-top: 0;text-align: right;">#{requestScope['javax.servlet.error.status_code']}</div>
+					<div class="span7 details">
+						<h2 class="muted"><p>Oops, You're lost.</p></h2>
+						<h3>Error #{requestScope['javax.servlet.error.status_code']}</h3>
+						<p>Unable to resolve the request "#{requestScope['javax.servlet.error.request_uri']}".</p>
+					</div>
+				</div>		
+			</pm:content>
+
+			<pm:content rendered="#{requestScope['javax.servlet.error.status_code'] ge 500}">
+				<div class="row-fluid">
+					<div class="span4" style="color:#7BBBD6;font-size:140px;font-weight: 300;letter-spacing: -10px;line-height: 158px;margin-top: 0;text-align: right;">#{requestScope['javax.servlet.error.status_code']}</div>
+					<div class="span7 details">
+						<h2 class="muted"><p>Oops, There is Some issue in Server.</p></h2>
+						<h3>Error #{requestScope['javax.servlet.error.status_code']}</h3>
+						<p>#{requestScope['javax.servlet.error.exception']}</p>
+					</div>
+				</div>	
+			</pm:content>
+              
+			 </div>
+              </div>
+            </div>
+            <!-- table section ends here -->
+        </div>
+        </div>
+        </div>
+        
+      <!-- End: MAIN CONTENT -->
+
+	<ui:include src="/pages/common/footer-content.xhtml"></ui:include>
+
+    </h:body> 
+</pm:view>
+</pm:page>
+</f:view>
+</html>

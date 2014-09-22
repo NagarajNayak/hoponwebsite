@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/hoponjavawebsite/!svn/ver/76/trunk/WebContent/pages/rides
+END
+master_gr-new-ride.xhtml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/hoponjavawebsite/!svn/ver/76/trunk/WebContent/pages/rides/master_gr-new-ride.xhtml
+END
+master-gr-completedride.xhtml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/hoponjavawebsite/!svn/ver/58/trunk/WebContent/pages/rides/master-gr-completedride.xhtml
+END
+master-gr-pending-trips.xhtml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/hoponjavawebsite/!svn/ver/71/trunk/WebContent/pages/rides/master-gr-pending-trips.xhtml
+END

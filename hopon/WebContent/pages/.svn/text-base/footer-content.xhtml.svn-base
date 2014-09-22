@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+  <!-- Start: FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="span6">
+          <p class="smv-footer">
+            &copy; 2013 BPCircles, Inc. All Rights Reserved.
+          </p>
+        </div>
+        <div class="span6">
+          <p class="smv-footer pull-right">
+            <a href="#">About Us</a> | <a href="#">Site Map</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End: FOOTER -->

@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>     
+        <pm:page>
+<pm:view>
+
+
+<pm:header>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="bp circles" />
+  <meta name="author" content="Your name" />
+  <title>BP Circles</title>
+  <!-- Bootstrap -->
+  <link type="text/css" href="../resources/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap responsive -->
+  <link type="text/css" href="../resources/css/bootstrap-responsive.min.css" rel="stylesheet" />
+  <!-- Font awesome - iconic font with IE7 support --> 
+  <link type="text/css" href="../resources/css/font-awesome.css" rel="stylesheet" />
+  <link type="text/css" href="../resources/css/font-awesome-ie7.css" rel="stylesheet" />
+  <!-- Bootbusiness theme -->
+  <link type="text/css" href="../resources/css/boot-business.css" rel="stylesheet" />
+   <script type="text/javascript" src="../resources/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../resources/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../resources/js/boot-business.js"></script>
+</pm:header>
+
+   <div class="span2">
+
+          <div class="smv-leftnav">
+            <div class="btn-toolbar">
+              <div class="btn-group">
+                 <h:form><h:commandLink styleClass="btn btn-small" value="Take Ride" action="#{userAction.takeRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B'}"></h:commandLink>
+                <h:commandLink styleClass="btn btn-small btn-success"  value="Give Rid" action="#{userAction.giveRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B'}"></h:commandLink>
+               </h:form>
+              </div>
+            </div>
+            <p:panel rendered="#{userAction.userRegistrationDTO.travel == 'P'}">
+            <div class="well" style="padding: 8px 0;">
+              <ul class="nav nav-list">
+                <li class="nav-header">
+                  Ride Section
+                </li>
+                 <li>
+                  <a href="../pages/provider/master_gr-new-ride.xhtml"><i class="icon-edit"></i> New Ride</a>
+                </li>
+                <li>
+                  <a href="../pages/provider/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a>
+                </li>
+               
+                <li>
+                  <a href="../pages/provider/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a>
+                </li>
+                 <li>
+                  <a href="../pages/provider/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a>
+                </li>
+                <li>
+                  <a href="../pages/provider/master-my-circle.xhtml"><i class="icon-globe"></i> My Circles</a>
+                </li>
+                 <li>
+                  <a href="../pages/provider/create-circle.xhtml"><i class="icon-cog"></i> Create Circle</a>
+                </li>
+                <li>
+                  <a href="../pages/provider/taxi-pending-trips-combine.xhtml"><i class="icon-share"></i> Combin Trip</a>
+                </li>
+                
+                <li >
+                  <a href="../pages/provider/tr_create_msg.html"><i class="icon-comment"></i> Create Message</a>
+                </li>
+                <li class="nav-header">
+                  Your Account
+                </li>
+                <li>
+                  <a href="../pages/provider/Pref-ind.xhtml"><i class="icon-user"></i>My Preferences</a>
+                </li>
+                <li>
+                  <a href="../pages/provider/master-manage-circle.xhtml"><i class="icon-cog"></i> Manage my Circle</a>
+                </li>
+                <li>
+                   <a href="../pages/provider/vehicle-master.xhtml"><i class="icon-globe"></i> Manage Vehicles</a>
+               </li>
+              </ul>
+            </div>
+            </p:panel>
+            
+            <p:panel rendered="#{userAction.userRegistrationDTO.travel == 'B'}">
+            <div class="well" style="padding: 8px 0;">
+              <ul class="nav nav-list">
+                <li class="nav-header">
+                  Ride Section
+                </li>
+                 <li>
+                  <a href="../pages/provider/master_gr-new-ride.xhtml"><i class="icon-edit"></i> New Ride</a>
+                </li>
+                <li>
+                  <a href="../pages/provider/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a>
+                </li>
+               
+                <li>
+                  <a href="../pages/provider/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a>
+                </li>
+                 <li>
+                  <a href="../pages/provider/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a>
+                </li>
+                <li>
+                  <a href="../pages/provider/master-my-circle.xhtml"><i class="icon-globe"></i> My Circles</a>
+                </li>
+                 <li>
+                  <a href="../pages/provider/create-circle.xhtml"><i class="icon-cog"></i> Create Circle</a>
+                </li>
+                <li>
+                  <a href="../pages/provider/taxi-pending-trips-combine.xhtml"><i class="icon-share"></i> Combin Trip</a>
+                </li>
+                
+                <li >
+                  <a href="../pages/provider/tr_create_msg.html"><i class="icon-comment"></i> Create Message</a>
+                </li>
+                <li class="nav-header">
+                  Your Account
+                </li>
+                <li>
+                  <a href="../pages/provider/Pref-ind.xhtml"><i class="icon-user"></i>My Preferences</a>
+                </li>
+                <li>
+                  <a href="../pages/provider/master-manage-circle.xhtml"><i class="icon-cog"></i> Manage my Circle</a>
+                </li>
+                 <li>
+                   <a href="../pages/provider/vehicle-master.xhtml"><i class="icon-globe"></i> Manage Vehicles</a>
+               </li>
+              </ul>
+            </div>
+            </p:panel>
+            
+            <p:panel rendered="#{userAction.userRegistrationDTO.travel == 'T'}">
+            <div class="well" style="padding: 8px 0;">
+              <ul class="nav nav-list">
+                <li class="nav-header">
+                  Ride Section
+                </li>
+               
+                <li>
+                  <a href="../pages/taxiowner/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a>
+                </li>
+               
+                <li>
+                  <a href="../pages/taxiowner/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a>
+                </li>
+                 <li>
+                  <a href="../pages/taxiowner/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a>
+                </li>
+                <li>
+                  <a href="../pages/taxiowner/master-my-circle.xhtml"><i class="icon-globe"></i> My Circles</a>
+                </li>
+                <li>
+                  <a href="../pages/taxiowner/taxi-pending-trips-combine.xhtml"><i class="icon-share"></i> Combin Trip</a>
+                </li>
+                 <li>
+                  <a href="../pages/taxiowner/taxi-link-manual.xhtml"><i class="icon-globe"></i> Ride Match</a>
+                </li>
+                <li >
+                  <a href="../pages/taxiowner/tr_create_msg.html"><i class="icon-comment"></i> Create Message</a>
+                </li>
+                <li class="nav-header">
+                  Your Account
+                </li>
+                <li>
+                  <a href="../pages/taxiowner/Pref-ind.xhtml"><i class="icon-user"></i>My Preferences</a>
+                </li>
+                 <li>
+                  <a href="../pages/taxiowner/Pref-ind.xhtml"><i class="icon-user"></i> Company Preferences</a>
+                </li>
+                <li class="active">
+                  <a href="../pages/taxiowner/vehicle-master.xhtml"><i class="icon-globe"></i> Manage Vehicles</a>
+                </li>
+                <li>
+                  <a href="../pages/taxiowner/master-manage-circle.xhtml"><i class="icon-cog"></i> Manage my Circle</a>
+                </li>
+                <li>
+                  <a href="../pages/taxiowner/Taxi-Vehicle-Driver-Admin.xhtml"><i class="icon-cog"></i>Taxi-Vehicle Manage</a>
+                </li>
+                <li>
+                  <a href="../pages/taxiowner/Create-trip.xhtml"><i class="icon-cog"></i>New Route</a>
+                </li>
+                <li>
+                  <a href="../pages/taxiowner/Reg-trips.xhtml"><i class="icon-cog"></i>Register Vehicle Rout</a>
+                </li>
+                <li>
+                  <a href="../pages/taxiowner/Registered-rides-view.xhtml"><i class="icon-cog"></i>Route-Vehicle</a>
+                </li>
+                
+              </ul>
+            </div>
+            </p:panel>
+            
+            <p:panel rendered="#{userAction.userRegistrationDTO.travel == 'C'}">
+            <div class="well" style="padding: 8px 0;">
+              <ul class="nav nav-list">
+                <li class="nav-header">
+                  Ride Section
+                </li>
+                 <li>
+                  <a href="../pages/consumer/master_gr-new-ride.xhtml"><i class="icon-edit"></i> New Ride</a>
+                </li>
+                <li>
+                  <a href="../pages/consumer/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a>
+                </li>
+               
+                <li>
+                  <a href="../pages/consumer/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a>
+                </li>
+                 <li>
+                  <a href="../pages/consumer/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a>
+                </li>
+                <li>
+                  <a href="../pages/consumer/master-my-circle.xhtml"><i class="icon-globe"></i> My Circles</a>
+                </li>
+                 <li>
+                  <a href="../pages/consumer/create-circle.xhtml"><i class="icon-cog"></i> Create Circle</a>
+                </li>
+                <li>
+                  <a href="../pages/consumer/taxi-pending-trips-combine.xhtml"><i class="icon-share"></i> Combin Trip</a>
+                </li>
+                
+                <li >
+                  <a href="../pages/consumer/tr_create_msg.html"><i class="icon-comment"></i> Create Message</a>
+                </li>
+                <li class="nav-header">
+                  Your Account
+                </li>
+                <li>
+                  <a href="../pages/consumer/Pref-ind.xhtml"><i class="icon-user"></i>My Preferences</a>
+                </li>
+                <li>
+                  <a href="../pages/consumer/master-manage-circle.xhtml"><i class="icon-cog"></i> Manage my Circle</a>
+                </li>
+               
+              </ul>
+            </div>
+            </p:panel>
+          </div>
+</div>
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

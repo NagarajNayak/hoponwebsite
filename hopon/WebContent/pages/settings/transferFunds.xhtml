@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"  
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common/headerScript.xhtml"></ui:include>
+<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+	<script type="text/javascript" src="../../resources/js/bootstrap-tooltip.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function(){$("[data-toggle='tooltip']").tooltip({trigger:"hover focus",delay:{show:500,hide:100}})});
+ 	</script>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+    	<div class="row">
+    		<div class="span2">
+          		<div class="smv-leftnav">
+          			<!-- Include leftPanel.xhtml -->
+          			<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include> 
+          		</div>    		
+    		</div>
+    		<div class="span10">
+    			<div class="page-header">
+			    	<h1>Bill Payment</h1>
+				</div>
+				<div class="row">
+					<div class="span10">
+	
+	 
+              ${userAction.clearScreenMessage()}
+			<p:panel id="messagePanel" style="border:none;margin-left: -18px;margin-right: -18px;">			
+				<c:forEach var="sucMessage" items="${userAction.successMessage}">
+						<div class="alert fade in alert-success" syle="display:none;">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							<span class="form-message">${sucMessage}</span>
+						</div>
+				</c:forEach>
+				<c:forEach var="errMessage" items="${userAction.errorMessage}">
+						<div class="alert fade in alert-error" syle="display:none;">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							<span class="form-message">${errMessage}</span>
+						</div>
+				</c:forEach>
+				${userAction.clearScreenMessage()}
+			</p:panel>	
+						<p:panel id="credit" style="width:0px;border:none;display:inline;"><h3 class="muted">Transfer Funds: Balance - ${userAction.userRegistrationDTO.totalCredit}</h3></p:panel>  
+	
+							<form action="#{request.contextPath}/PurchaseCredit" method="post">
+								
+<b>Top-up</b><br/> Transfer Amount (in INR) 
+ <input placeholder="100" value="100" id="amount" class="text-info" name="amount" style="width:70px;"/>
+
+<select onchange="$('#amount').val($(this).val());" style="width:70px;">
+<option>100</option>
+<option>200</option>
+<option>300</option>
+<option>400</option>
+<option>500</option>
+</select>
+
+
+
+							<br/>
+								<button class="btn btn-success" type="submit">Transfer</button>
+							</form>
+
+<h:form>
+<b> Withdraw </b><br/> Withdraw Amount (in INR) 
+<h:inputText value="" id="withdraAmount" style="width:70px;"/> 
+
+<h:commandButton styleClass="btn btn-success" value="Withdraw" style="margin-left:4px;">
+	<p:ajax listener="#{userAction.updateBalance}" process="@this,withdraAmount" update="@form,:messagePanel,:credit" />
+</h:commandButton>
+</h:form>		
+					 	${userAction.paymentTransaction()}
+						<pm:content rendered="#{empty userAction.duePaymentList}">
+							You dont have any dues.
+						</pm:content>
+						<div id="ui-table-1">
+						<pm:content rendered="#{not empty userAction.duePaymentList}">
+							<c:set var="totalAmount" value="0"/>
+							<c:forEach var="paymentList" items="${userAction.paymentList}">
+								<c:set var="totalAmount" value="${totalAmount + paymentList.amount}"/>
+							</c:forEach>
+							<c:if test="${totalAmount > 0}">
+							<form action="#{request.contextPath}/payment.do" method="post">
+								<button class="btn btn-danger" type="submit">Pay Your Due Bill</button>
+							</form>
+							</c:if>
+						</pm:content>
+						</div>
+					</div>
+				</div>
+    		</div>
+    	</div>
+    </div>
+  </div>
+  
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+
+
+
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

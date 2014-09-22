@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"    
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"       
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>  
+  <pm:page>  
+  <pm:view>
+		<ui:include src="../../pages/common/headerScript.xhtml"></ui:include>
+<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+	<script type="text/javascript" src="../../resources/js/bootstrap-tooltip.js"></script>
+	<script type="text/javascript" src="../../resources/js/bootstrap-modal.js"></script>
+	<script type="text/javascript">jQuery(document).ready(function(){setTimeout(function(){$("[data-toggle='tooltip']").tooltip({trigger:"hover focus",delay:{show:500,hide:100}})},2000)});</script>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="span2">
+
+          <div class="smv-leftnav">	
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>
+        
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>My Messages</h1>
+          </div>
+          <div class="row">
+            <div class="span10">
+			
+			<pm:content rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role != 'P' || sessionScope.user_role != 'B' || sessionScope.user_role == 'T'}">
+			
+			<script type="text/javascript">$(document).ready(function(){$("#refreshpagebutton1").bind("click",function(a){updateDataTable();modalUpdate()}).click();$("#refreshpagebutton2").bind("click",function(a){updateDataTable();modalUpdate()}).click()});</script>
+			<span style="display:none;">
+				#{userAction.allCompleateRideList()}
+				${userAction.showLoginUserUnreadMessageList()}
+			</span>
+				<p:commandButton id="refreshpagebutton1" value="Refresh page">
+					<p:ajax listener="#{userAction.messageForLoginUser}" update=":form1,:form2,:unreadmessagetab" oncomplete="updateDataTable();modalUpdate();return false;" onsuccess="updateDataTable1();modalUpdate();return false;" ></p:ajax>
+				</p:commandButton>
+				<p:commandButton id="refreshpagebutton2" value="Refresh page">
+					<p:ajax listener="#{userAction.memberForSelectedCircle}" update=":form3" oncomplete="updateDataTable();modalUpdate();return false;" onsuccess="updateDataTable1();modalUpdate();return false;" ></p:ajax>
+				</p:commandButton>
+			
+			<pm:content rendered="#{true}">
+				<h3 class="muted">Ride requests for approval</h3>  
+				<h:form styleClass="form-inline" id="form5">
+					<pm:content rendered="#{not empty userAction.allRideApprovalRequest}">
+					<div id="ui-table-7">
+					<p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.allRideApprovalRequest}" var="appReq">
+						<p:column width="7%" headerText="Req-ID"><h:outputText value="#{appReq.seekerID}"/></p:column>
+						<p:column width="27%" headerText="From">
+							<span data-toggle="tooltip" title="${appReq.fromAddress1}">${(fn:length(appReq.fromAddress1) > 25) ? fn:substring(appReq.fromAddress1, 0, 25) : appReq.fromAddress1} ${(fn:length(appReq.fromAddress1) > 25) ? '...' : ''}</span>
+						</p:column>
+						<p:column width="27%" headerText="To">
+							<span data-toggle="tooltip" title="${appReq.toAddress1}">${(fn:length(appReq.toAddress1) > 25) ? fn:substring(appReq.toAddress1, 0, 25) : appReq.toAddress1} ${(fn:length(appReq.toAddress1) > 25) ? '...' : ''}</span>
+						</p:column>
+						<p:column width="17%" headerText="Ride Date"><h:outputText value="#{appReq.startdateValue}"/></p:column>
+						<p:column width="10%" headerText="User"><h:outputText value="#{appReq.userName}"/></p:column>
+						<p:column width="5%">
+			              	<h:commandButton  styleClass="btn btn-small btn-success" value="Approve" >
+								<f:param value="1" name="approve"></f:param>
+								<f:param value="#{appReq.seekerID}" name="seekerId"></f:param>
+								<p:ajax process="@this" listener="#{userAction.approveOrRejectRide}" update="@form" oncomplete="updateDataTable();"/>
+							</h:commandButton>
+			            </p:column>
+			            <p:column width="5%">
+			              	<h:commandButton styleClass="btn btn-small btn-danger" value="Reject" >
+								<f:param value="1" name="decline"></f:param>
+								<f:param value="#{appReq.seekerID}" name="seekerId"></f:param>
+								<p:ajax process="@this" listener="#{userAction.approveOrRejectRide}" update="@form" oncomplete="updateDataTable();"/>
+							</h:commandButton>
+			       		</p:column>
+					</p:dataTable>
+					</div>
+					</pm:content>
+					<pm:content rendered="#{userAction.allRideApprovalRequest.size() eq 0}">
+             			<p class="alert alert-info">There is no ride request for approval.</p>
+              		</pm:content>
+				</h:form>
+				
+			</pm:content>
+
+			<pm:content rendered="${sessionScope.user_role == 'T'}">	
+			<h:form styleClass="form-inline" id="form4" >
+				<h3 class="muted">Circle-Taxi Affiliations Requests</h3>  
+				<pm:content rendered="#{not empty userAction.allCircleAffiliationRequest}">
+				<div id="ui-table-6">
+					<p:dataTable rendered="#{userAction.allCircleAffiliationRequest.size() gt 0}" 
+					styleClass="table table-bordered table-striped" value="#{userAction.allCircleAffiliationRequest}" 
+					var="affList">
+					<p:column headerText="Circle Name" width="">
+						<h:outputText value="#{affList.circleName}"/>
+					</p:column>
+					<p:column headerText="Circle Owner Name" width="">
+						<h:outputText value="#{affList.circleOwnerName}"/>
+					</p:column>
+					<p:column headerText="Circle Description" width="">
+						<span data-toggle="tooltip" title="${affList.circleDescription}">${(fn:length(affList.circleDescription) > 20) ? fn:substring(affList.circleDescription, 0, 20) : affList.circleDescription} ${(fn:length(affList.circleDescription) > 20) ? '...' : ''}</span>
+					</p:column>
+					
+					
+					<p:column headerText="Taxi Circle Name" width="">
+						<h:outputText value="#{affList.affilicatedCircleName}"/>
+					</p:column>
+					<p:column headerText="Taxi Circle Description" width="">
+						<span data-toggle="tooltip" title="${affList.affilicatedCircleDescription}">${(fn:length(affList.affilicatedCircleDescription) > 20) ? fn:substring(affList.affilicatedCircleDescription, 0, 20) : affList.affilicatedCircleDescription} ${(fn:length(affList.affilicatedCircleDescription) > 20) ? '...' : ''}</span>
+					</p:column>
+					
+					<p:column width="">
+						<h:commandLink value="Accept" styleClass="btn btn-small btn-success">
+							<f:param value="2" name="confirm"/>
+							<f:param value="#{affList.circleAffilicatedCircleId}" name="circleAffiliation"/>
+							<p:ajax listener="#{userAction.confirmOrDeclineAffiliatedCircle}" process="@this" update=":form4" oncomplete="updateDataTable();"/>
+						</h:commandLink>
+					</p:column>
+					<p:column width="">
+						<h:commandLink value="Decline" styleClass="btn btn-small btn-danger">
+							<f:param value="2" name="decline"/>
+							<f:param value="#{affList.circleAffilicatedCircleId}" name="circleAffiliation"/>
+							<p:ajax listener="#{userAction.confirmOrDeclineAffiliatedCircle}" process="@this" update=":form4" oncomplete="updateDataTable();"/>
+						</h:commandLink>
+					</p:column>
+					</p:dataTable>
+				</div>
+				</pm:content>
+				<pm:content rendered="#{userAction.allCircleAffiliationRequest.size() eq 0}">
+              		<p class="alert alert-info">There is no affiliation request for circle.</p>
+              	</pm:content>
+			</h:form>
+			</pm:content>
+			
+			<h:form id="form1" styleClass="form-inline">
+               <h3 class="muted">My circles - membership requests</h3> 
+               <pm:content rendered="#{not empty userAction.allCircleOwnerManagerUserList}">              
+          <div id="ui-table-1">
+              <p:dataTable rendered="#{userAction.allCircleOwnerManagerUserList.size() gt 0}" styleClass="table table-bordered table-striped" value="#{userAction.allCircleOwnerManagerUserList}" var="tripList">
+             
+              <p:column headerText="Circle" width="14%">
+              <h:outputText value="#{tripList.circleName}" />
+              </p:column>
+              <p:column headerText="Name" width="17%">
+              <h:outputText value="#{tripList.memberName}" />
+              </p:column>
+              <p:column headerText="Rating" width="5%">
+              <h:outputText value="#{(not empty tripList.userRating and tripList.userRating gt 0) ? tripList.userRating * 20 : 0}" /><!-- default value 4 -->
+              </p:column>
+              <p:column headerText="Address" width="27%">
+              <span data-toggle="tooltip" title="${tripList.address}">${(fn:length(tripList.address) > 20) ? fn:substring(tripList.address, 0, 20) : tripList.address} ${(fn:length(tripList.address) > 20) ? '...' : ''}</span>
+              </p:column>              
+              <p:column headerText="Note" width="27%">
+               <span data-toggle="tooltip" title="${tripList.circleDescription}">${(fn:length(tripList.circleDescription) > 20) ? fn:substring(tripList.circleDescription, 0, 20) : tripList.circleDescription} ${(fn:length(tripList.circleDescription) > 20) ? '...' : ''}</span>
+              </p:column>
+              <p:column width="5%">
+              	<h:commandButton  styleClass="btn btn-small btn-success" value="Accept " >
+              		<f:setPropertyActionListener target="#{userAction.circleOwnerManagerDTO}" value="#{tripList}" />
+					<f:param value="1" name="confirmByAdmin"></f:param>
+					<f:param value="#{tripList.circleID}" name="circleOwnerCircleID"></f:param>
+					<f:param value="#{tripList.userid}" name="circleOwnerUserID"></f:param>
+					<p:ajax process="@this" listener="#{userAction.confirmOrDeclineUser}" update="@form" oncomplete="updateDataTable();"/>
+				</h:commandButton>
+              </p:column>
+              <p:column width="5%">
+              	<h:commandButton styleClass="btn btn-small btn-danger" value="Decline" >
+              		<f:setPropertyActionListener target="#{userAction.circleOwnerManagerDTO}" value="#{tripList}" />
+					<f:param value="2" name="declineByAdmin"></f:param>
+					<f:param value="#{tripList.circleID}" name="circleOwnerCircleID"></f:param>
+					<f:param value="#{tripList.userid}" name="circleOwnerUserID"></f:param>
+					<p:ajax process="@this" listener="#{userAction.confirmOrDeclineUser}" update="@form" oncomplete="updateDataTable();"/>
+				</h:commandButton>
+             
+              </p:column>
+              
+              </p:dataTable>
+             </div>
+             </pm:content>
+              <pm:content rendered="#{userAction.allCircleOwnerManagerUserList.size() eq 0}">
+              <p class="alert alert-info">There is no membership request for circle.</p>
+              </pm:content>
+             </h:form>
+             
+
+
+              <h:form id="form2">
+              <h3 class="muted">Circle membership invitations</h3>
+              <pm:content rendered="#{not empty userAction.allCircleMembershipInvitationList}">
+             <div id="ui-table-2">               
+              <p:dataTable id="messagetable2" rendered="#{userAction.allCircleMembershipInvitationList.size() gt 0}" value="#{userAction.allCircleMembershipInvitationList}" var="circleList">
+              	<p:column headerText="Circle Name" width="25%"><h:outputFormat value="#{circleList.name}"/></p:column>
+              	<p:column headerText="Circle Owner name" width="25%">
+              		<h:outputFormat value="#{circleList.ownerName}" rendered="#{circleList.ownerName ne null}"/>
+              		<h:outputFormat value="NA" rendered="#{circleList.ownerName eq null}"/>
+              	</p:column>
+              	<p:column headerText="Circle Description" width="40%">
+              		<span data-toggle="tooltip" title="${circleList.description}"><h:outputFormat value="${(fn:length(circleList.description) > 20) ? fn:substring(circleList.description, 0, 20) : circleList.description} ${(fn:length(circleList.description) > 20) ? '...' : ''}" rendered="#{circleList.description ne null}"/></span>
+              		<h:outputFormat value="NA" rendered="#{circleList.description eq null}"/>
+              		
+              	</p:column>
+              	<p:column width="5%">
+              		<h:commandButton styleClass="btn btn-small btn-success" value="Accept ">
+              			<f:setPropertyActionListener target="#{userAction.circleOwnerManagerDTO.circleID}" value="22" />
+              			<f:setPropertyActionListener target="#{userAction.circleOwnerManagerDTO.userid}" value="11" />
+ 						<f:param value="1" name="confirmByUser"></f:param>
+ 						<f:param value="#{circleList.circleID}" name="circleOwnerCircleID"/>
+ 						<f:param value="#{userAction.userRegistrationDTO.id}" name="circleOwnerUserID"/>
+						<p:ajax process="@this" listener="#{userAction.confirmOrDeclineUser}" update="@form" oncomplete="updateDataTable();"/>
+              		</h:commandButton>
+              	</p:column>
+              	<p:column width="5%">
+              		<h:commandButton styleClass="btn btn-small btn-danger" value="Decline">
+						<f:param value="2" name="declineByUser"></f:param>
+ 						<f:param value="#{circleList.circleID}" name="circleOwnerCircleID"/>
+ 						<f:param value="#{userAction.userRegistrationDTO.id}" name="circleOwnerUserID"/>
+						<p:ajax process="@this" listener="#{userAction.confirmOrDeclineUser}" update="@form" oncomplete="updateDataTable();"/>
+              		</h:commandButton>
+              	</p:column> 
+              </p:dataTable>
+              
+		</div>
+		</pm:content>
+              <pm:content rendered="#{userAction.allCircleMembershipInvitationList.size() eq 0}">
+              <p class="alert alert-info">There is no invitation from any circle to join.</p>
+              </pm:content>
+             </h:form>
+             
+              
+              <h3 class="muted">Ride match confirmation messages</h3>
+              
+              <pm:content rendered="#{userAction.allCircleOwnerManagerUserList.size() eq 0}">
+              <p class="alert alert-info">There is no request for confirmation of ride match.</p>
+              </pm:content>
+              
+              <h3 class="muted">Rate Completed Rides</h3>
+        	<script type="text/javascript">$(document).ready(function(){setTimeout(function(){$("div[id*='_paginator_']").attr("style","background: none repeat scroll 0 0 #D9EDF7;border: 1px solid #55AA55;border-radius: 5px;color: #BD362F;font-family: Lucida Console;font-size: 14px;font-style: inherit;height: 28px;padding-bottom: 2px;padding-top: 4px;");$("div[id*='_paginator_']").find(".ui-paginator-current").attr("style","margin-top: 2px;vertical-align: top;");$("div[id*='_paginator_']").bind("click",function(){setTimeout(function(){modalUpdate();updateDataTable()},300);setTimeout(function(){modalUpdate();updateDataTable()},600);setTimeout(function(){modalUpdate();updateDataTable()},1000)});$("span[id$=\\:creation_time]").each(function(){$(this).html(Date.parseString($(this).html(),"yyyy-MM-dd HH:mm:ss.0").format("dd MMM yy, hh:mm a"))});$("#x4\\:popupButton1").click();$("#x3\\:msgUnread").click()},1000)});</script>      
+
+<h:form id="form3">
+<div id="ui-table-4">
+<p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.allMsgBoardCompleateRideList}" var="rideList" rowIndexVar="index" rendered="#{userAction.allMsgBoardCompleateRideList.size() gt 0 and userAction.ridePicker ==2}" paginator="true" rows="5" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"> 
+<p:column><h:outputText value="#{index + 1}"></h:outputText></p:column>                
+<p:column headerText="Travelled With" style="width:180px;"><h:outputText value="#{rideList.rideWith}"></h:outputText></p:column>
+<p:column headerText="Role" style="width:150px;"><h:outputText value="giver" /></p:column>                
+<p:column headerText="From" style="width:150px;"><h:outputText value="#{rideList.rideManagementFrom}" /></p:column>
+<p:column headerText="To" style="width:150px;"><h:outputText value="#{rideList.rideManagementTO}" /></p:column>
+<p:column headerText="Date"  style="width:300px;"><h:outputText value="#{rideList.rideManagementStartDate}"></h:outputText></p:column>               
+<p:column headerText="Rating" style="width:250px;">
+	<p:rating value="#{rideList.rateRideGiver}" readonly="true" rendered="#{not empty rideList.rideGiverNotes}" />
+	<span class="modal-link-span-3">
+		<p:commandLink id="modalDialogButton2" value="Rate Ride" style="font-size:10px" oncomplete="return false;" update=":modalPanel-3-panel" rendered="#{rideList.rideGiverNotes == null}">
+			<f:setPropertyActionListener target="#{userAction.poolRequestsDTO}" value="#{rideList}"></f:setPropertyActionListener>
+		</p:commandLink>
+	</span>
+</p:column>
+<p:column headerText="Notes"  style="width:180px;font-size:10px;"><h:outputText value="#{rideList.rideGiverNotes}" ></h:outputText></p:column>
+</p:dataTable>
+</div>
+
+<div id="ui-table-5">     
+<p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.allMsgBoardCompleateRideSeekerList}" var="rideList" rowIndexVar="index" rendered="#{userAction.allMsgBoardCompleateRideSeekerList.size() gt 0 and userAction.ridePicker ==1}" paginator="true" rows="5" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+<p:column ><h:outputText value="#{index + 1}"></h:outputText></p:column>
+<p:column headerText="Travelled With" style="width:190px;"><h:outputText value="#{rideList.rideWith}"></h:outputText></p:column>
+<p:column headerText="Role" style="width:150px;"><h:outputText value="Taker" /></p:column>                
+<p:column headerText="From" style="width:150px;"><h:outputText value="#{rideList.rideSeekerFrom}" /></p:column>
+<p:column headerText="To" style="width:150px;"><h:outputText value="#{rideList.rideSeekerTo}" /></p:column>
+<p:column headerText="Date"  style="width:300px;"><h:outputText value="#{rideList.rideSeekerStartDate}"></h:outputText></p:column>
+<p:column headerText="Rating" style="width:250px;">
+	<p:rating value="#{rideList.rateRideTaker}" readonly="true" rendered="#{not empty rideList.rideTakerNotes }"/>
+	<span class="modal-link-span-4">
+		<p:commandLink id="modalDialogButton3" value="Rate Ride" style="font-size:10px" oncomplete="return false;" update=":modalPanel-4-panel" rendered="#{rideList.rideTakerNotes == null}">
+			<f:setPropertyActionListener target="#{userAction.poolRequestsDTO}" value="#{rideList}"></f:setPropertyActionListener>
+		</p:commandLink>
+	</span>
+</p:column>
+<p:column headerText="Notes"  style="width:180px;font-size:10px;"><h:outputText value="#{rideList.rideTakerNotes}" ></h:outputText></p:column>
+</p:dataTable>
+</div>     
+              <pm:content rendered="#{userAction.allMsgBoardCompleateRideSeekerList.size() eq 0 and userAction.ridePicker eq 1}">
+              <p class="alert alert-info">No ride has been completed yet.</p>
+              </pm:content>
+              <pm:content rendered="#{userAction.allMsgBoardCompleateRideList.size() eq 0 and userAction.ridePicker eq 2}">
+              <p class="alert alert-info">No ride has been completed yet.</p>
+              </pm:content>              
+</h:form>
+    
+               
+              
+              <script type="text/javascript">jQuery(document).ready(function(){setTimeout(function(){$(".ui-row-toggler").each(function(){$(this).bind("click",function(){$(this).parent().find("a[id*=messageTempLink]").click()})});$("[id^=unreadmessagetab][id$=_paginator_bottom] .ui-icon").click(function(){setTimeout(function(){$(".ui-row-toggler").each(function(){$(this).bind("click",function(){$(this).parent().find("a[id*=messageTempLink]").click()})})},2000)})},2000)});</script>
+              
+              	
+              	<div id="ui-table-3">
+              	<h:form id="unreadmessagetab">
+              	<p:dataTable paginator="true" paginatorAlwaysVisible="false" rows="5" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" styleClass="table table-bordered table-striped" value="#{userAction.allUnreadMessageList}" var="message" rendered="#{userAction.allUnreadMessageList.size() gt 0}" >
+					<p:column headerText="Message" width="82%">
+						<h:outputFormat style="font-size:12px;" value="#{message.message}" ></h:outputFormat>
+              		</p:column>
+              		<p:column headerText="Date" width="18%">
+              			<h:outputFormat id="creation_time" value="#{message.createdByDt}"></h:outputFormat>
+              		</p:column>
+              	</p:dataTable>
+              	</h:form>              	
+              	</div>
+   				
+   				<h:form id="x3">
+   					<h:commandButton value="refresh" id="msgUnread" style="display:none;">
+   						<p:ajax listener="#{userAction.makeMessageReadAll}"></p:ajax>
+   					</h:commandButton>
+   				</h:form>
+   				
+   				<h:form id="x4">
+   					<h:inputText value="${userAction.allpopUpMessageList.size()}" id="count" style="display:none;"/>
+   					<h:commandLink value="popup1" id="popupButton" style="display:none;">
+   					<p:ajax listener="#{userAction.clearPopupMessage}"/>
+   					</h:commandLink>
+   					<h:commandLink value="popup2" id="popupButton1" style="display:none;">
+   					<p:ajax listener="#{userAction.populatePopupMessage}" update="@form,:panel5" oncomplete="clickyFn();"/>
+   					</h:commandLink>
+   					
+   				</h:form>
+   				<script type="text/javascript">function clickyFn(){if(!isNaN($("#x4\\:count").val())){if($("#x4\\:count").val()>0){$("#modalPanel-5").modal("show")}}$("#x4\\:popupButton").click()};</script>
+   				
+	                           
+        <div id="modalPanel-1" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Create Copy Of This Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-1-panel">
+        		<h:form>
+					<h:panelGrid columns="2">
+                		<h:outputText value="From"></h:outputText>
+						<h:outputText value="#{userAction.poolRequestsDTO.rideSeekerFrom}"></h:outputText>
+						<h:outputText value="To"></h:outputText>
+						<h:outputText value="#{userAction.poolRequestsDTO.rideSeekerTo}"></h:outputText>
+						<h:outputText value="Start Date"></h:outputText>
+						<p:calendar mindate="#{userAction.currentDate}" pattern="dd MMM yy, HH.mm a" value="#{userAction.rideRegistered.startDate}" ></p:calendar>
+						<h:commandButton styleClass="btn btn-info" value="Create" action="#{userAction.copyRideSeeker}">
+							<f:param value="rideSeekerFrompool" name="rideSeeker"></f:param>
+						</h:commandButton>
+					</h:panelGrid> 
+				</h:form>
+				</p:panel>
+        	</div>
+        </div> 
+				
+        
+        <div id="modalPanel-2" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Create Copy Of This Ride</h3></div>
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-2-panel">
+        		<h:form>
+                 <h:panelGrid columns="2">
+                   <h:outputText value="From"></h:outputText>
+                   <h:outputText value="#{userAction.poolRequestsDTO.rideManagementFrom}"></h:outputText>
+                   <h:outputText value="To"></h:outputText>
+                   <h:outputText value="#{userAction.poolRequestsDTO.rideManagementTO}"></h:outputText>
+                   <h:outputText value="Start Date"></h:outputText>
+                   <p:calendar mindate="#{userAction.currentDate}" pattern="dd MMM yy, HH.mm a" value="#{userAction.rideRegistered.startDate}" ></p:calendar>
+                   <h:commandButton styleClass="btn btn-info" value="Create" action="#{userAction.copyRideManager}">
+                   <f:param value="rideManagementFrompool" name="rideManagement"></f:param>
+                   </h:commandButton>
+                  </h:panelGrid> 
+                  </h:form>
+                  </p:panel>
+        	</div>
+        </div> 
+        
+        
+		<div id="modalPanel-3" class="modal hide fade in" style="display: none; ">  
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Rate And Note</h3></div>  
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-3-panel">
+            	<h:form>
+                	<h:panelGrid columns="2">
+                         <h:outputText value="Rate"></h:outputText>
+                         <p:rating value="#{userAction.poolRequestsDTO.rateRideGiver}"></p:rating>
+                         <h:outputText value="Write Notes"></h:outputText>
+                         <h:inputTextarea value="#{userAction.poolRequestsDTO.rideGiverNotes}"></h:inputTextarea>
+                         <h:outputText value=" "></h:outputText>
+                         <h:commandButton styleClass="btn btn-info" value="RateRide">
+                         <p:ajax oncomplete="modalUpdate();updateDataTable();" listener="#{userAction.rateAndWriteNotes}" process="@form" update="@form,:form3"></p:ajax>
+                         </h:commandButton>
+                	</h:panelGrid> 
+				</h:form>
+				</p:panel>
+        	</div>   
+      	</div>
+      	
+      	
+      	<div id="modalPanel-4" class="modal hide fade in" style="display: none; ">
+      		<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Write Note</h3></div>  
+        	<div class="modal-body">
+        		<p:panel style="border: medium none;" id="modalPanel-4-panel">
+        		<h:form>
+                 <h:panelGrid columns="2">
+                   <h:outputText value="Rate"></h:outputText>
+                   <p:rating value="#{userAction.poolRequestsDTO.rateRideTaker}"></p:rating>
+                   <h:outputText value="Write Notes"></h:outputText>
+                   <h:inputTextarea value="#{userAction.poolRequestsDTO.rideTakerNotes}"></h:inputTextarea>
+                   <h:commandButton styleClass="btn btn-info" value="RateRide">
+                   <p:ajax oncomplete="modalUpdate();updateDataTable();" listener="#{userAction.rateAndWriteNotes}" process="@form" update="@form,:form3"></p:ajax>
+                   <f:param value="taker" name="taker"></f:param>
+                   </h:commandButton>
+                  </h:panelGrid> 
+                  </h:form>
+                  </p:panel>
+        	</div>
+      	</div>
+      	
+   		<div id="modalPanel-5" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Message</h3></div>
+        	<div class="modal-body"> 
+        		<p:panel id="panel5" style="border:none;">       		
+        		<c:forEach var="msg" items="${userAction.allpopUpMessageList}">
+        		<p class="alert alert-block alert-danger">${msg.message}</p> 
+        		</c:forEach>
+        		</p:panel>
+        	</div>
+        </div>
+              
+			</pm:content>
+            </div>
+            <!-- table section ends here -->
+          </div>
+        </div>
+      </div> </div> </div><br/><br/><br/><br/><br/><br/>
+      <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+    </h:body>
+    </pm:view>
+    </pm:page>
+    
+   
+   </f:view>
+   </html>

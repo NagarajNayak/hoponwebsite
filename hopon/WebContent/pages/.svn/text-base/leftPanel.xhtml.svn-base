@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+
+
+<div class="btn-toolbar">
+	<div class="btn-group">
+		<h:form>
+	    	<h:commandLink id="takeride" styleClass="btn btn-small" value="Take Ride" action="#{userAction.takeRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==2}"></h:commandLink>
+	    	<h:commandLink id="giveride" styleClass="btn btn-small btn-success"  value="Give Ride" action="#{userAction.giveRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==2}"></h:commandLink>
+	    	<h:commandLink id="takeride1" styleClass="btn btn-small btn-success" value="Take Ride" action="#{userAction.takeRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==1}"></h:commandLink>
+	    	<h:commandLink id="giveride1" styleClass="btn btn-small"  value="Give Ride" action="#{userAction.giveRide}" rendered="#{userAction.userRegistrationDTO.travel == 'B' and userAction.ridePicker ==1}"></h:commandLink>
+	 	</h:form>
+	 </div>
+</div>
+	
+			
+	<c:set var="uri" value="${fn:substring(sessionScope.uri, fn:indexOf(sessionScope.uri, '/pages') + 7, -1)}"></c:set>
+	<script type="text/javascript">
+		$( document ).ready(function() {
+			$("ul#left-panel-ul li").each(function(){
+				if($(this).find("a").attr("href")) {
+					if($(this).find("a").attr("href").trim().indexOf("${uri}") > 0) {
+						$(this).attr("class", "active");
+					}
+				}
+			});
+		});
+	</script>	
+
+<div class="well" style="padding: 8px 0;">
+	<ul class="nav nav-list" id="left-panel-ul">
+		<li class="nav-header">Ride Section</li>
+		
+		<c:if test="#{userAction.validateUser() == 'C'}">
+			<li><a href="../consumer/master_gr-new-ride.xhtml"><i class="icon-edit"></i> New Ride</a></li>
+			<li><a href="../consumer/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a></li>
+			<li><a href="../consumer/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a></li>
+			
+			<li><a href="../consumer/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a></li>	
+			<li><a href="../consumer/master-my-circle.xhtml"><i class="icon-globe"></i> My Circles</a></li>	
+	       	<li><a href="../consumer/create-circle.xhtml"><i class="icon-cog"></i> Create Circle</a></li>	        
+			<li ><a href="#"><i class="icon-comment"></i> Create Message</a></li>
+		
+		</c:if>
+        
+        <c:if test="#{userAction.validateUser() == 'P' || userAction.validateUser() == 'B'}">
+			<li ><a href="../provider/master_gr-new-ride.xhtml"><i class="icon-edit"></i> New Ride</a></li>
+			<li><a href="../provider/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a></li>			
+	       	<li ><a href="../provider/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a></li>	
+	       	<li ><a href="../provider/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a></li>	
+	      	<li><a href="../provider/master-my-circle.xhtml"><i class="icon-globe"></i> My Circles</a></li>	
+			<li><a href="../provider/create-circle.xhtml"><i class="icon-cog"></i> Create Circle</a></li>	
+			<li ><a href="../provider/tr_create_msg.html"><i class="icon-comment"></i> Create Message</a></li>	
+        </c:if>
+     
+		
+        <c:if test="#{userAction.validateUser() == 'T'}">
+			<li><a href="../taxiowner/master-gr-pending-trips.xhtml"><i class="icon-share"></i> Pending Rides</a></li>
+			<li><a href="../taxiowner/master-gr-completedride.xhtml"><i class="icon-check"></i> Completed Rides</a></li>	
+			<li><a href="../taxiowner/master-gr-my-msg.xhtml"><i class="icon-envelope"></i> My Message</a></li>	
+			<li><a href="../taxiowner/master-my-circle.xhtml"><i class="icon-globe"></i> My Circles</a></li>	 
+	       	<li><a href="../taxiowner/taxi-pending-trips-combine.xhtml"><i class="icon-share"></i> Combine Trip</a></li>
+	       	
+			<li><a href="../taxiowner/tr_create_msg.html"><i class="icon-comment"></i> Create Message</a></li>			       	
+		</c:if>
+		
+		<c:if test="#{userAction.allCircleForLoginUserList == null and (userAction.validateUser() == 'C' || userAction.validateUser() == 'P' || userAction.validateUser() == 'B')}">
+			<li><a href="../taxiowner/taxi-link-manual.xhtml"><i class="icon-globe"></i> Ride Match</a></li>
+		</c:if>
+		
+		
+		<li class="nav-header">Your Account</li>
+		
+		<c:if test="#{userAction.validateUser() == 'C'}">
+			<li><a href="../consumer/Pref-ind.xhtml"><i class="icon-user"></i> My Preferences</a></li>
+			<c:if test="#{userAction.allCircleForLoginUserList != null}">
+				<li><a href="../consumer/master-manage-circle.xhtml"><i class="icon-cog"></i> Manage my Circle</a></li>
+			</c:if>
+		</c:if>
+		<c:if test="#{userAction.validateUser() == 'P' || userAction.validateUser() == 'B'}">
+			<li><a href="../provider/Pref-ind.xhtml"><i class="icon-user"></i> My Preferences</a></li>
+			<c:if test="#{userAction.allCircleForLoginUserList != null}">
+				<li><a href="../provider/master-manage-circle.xhtml"><i class="icon-cog"></i> Manage my Circle</a></li>
+			</c:if>
+    	    <li><a href="../provider/vehicle-master.xhtml"><i class="icon-globe"></i> Manage Vehicles</a></li>
+		</c:if>
+		<c:if test="#{userAction.validateUser() == 'T'}">		
+			<li><a href="../taxiowner/Pref-ind.xhtml"><i class="icon-user"></i> My Preferences</a></li>	
+			<li><a href="../taxiowner/Pref-ind.xhtml"><i class="icon-user"></i> Company Preferences</a></li>	
+	       	<li ><a href="../taxiowner/vehicle-master.xhtml"><i class="icon-globe"></i> Manage Vehicles</a></li>
+	       	
+	       	<c:if test="#{userAction.allCircleForLoginUserList != null}">
+				<li><a href="../taxiowner/master-manage-circle.xhtml"><i class="icon-cog"></i> Manage my Circle</a></li>
+			</c:if>
+		
+	       	<li><a href="../taxiowner/Taxi-Vehicle-Driver-Admin.xhtml"><i class="icon-cog"></i>Taxi-Vehicle Manage</a></li>
+			<li><a href="../taxiowner/Create-trip.xhtml"><i class="icon-cog"></i>New Route</a></li>
+			<li><a href="../taxiowner/Reg-trips.xhtml"><i class="icon-cog"></i>Register Vehicle Rout</a></li>
+			<li><a href="../taxiowner/Registered-rides-view.xhtml"><i class="icon-cog"></i>Route-Vehicle</a></li>
+		</c:if>
+
+	</ul>
+</div>
+</html>

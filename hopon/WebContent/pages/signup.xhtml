@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>     
+        <pm:page>
+<pm:view>
+	<ui:include src="../pages/common/headerScript.xhtml"></ui:include>
+
+<link href="../pages/css/excite-bike/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+ 
+   <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<script type="text/javascript">$(document).ready(function(){if($("#tab\\:travel").val().trim()=="T"){$("#tab\\:taxiCircleList").show();$("#tab\\:nonTaxiCircleList").hide();$("#tab\\:userRegisterCircle").val($("#tab\\:taxiCircleList").val())}else{$("#tab\\:taxiCircleList").hide();$("#tab\\:nonTaxiCircleList").show();$("#tab\\:userRegisterCircle").val($("#tab\\:nonTaxiCircleList").val())}$("#tab\\:taxiCircleList, #tab\\:nonTaxiCircleList").change(function(){$("#tab\\:userRegisterCircle").val($(this).val())})});</script>
+
+<script>var x=jQuery.noConflict();x(function(){x("#tab\\:Address").autocomplete({source:function(b,a){$("#tab\\:city_input").val("");$("#tab\\:pincode").val("");$("#tab\\:state").val("");$("#tab\\:country").val("");x.ajax({url:"http://maps.googleapis.com/maps/api/geocode/json",data:{sensor:false,address:b.term,components:"country:IN"},success:function(h){var m=new Array();for(var l in h.results){var f="";var c="";var d="";var n="";for(var g in h.results[l]["address_components"]){for(var e in h.results[l]["address_components"][g]["types"]){if(h.results[l]["address_components"][g]["types"][e]=="locality"){f=h.results[l]["address_components"][g]["long_name"];break}if(h.results[l]["address_components"][g]["types"][e]=="postal_code"){n=h.results[l]["address_components"][g]["long_name"];break}if(h.results[l]["address_components"][g]["types"][e]=="administrative_area_level_1"){c=h.results[l]["address_components"][g]["long_name"];break}if(h.results[l]["address_components"][g]["types"][e]=="country"){d=h.results[l]["address_components"][g]["long_name"];break}}}m.push({formatted_address:h.results[l]["formatted_address"],lat:h.results[l]["geometry"]["location"]["lat"],lng:h.results[l]["geometry"]["location"]["lng"],city:f,state:c,country:d,postal_code:n})}a($.map(m,function(i){return{label:i.formatted_address,value:i.formatted_address,lat:i.lat,lng:i.lng,city:i.city,state:i.state,country:i.country,postal_code:i.postal_code}}))}})},minLength:2,select:function(a,b){$("#tab\\:city_input").val(b.item.city);$("#tab\\:pincode").val(b.item.postal_code);$("#tab\\:state").val(b.item.state);$("#tab\\:country").val(b.item.country)}})});</script>
+
+<h:head></h:head>
+<h:body>
+  <ui:include src="../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="page-header">
+        <center><h1>Signup to HopOn</h1></center>
+      </div>
+      
+      <div class="row">
+        <div class="span6 offset3"> 
+        <pm:content>
+          <div class="well">
+           
+       
+            <div id="myTabContent" class="tab-content">
+              <div class="tab-pane active in" id="login">
+             <pm:content>
+                <h:form id="tab" styleClass="form-horizontal">
+					<div class="control-group">
+						<!-- <p:messages id="messages" showDetail="false" autoUpdate="true"/>  
+						<h:outputText value=" Email-ID[ #{userAction.forregistrationOnly.email_id} ]is All Ready Register Please Enter Other Or Click to Forgot password Link"  style="color:red;" rendered="#{userAction.forregistrationOnly.status == 'Fault'}"/> -->
+						<p:panel id="messagePanel" style="border:none;background: none repeat scroll 0 0 #f5f5f5;padding:0px;">		
+			<c:forEach var="sucMessage" items="${userAction.successMessage}">
+					<div class="alert fade in alert-success" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${sucMessage}</span>
+					</div>
+			</c:forEach>
+			<c:forEach var="errMessage" items="${userAction.errorMessage}">
+					<div class="alert fade in alert-error" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${errMessage}</span>
+					</div>
+			</c:forEach>	
+						${userAction.clearScreenMessage()}
+						</p:panel>	
+					</div>
+	<fieldset>
+		<div class="control-group">
+			<label class="control-label" for="Name">First Name</label>
+			<div class="controls">
+				<h:inputText id="Name" styleClass="input-xlarge" value="#{userAction.forregistrationOnly.first_name}" required="true" requiredMessage="#{msgs.firstName}"/>
+				<p:watermark for="Name" value="First Name" /> 
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="lastName">Last Name</label>
+			<div class="controls">
+				<h:inputText id="lastName" styleClass="input-xlarge" value="#{userAction.forregistrationOnly.last_name}" required="true" requiredMessage="#{msgs.lastName}"/>
+				<p:watermark for="lastName" value="Last Name" /> 
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="Address">Address</label>
+			<div class="controls">
+				<h:inputText id="Address" styleClass="input-xlarge" value="#{userAction.forregistrationOnly.address}" />
+				<p:watermark for="Address" value="Address" />  
+			</div>
+		</div>
+		<div class="control-group" style="display: inline-block;float: left;">
+			<label class="control-label" for="city">City</label>
+			<div class="controls">
+				<p:autoComplete required="true" requiredMessage="#{msgs.city}" id="city" style="display: inline-flex;width: 123px;" value="#{userAction.forregistrationOnly.city}" styleClass="input-xlarge" completeMethod="#{userAction.cityAutoCompleateMethod}" effect="" label="#{userAction.forregistrationOnly.city}"/>
+				<p:watermark for="city" value="City" />				 
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="pincode" style="padding-right: 10px; width: 62px;">Pin Code</label>
+			<div class="controls">
+				
+				<h:inputText id="pincode" style="width:77px;" styleClass="input-xlarge" value="#{userAction.forregistrationOnly.pincode}" required="true" requiredMessage="#{msgs['error.pin']}" validatorMessage="#{msgs['error.digit']}">
+					<f:validateRegex pattern="[0-9]+" ></f:validateRegex>
+				</h:inputText>
+				<p:watermark for="pincode" value="Pin Code" />  
+				<h:inputHidden id="state" value="#{userAction.forregistrationOnly.state}"/>
+				<h:inputHidden id="country" value="#{userAction.forregistrationOnly.country}"/>
+			</div>
+		</div>
+		<div class="control-group" style="display: inline-block;float: left;margin-top: -21px;">
+			<label class="control-label" for="mobile" >Mobile</label>
+			<div class="controls">
+				<h:inputText id="mobile" style="width:110px;float:left;" styleClass="input-xlarge" value="#{userAction.forregistrationOnly.mobile_no}" required="true" requiredMessage="#{msgs['error.mobileno']}" validatorMessage="Password: #{msgs['error.digit']}">
+					<f:validateRegex pattern="[0-9]+"></f:validateRegex>
+				</h:inputText>
+				<p:watermark for="mobile" value="Mobile No" />  
+				
+				<label class="control-label" for="sex" style="width: 30px;float:left;margin-left:8px;">Sex</label>
+				<h:selectOneRadio style="float: left;margin-left: 7px;margin-top: 5px;width: 75px;" id="sex" value="#{userAction.forregistrationOnly.gender}"  styleClass="input-xlarge" requiredMessage="#{msgs['error.sex']}">
+					<f:selectItem itemValue="male" itemLabel="M" />
+					<f:selectItem itemValue="female" itemLabel="F" />
+				</h:selectOneRadio>
+			</div>
+		</div>
+		<div class="control-group" style="display: table-caption;float:left;clear:both;">
+			<label class="control-label" for="email">Login Email</label>
+			<div class="controls">
+				<h:inputText  id="email"  class="input-xlarge" value="#{userAction.forregistrationOnly.email_id}" required="true" requiredMessage="#{msgs.email_required}" validatorMessage="#{msgs['error.email']}">
+					<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</h:inputText>
+				<p:watermark for="email" value="Email" /> 
+			</div>
+		</div>
+		<div class="control-group" style="float:left;clear:both;">
+			<label class="control-label" for="password">Password</label>
+			<div class="controls">  
+				<p:password id="password" styleClass="input-xlarge" value="#{userAction.forregistrationOnly.password}" 
+				match="re_password" validatorMessage="Password mismatch." label="password" requiredMessage="#{msgs['error.password']}" required="true"/>                    
+				<p:watermark for="password" value="Password" /> 
+			</div>
+		</div>
+		<div class="control-group" style="float:left;clear:both;">
+			<label class="control-label" for="re password">Retype Password</label>
+			<div class="controls">
+				<p:password id="re_password" styleClass="input-xlarge" value="#{userAction.forregistrationOnly.password}" 
+				requiredMessage="#{msgs['error.passwordAgain']}" label="re_password" required="true" />
+				<p:watermark for="re_password" value="Retype Password" />  
+			</div>
+		</div>
+		<div class="control-group" style="float:left;clear:both;">
+			<label class="control-label" for="travel">Travel as</label>
+			<div class="controls">
+				<h:selectOneMenu onchange="if($(this).val() == 'T') { $('#tab\\:taxiCircleInput').show(); $('#tab\\:nonTaxiCircleInput').hide(); } else { $('#tab\\:taxiCircleInput').hide(); $('#tab\\:nonTaxiCircleInput').show(); }" style="width: 125px; display: table-caption;" id="travel"  styleClass="input-xlarge" value="#{userAction.forregistrationOnly.travel}">
+					<f:selectItem itemValue="C" itemLabel="Passenger" />
+					<f:selectItem itemValue="P" itemLabel="Driver" />
+					<f:selectItem itemValue="B" itemLabel="Both" />
+					<f:selectItem itemValue="T" itemLabel="Taxi" />
+				</h:selectOneMenu>
+			</div>
+		</div>
+		<div class="control-group" style="float:left;clear:both;">
+			<label class="control-label" for="travel">Circle</label>
+			<div class="controls">
+				<!-- <h:selectOneListbox size="1" id="taxiCircleList" style="display:none;width: 125px; display: none;">
+				<f:selectItem itemLabel="Select Taxi Circle" itemValue="0"></f:selectItem>
+				<f:selectItems value="#{userAction.allTaxiCilcleDropDownList}"></f:selectItems>
+				</h:selectOneListbox>
+				
+				<h:selectOneListbox size="1" id="nonTaxiCircleList"  style="width: 125px; display: none;">
+				<f:selectItem itemLabel="Select Non-Taxi Circle" itemValue="0"></f:selectItem>
+				<f:selectItems value="#{userAction.allNonTaxiCilcleDropDownList}"></f:selectItems>
+				</h:selectOneListbox>
+				
+				<h:inputHidden value="${userAction.userRegisterCircle}" id="userRegisterCircle"/>
+				 -->
+				<!-- 
+				
+				
+				p:autoComplete id="taxiCircleInput" completeMethod="{userAction.autoTaxiCircle}" 
+				minQueryLength="2" var="p" itemLabel="{p.name}" 
+				itemValue="{p.circleID} " value="{userAction.autoTaxiCircleValue}" converter="{themeConverter}" -->
+				
+				<p:autoComplete id="nonTaxiCircleInput" completeMethod="#{userAction.autoTaxiCircle}" minQueryLength="2" var="p" itemLabel="#{p.name}" itemValue="#{p.circleID} " value="#{userAction.autoNonTaxiCircleValue}"/>
+				<p:autoComplete id="taxiCircleInput" completeMethod="#{userAction.autoNonTaxiCircle}" minQueryLength="2" var="p" itemLabel="#{p.name}" itemValue="#{p.circleID} " value="#{userAction.autoTaxiCircleValue}" style="display:none;"/>
+			</div>
+		</div>
+		<div class="control-group" style="float:left;clear:both;">
+			<div class="controls">
+				<h:commandLink styleClass="btn btn-success" value="Register" action="#{userAction.registerUser}" /> &nbsp;
+				<h:commandLink styleClass="btn btn-default" value="Clear" action="#{userAction.clearLoginData}" />
+				<pm:content rendered="#{not empty userAction.forregistrationOnly.id}"> &nbsp;
+					<a data-toggle="modal" href="#vehicle-form">Add Vehicle</a>
+				</pm:content>
+			</div>
+		</div>
+	</fieldset>
+</h:form>				
+				
+               </pm:content>
+              </div>
+              
+            </div>
+            
+          </div>
+          </pm:content>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	<div id="vehicle-form" class="modal hide fade in" style="display: none; ">  
+		<pm:content>
+			<h:form styleClass="form-inline" id='vehicle-add-form'>
+				<div class="modal-header">  
+					<a class="close" data-dismiss="modal">×</a>  
+					<h3>Add Vehiclel</h3>  
+				</div>  
+				<div class="modal-body">  
+					<h:panelGrid columns="2">
+					<h:outputText value="Make"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.make}"></h:inputText> 
+					<h:outputText value="Model"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.model}"></h:inputText> 
+					<h:outputText value="Color"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.color}"></h:inputText> 
+					<h:outputText value="Reg.No."></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.reg_NO}"></h:inputText>&nbsp;  
+					<h:commandButton styleClass="btn btn-success" value="Save">
+						<p:ajax listener="#{userAction.registerVehicleMaster}" process=":vehicle-add-form" update=":vehicle-add-form"></p:ajax>
+					</h:commandButton>
+					</h:panelGrid>
+					            
+				</div> 
+			</h:form>
+		</pm:content> 
+   	</div>
+    <!-- End of modal -->
+  <!-- End: MAIN CONTENT -->
+  	<ui:include src="../pages/common/footer-content.xhtml"></ui:include>
+ </h:body>
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

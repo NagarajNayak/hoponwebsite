@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+
+	
+	<c:set var="uri" value="${fn:substring(sessionScope.uri, fn:indexOf(sessionScope.uri, '/pages') + 7, -1)}"></c:set>
+	<script type="text/javascript">
+		$( document ).ready(function() {
+			$("ul#left-panel-ul li").each(function(){
+				if($(this).find("a").attr("href")) {
+					if($(this).find("a").attr("href").trim().indexOf("${uri}") > 0) {
+						$(this).attr("class", "active");
+					}
+				}
+			});
+		});
+	</script>
+	
+<div class="well" style="padding: 8px 0;">
+	<ul class="nav nav-list" id="left-panel-ul">
+		
+	</ul>
+</div>
+</html>

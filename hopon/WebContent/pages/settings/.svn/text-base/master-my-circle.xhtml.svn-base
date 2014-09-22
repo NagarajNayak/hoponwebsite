@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common//headerScript.xhtml"></ui:include>
+   <h:head></h:head>
+   <h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="span2">
+
+          <div class="smv-leftnav">	
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>  
+  
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>My Circles</h1>
+          </div>
+          <div class="row">
+            <div class="span10">
+			
+			<pm:content rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'P' || sessionScope.user_role == 'B' || sessionScope.user_role == 'T' }">
+			<pm:content>
+			<h3 class="muted">List of Circle belongs to <h:outputText value="#{userAction.userRegistrationDTO.first_name}" /></h3>
+			<h:form>
+          	<div id="ui-table-1">
+              	<p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.allMemberCircleList}" var="circle"> <!--  if want to revert back use classes table  table-striped -->
+                <p:column headerText="Circle Name" style="width:160px;">
+                <h:outputText value="#{circle.name}" />
+                </p:column>
+                <p:column headerText="Creater" style="width:150px;">
+                <h:outputText value="#{circle.ownerName}" />
+                </p:column>
+                
+                <p:column headerText="Date of Creation" style="width:150px;">
+                <h:outputText value="#{circle.date_of_creation}" />
+                </p:column>
+                <p:column headerText="Description" style="width:250px;">
+                <h:outputText value="#{circle.description}" />
+                </p:column>
+                <p:column  style="width:180px;">
+                <h:commandLink value="leave"  >
+                <f:setPropertyActionListener target="#{userAction.circleDTO}" value="#{circle}"></f:setPropertyActionListener>
+                <p:ajax update="@form" oncomplete=" modalUpdate();updateDataTable();" listener="#{userAction.declineCircle}"/>
+                </h:commandLink>
+				<pm:content rendered="#{sessionScope.user_role == 'C'}">	
+	                <h:commandLink value="pending" rendered="#{circle.autoEnroll_YN ==2}"/>
+	           	</pm:content>
+                </p:column>
+                   
+              	</p:dataTable>
+			</div>
+			</h:form>
+			
+			<h3 class="muted">List of Circle created by <h:outputText value="#{userAction.userRegistrationDTO.first_name}" /></h3>
+			<h:form>
+          	<div id="ui-table-3">
+				<p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.allCircleList}" var="circle"> <!--  if want to revert back use classes table  table-striped -->
+                <p:column headerText="Circle Name" style="width:160px;">
+                <h:outputText value="#{circle.name}" />
+                </p:column>
+                <p:column headerText="Creater" style="width:150px;">
+                <h:outputText value="#{userAction.userRegistrationDTO.first_name}" />
+                </p:column>                
+                <p:column headerText="Date of Creation" style="width:150px;">
+                <h:outputText value="#{circle.date_of_creation}" />
+                </p:column>
+                <p:column headerText="Description" style="width:250px;">
+                <h:outputText value="#{circle.description}" />
+                </p:column>
+                <!-- <p:column  style="width:180px;">
+                <h:commandLink value="leave" action="#{userAction.declineCircle}" rendered="#{userAction.userRegistrationDTO.id != circle.circleOwner_Member_Id_P and circle.autoEnroll_YN ==1}" >
+                <f:setPropertyActionListener target="#{userAction.circleDTO}" value="#{circle}"></f:setPropertyActionListener>
+                </h:commandLink>
+				<pm:content rendered="#{sessionScope.user_role == 'C'}">	
+	                <h:commandLink value="pending" rendered="#{circle.autoEnroll_YN ==2}"/>
+	           	</pm:content>
+                </p:column> -->
+                   
+              	</p:dataTable>
+			</div>
+			</h:form>
+         	</pm:content>
+                  
+                  <!-- section for search -->
+			<pm:content>
+			<h:form class="form-inline">
+			<div class="controls">
+			    <h:inputText value="#{userAction.circleDTO.name}"></h:inputText>&nbsp;
+				<h:commandButton styleClass="btn btn-info" value="Search">
+					<p:ajax process="@form" update="@form,:searchResult" listener="#{userAction.findCircleByName}" oncomplete="modalUpdate();updateDataTable();"/>
+				</h:commandButton>
+			</div>
+			</h:form>
+			</pm:content>
+                  
+			<div id="ui-table-2">
+			<pm:content>
+			<h:form id="searchResult">
+			<p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.allCircleListByName}" var="circle" rendered="#{not empty userAction.allCircleListByName}"> <!--  if want to revert back use classes table  table-striped -->
+				<p:column headerText="Circle Name" style="width:160px;">
+					<h:outputText value="#{circle.name}" />
+				</p:column>
+				<p:column headerText="Creater" style="width:150px;">
+					<h:outputText value="#{circle.name}" />
+				</p:column>
+				<p:column headerText="Date of Creation" style="width:150px;">
+					<h:outputText value="#{circle.date_of_creation}" />
+				</p:column>
+				<p:column headerText="Description" style="width:250px;">
+					<h:outputText value="#{circle.description}" />
+				</p:column>
+				<p:column  style="width:180px;">
+					<h:commandLink value="Join ?" rendered="#{circle.status eq null}">
+					<f:setPropertyActionListener target="#{userAction.circleDTO}" value="#{circle}"></f:setPropertyActionListener>
+					<p:ajax listener="#{userAction.joinCircle}" update="@form" oncomplete=" modalUpdate();updateDataTable();"/>
+					</h:commandLink>
+                <h:outputText value="Pending approval" style="font-style:italic" rendered="#{circle.status ne null}" /> 
+				</p:column>
+			</p:dataTable>
+			</h:form>
+			</pm:content>
+			</div>
+                   
+			</pm:content>
+			
+			</div>
+              </div>
+            </div>
+            <!-- table section ends here -->
+        </div>
+        </div>
+        </div>
+        
+      <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+    </h:body> 
+</pm:view>
+</pm:page>
+</f:view>
+</html>

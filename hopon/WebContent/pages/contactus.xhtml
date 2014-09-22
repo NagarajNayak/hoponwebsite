@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+	<ui:include src="../pages/common/headerScript.xhtml"></ui:include>
+	<h:head></h:head>
+<body>
+ 	<ui:include src="../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->  			
+  			
+  			
+  			
+  <div class="content">
+    <div class="container">
+      <div class="page-header">
+        <center><h1>Contact Us</h1></center>
+      </div>
+      <div class="row">
+        <div class="span6 offset3">
+          <!-- login section -->
+          <div class="well"><br/>
+                    
+           <pm:content>
+            <h:form id="tab" styleClass="form-horizontal" onsubmit="return validateForm();" >
+              <fieldset>
+                <div class="control-group">
+					<label class="control-label" for="FirstName">First Name</label>
+                  	<div class="controls">
+                    	<h:inputText id="FName" styleClass="input-large" value="#{userAction.contactUsDTO.firstName}"/>
+                    	
+					</div>
+                </div>
+				<div class="control-group">
+					<label class="control-label" for="LastName">Last Name</label>
+                  	<div class="controls">
+                    	<h:inputText id="LName" styleClass="input-large" value="#{userAction.contactUsDTO.lastName}"/>
+                    	<span style="color:#FF0000" id="LName_msg"></span>
+					</div>
+                </div>
+                <div class="control-group">
+					<label class="control-label" for="Mobile">Mobile</label>
+                  	<div class="controls">
+                    	<h:inputText id="Mobile" styleClass="input-large" value="#{userAction.contactUsDTO.mobile}"/>
+                    	<span style="color:#FF0000" id="mobile"></span>
+					</div>
+                </div>
+                <div class="control-group">
+					<label class="control-label" for="EmailId">EmailId</label>
+                  	<div class="controls">
+                    	<h:inputText id="EmailId" styleClass="input-large" value="#{userAction.contactUsDTO.emailId}"/>
+                    	<span style="color:#FF0000" id="email"></span>
+					</div>
+                </div>
+                <div class="control-group">
+					<label class="control-label" for="Comment">Comment</label>
+                  	<div class="controls">
+                    	<h:inputText id="Comment" styleClass="input-large" value="#{userAction.contactUsDTO.comment}"/>
+                    	<span style="color:#FF0000" id="comment"></span>
+					</div>
+                </div>
+               <div class="control-group">
+                  <div class="controls">
+                    <h:commandButton onclick="return true;" style="float:left;margin-right:2px;height: 30px;"
+                     styleClass="btn btn-primary" value="Click Here" action = "#{userAction.contactUs}"/>
+                   
+                  </div>
+                </div>
+		        	</fieldset>
+					
+           </h:form>
+          </pm:content>
+         
+          </div>
+          <!-- end of login section -->
+        </div>
+      </div>
+    </div>
+  </div><br/><br/><br/><br/><br/>
+  <!-- End: MAIN CONTENT -->
+ 	<ui:include src="../pages/common/footer-content.xhtml"></ui:include>
+</body>
+</pm:view>
+</pm:page>
+  </f:view>
+  </html>

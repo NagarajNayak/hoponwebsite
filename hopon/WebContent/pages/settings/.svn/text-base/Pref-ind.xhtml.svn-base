@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"      
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common/headerScript.xhtml"></ui:include>
+<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+    	<div class="row">
+    		<div class="span2">
+          		<div class="smv-leftnav">
+          			<!-- Include leftPanel.xhtml -->
+          			<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include> 
+          		</div>    		
+    		</div>
+    		<div class="span10">
+    			<div class="page-header">
+			    	<h1>Preferences</h1>
+				</div>
+				<div class="row">
+					<div class="span10">
+						<pm:content rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'B' || sessionScope.user_role == 'P' ||sessionScope.user_role == 'T'}">
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane active in" id="login">
+		<h:form id="tab" class="form-horizontal">
+			<p:messages id="messages" showDetail="false" autoUpdate="true"/> 
+			<pm:content rendered="#{userAction.userRegistrationDTO.oldPassword == 'Fault'}">
+			<span class="error"><h:outputText value="YOUR OLD PASSWORD IS WRONG PLZ ENTER CORRECT PASSWORD" ></h:outputText></span>
+			</pm:content>
+			<br></br>
+			
+			<fieldset>
+			<span class="span5">
+				<div class="control-group">
+					<label class="control-label">User Rating</label>
+					<div class="controls">
+						<!-- <p:rating readonly="true" value="#{userAction.userRegistrationDTO.averageRaing ne null ? 2 : userAction.userRegistrationDTO.averageRaing}"></p:rating> -->
+						${userAction.userRatingUpdate()}
+						<c:set var="rate_val" value="#{userAction.userRegistrationDTO.averageRaing ne null ? userAction.userRegistrationDTO.averageRaing * 20 : 0}"/>
+						<script type="text/javascript">
+						$(document).ready(function(){
+							$("#rating_bar1").css("width", Math.round(#{rate_val}) + "%");
+							$("#rating_text_bar").html(Math.round(#{rate_val} / 20) + " out of 5");
+							var val = $('#tab\\:user_default_time').val();
+							if(val.length > 5) {
+								$('#tab\\:user_default_time').val(val.substring(0, 5));
+							}
+							$('#tab\\:user_default_time').timepicker({
+								minuteMin:10,
+								minuteMax:60,
+								hourMax:0,
+								stepMinute: 10,
+							});
+						});
+						</script>
+						<c:set var="rat_val" value="#{userAction.userRegistrationDTO.averageRaing ne null ? 0 : userAction.userRegistrationDTO.averageRaing * 20}"/>
+						<div style="width: 210px;background: none repeat scroll 0px 0px #F9EC73; border: 1px solid #4BAAD3; border-radius: 4px; box-shadow: 0px 0px 2px 0.5px #5CBCB5; height: 19px; float: left; position: relative;">
+							<span id="rating_bar1" style="background: none repeat scroll 0 0 #95EC73; border-radius: 4px;display: inline;position: absolute;height: 100%;">&nbsp;</span>
+						</div>
+						<span id="rating_text_bar" style="display: inline; float: left; position: relative; margin-left: 12px; color: rgb(83, 168, 83);"> </span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="Name">First Name</label>
+					<div class="controls"><h:inputText id="Name"  styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.first_name}" required="true" requiredMessage="#{msgs.firstName}"/></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="lastName">Last Name</label>
+					<div class="controls"><h:inputText id="lastName"  styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.last_name}" required="true" requiredMessage="#{msgs.lastName}"/></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="Address">Address</label>
+					<div class="controls"><h:inputTextarea id="Address" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.address}" /></div>
+				</div>
+				<div class="control-group" style="display: block; float: left;">
+					<label class="control-label" for="city">City</label>
+					<div class="controls">
+					<p:autoComplete required="true" requiredMessage="#{msgs.city}" id="city" style="display: inline-flex;width: 123px;" size="640" value="#{userAction.userRegistrationDTO.city}" styleClass="input-xlarge" 
+                      completeMethod="#{userAction.cityAutoCompleateMethod}" effect="" label="#{userAction.userRegistrationDTO.city}"> </p:autoComplete>
+					</div>
+				</div>
+				<div class="control-group" style="float: left; display: inline;">
+					<label class="control-label" for="pincode" style="padding-right: 10px; width: 62px;">Pin Code</label>
+					<div class="controls" style="margin: 1px 0 0 1px;display: block;float: left;">
+						<h:inputText id="pincode" style="width:77px;" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.pincode}" required="true" requiredMessage="#{msgs['error.pin']}" validatorMessage="#{msgs['error.digit']}">
+							<f:validateRegex pattern="[0-9]+" ></f:validateRegex>
+						</h:inputText>
+					</div>
+				</div>
+				<div class="control-group" style="float: left; clear: both; display: inline;">
+					<label class="control-label" for="mobile">Mobile</label>
+					<div class="controls">
+						<h:inputText id="mobile" style="width:110px;" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.mobile_no}" required="true" requiredMessage="#{msgs['error.mobileno']}" validatorMessage="#{msgs['error.digit']}">
+							<f:validateRegex pattern="[0-9]+"></f:validateRegex>
+						</h:inputText>						
+					</div>
+				</div>
+				<div class="control-group" style="float: left; margin: 0px 1px 2px 2px; padding: 2px; display: inline;">
+					<label class="control-label" for="sex" style="width: 26px;">Sex</label>
+					<div class="controls" style="margin-top: 7px; margin-left: 43px;">
+						<h:selectOneRadio style="width:75px;" id="sex" value="#{userAction.userRegistrationDTO.gender}"  styleClass="input-xlarge" requiredMessage="#{msgs['error.sex']}">
+							<f:selectItem itemValue="m" itemLabel="M" />
+							<f:selectItem itemValue="f" itemLabel="F" />
+						</h:selectOneRadio>
+					</div>
+				</div>
+				<div class="control-group" style="float: left; display: inline; width: 100%;">
+					<label class="control-label" for="travel">Travel</label>
+					<div class="controls">
+						<h:selectOneMenu id="travel" style="width: 113px; float: left;" styleClass="input-large" value="#{userAction.userRegistrationDTO.travel}">
+							<f:selectItem itemValue="C" itemLabel="Passenger" />
+							<f:selectItem itemValue="P" itemLabel="Driver" />
+							<f:selectItem itemValue="B" itemLabel="Both" />
+							<f:selectItem itemValue="T" itemLabel="Taxi" />
+						</h:selectOneMenu>
+						<label style="margin: 5px 5px auto 9px; float: left;">Min Wait Time</label>
+						<div class="input-append bootstrap-timepicker">
+							<h:inputText readonly="true" style="width: 37px; display: inline; margin-left: 2px;" id="user_default_time" value="#{userAction.userRegistrationDTO.defaultTimeSlice}"></h:inputText>
+							<span class="add-on"><i class="icon-time"></i></span>
+						</div>
+					</div>			
+				</div>
+			</span>
+			
+			<span class="span4">
+				<div class="control-group">
+					<span class="muted span2"><strong>Change Password </strong> &nbsp;
+					<h:selectBooleanCheckbox id="id" value="#{userAction.recurring}" styleClass="input-xlarge">
+						<f:ajax event="click" render="@form" />
+					</h:selectBooleanCheckbox></span>
+				</div>
+				<pm:content id="pannel" rendered="#{userAction.recurring}">
+					<div class="control-group">
+						<label class="control-label" for="password1">Old Password</label>
+						<div class="controls">
+							<h:inputSecret id="password1" required="true" requiredMessage="#{msgs['error.passwordold']}" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.oldPassword}" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="password2">New Password</label>
+						<div class="controls">
+							<p:password id="password2" required="true" requiredMessage="#{msgs['error.password']}" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.repassword}" match="re_password" label="password"/> 
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="re_password">Retype New Password</label>
+						<div class="controls">
+							<p:password id="re_password" requiredMessage="#{msgs['error.passwordAgain']}" styleClass="input-xlarge" value="#{userAction.userRegistrationDTO.repassword1}"/> 
+						</div>
+					</div>
+				</pm:content>
+			
+			</span>
+			</fieldset>
+			<div class="control-group">
+				<div class="controls">
+					<label></label>
+					<h:commandLink  styleClass="btn btn-success" value="Save">
+						<p:ajax listener="#{userAction.editUserInformation}" process=":tab" update=":tab,:messagePanel"></p:ajax>
+					</h:commandLink>
+				</div>
+			</div>
+		</h:form>
+		<h:form> 
+			<h:commandButton styleClass="btn " value="Edit Company" action="#{userAction.showEditCompanyPage}"  rendered="#{false and  not empty userAction.listofCompanyForLoginUser}" />
+		</h:form>
+
+		${userAction.clearScreenMessage()}
+		<p:panel id="messagePanel" style="border:none;">			
+			<c:forEach var="sucMessage" items="${userAction.successMessage}">
+					<div class="alert fade in alert-success" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${sucMessage}</span>
+					</div>
+			</c:forEach>
+			<c:forEach var="errMessage" items="${userAction.errorMessage}">
+					<div class="alert fade in alert-error" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${errMessage}</span>
+					</div>
+			</c:forEach>
+		</p:panel>	
+	</div>
+</div>
+			</pm:content>
+					</div>
+				</div>
+    		</div>
+    	</div>
+    	
+    	
+      
+    </div>
+  </div>
+  
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+
+
+
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+   
+  <ui:include src="../pages/heder.xhtml"></ui:include>
+ 
+ 
+  <div class="content">
+    <div class="container">
+      <div class="row">
+  <ui:include src="../pages/leftcomponent.xhtml"></ui:include>
+  
+        <!-- table section -->
+        <div class="span10">
+          <div class="page-header">
+            <h1>Create Circle</h1>
+          </div>
+          <div class="row">
+            <div class="span10">
+            
+              <h:form styleClass="form-horizontal">
+                <div class="control-group">
+                  <label class="control-label" for="inputEmail">Circle Name</label>
+                  <div class="controls">
+                  <h:inputText id="inputEmail" styleClass="input-xlarge" value="#{userAction.circleDTO.name}"></h:inputText>
+                    
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="inputPassword">Description</label>
+                  <div class="controls">
+                    <h:inputTextarea  styleClass="input-xlarge" value="#{userAction.circleDTO.description}"></h:inputTextarea>
+                  </div>
+                </div>
+            
+                <div class="control-group">
+                  <div class="controls">
+                    <label class="checkbox">
+                      <input type="checkbox" /> Shared taxi ok?
+                    </label>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="inputEmail">Taxi Provider</label>
+                  <div class="controls">
+                    <h:selectOneMenu styleClass="input-xlarge" >
+                    <f:selectItem itemLabel="Taxi 1" itemValue="1"></f:selectItem>
+                    <f:selectItem itemLabel="Taxi 2" itemValue="2"></f:selectItem>
+                    <f:selectItem itemLabel="Taxi 3" itemValue="3"></f:selectItem>
+                    <f:selectItem itemLabel="Taxi 4" itemValue="4"></f:selectItem>
+                      
+                    </h:selectOneMenu>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="controls">
+                  <h:commandButton styleClass="btn btn-success btn-large" value="Create Circle a">
+                  	<p:ajax listener="#{userAction.registerCircle}" process="@this,inputName,inputDescription" update="circle-form" onsuccess="$('#confirmation-message').removeClass('alert-error').addClass('alert-success');$('#confirmation-message').show();$('#confirmation-message .form-message').html('Circle created Successfully. !!!!!');" onerror="$('#confirmation-message').removeClass('alert-success').addClass('alert-error');$('#confirmation-message').show();$('#confirmation-message .form-message').html('There is some issue in adding this Circle.');"/>
+                  </h:commandButton>
+                  </div>
+                  </div>
+                </div>
+              </h:form>
+            </div>
+
+          </div>
+        </div>
+        <!-- table section ends here -->
+      </div>
+    </div>
+  </div><br/><br/><br/><br/>
+  <!-- End: MAIN CONTENT -->
+
+  <!-- Start: FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="span6">
+          <p class="smv-footer">
+            &copy; 2013 BPCircles, Inc. All Rights Reserved.
+          </p>
+        </div>
+        <div class="span6">
+          <p class="smv-footer pull-right">
+            <a href="#">About Us</a> | <a href="#">Site Map</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End: FOOTER -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/boot-business.js"></script>
+
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

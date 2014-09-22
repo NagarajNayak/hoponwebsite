@@ -1,0 +1,5 @@
+<%
+response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+String newLocn = request.getContextPath()+"/nov30/pages/signin.xhtml";
+response.setHeader("Location",newLocn);
+%>

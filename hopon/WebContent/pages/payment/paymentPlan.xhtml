@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"      
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common/headerScript.xhtml"></ui:include>
+   		<h:head></h:head>
+<h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+    	<div class="row">
+    		<div class="span2">
+          		<div class="smv-leftnav">
+          			<!-- Include leftPanel.xhtml -->
+          			<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include> 
+          		</div>    		
+    		</div>
+    		<div class="span10">
+    			<div class="page-header">
+			    	<h1>Change Password</h1>
+				</div>
+				<div class="row">
+					<div class="span6">
+						${userAction.populatePaymentPlan()}
+						<h3 class="muted">Billing Plan Details </h3>
+						<pm:content rendered="#{empty userAction.userPaymentPlanList}">
+							Admin did not set your payment plan.
+						</pm:content>
+						<pm:content rendered="#{not empty userAction.userPaymentPlanList}">
+						<table class="table table-bordered table-striped">
+							<tr><td width="40%"><strong>Billing Type</strong></td><td width="60%">
+								<h:outputText value="Corporate" rendered="${userAction.userPaymentPlanList[0].type eq 'C'}"/>
+								<h:outputText value="Taxi" rendered="${userAction.userPaymentPlanList[0].type eq 'T'}"/>
+							</td></tr>
+							<tr><td><strong>Billing Plan</strong></td><td>
+								<h:outputText value="Basic" rendered="${userAction.userPaymentPlanList[0].plan eq 'B'}"/>
+								<h:outputText value="Basic + SMS" rendered="${userAction.userPaymentPlanList[0].plan eq 'BS'}"/>
+								<h:outputText value="Premium" rendered="${userAction.userPaymentPlanList[0].plan eq 'P'}"/>
+								<h:outputText value="Tracking" rendered="${userAction.userPaymentPlanList[0].plan eq 'T'}"/>
+								<h:outputText value="Regular" rendered="${userAction.userPaymentPlanList[0].plan eq 'R'}"/>
+							</td></tr>
+							<c:forEach items="${userAction.userPaymentPlanList[0].charges}" var="ch">
+							<tr>
+								<td><strong>
+								<h:outputText value="Charge" rendered="${ch.key eq 'charge'}"/>
+								<h:outputText value="SMS Incoming Charge" rendered="${ch.key eq 'smsIncharge'}"/>
+								<h:outputText value="SMS Outcoming Charge" rendered="${ch.key eq 'smsOutcharge'}"/>
+								<h:outputText value="Minimum Rate" rendered="${ch.key eq 'minRate'}"/>
+								<h:outputText value="Maximum Rate" rendered="${ch.key eq 'maxRate'}"/>
+								<h:outputText value="Corporate Rate" rendered="${ch.key eq 'corpRate'}"/>
+								</strong></td>
+								<td>${ch.value}</td></tr>
+							</c:forEach>
+						</table>
+																
+						</pm:content>
+						
+					</div>
+				</div>
+    		</div>
+    	</div>
+    </div>
+  </div>
+  
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+</pm:view>
+</pm:page>
+</f:view>
+</html>

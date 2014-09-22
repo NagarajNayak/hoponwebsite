@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"        
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>    
+  <pm:page>
+   <pm:view>
+		<ui:include src="../../pages/common/headerScript.xhtml"></ui:include>
+   <h:head></h:head>
+   <h:body>
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="span2">
+
+          <div class="smv-leftnav">
+            
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+			
+          </div>
+        </div>
+        <div class="span10">
+          <div class="page-header">
+            <h1>Company List</h1>
+          </div>
+          <div>
+           <pm:content rendered="#{sessionScope.user_role == 'C' || sessionScope.user_role == 'B' || sessionScope.user_role == 'P' || sessionScope.user_role == 'T'}">
+          <h:form id="form1">
+          <div id="ui-table-1">
+          <p:dataTable styleClass="table table-bordered table-striped" value="#{userAction.listofCompanyForLoginUser}" var="rideList" rowIndexVar="index" > 
+                <p:column width="5%">
+                <h:outputText value="#{index + 1}"></h:outputText>
+                </p:column>
+                
+                <p:column headerText="Company Name" width="20%">
+                   <h:outputText value="#{rideList.companyName}"></h:outputText>
+                </p:column>
+                <p:column headerText="Company Areas" width="30%">
+                <h:outputText value="#{rideList.companyAreas}" />
+                </p:column>
+                
+                <p:column headerText="Company Address" width="40%">
+                <h:outputText value="#{rideList.companyAddress}" />
+                </p:column>
+                
+                <p:column width="5%">
+                <span class="modal-link-span-1">
+                <p:commandLink value="edit" oncomplete="return false;" action="#{userAction.editCompany}" update=":modalPanel-1-panel">
+                <f:param name="index" value="#{index}"></f:param>
+                <f:setPropertyActionListener target="#{userAction.companyRegisterDTO}" value="#{rideList}"></f:setPropertyActionListener>
+                </p:commandLink>
+                </span>
+                </p:column>
+              </p:dataTable>
+</div>              
+		
+            </h:form> 
+            
+            </pm:content>
+            
+            
+            
+            <pm:content rendered="#{sessionScope.user_role != 'C' and sessionScope.user_role != 'B' and sessionScope.user_role != 'P' and sessionScope.user_role != 'T'}">
+            	<span class="span10 muted lead"><h3><h:outputText value="${msgs['error.permissionDenied']}"></h:outputText></h3></span>
+			</pm:content>
+			
+			
+			<div id="modalPanel-1" class="modal hide fade in" style="display: none; ">
+				<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Edit Company</h3></div>
+				<div class="modal-body">
+				<p:panel style="border: medium none;" id="modalPanel-1-panel" >
+				<h:form>
+					<h:panelGrid columns="2">
+                		<h:outputText value="Name"></h:outputText>
+                        <h:inputText value="#{userAction.companyRegisterDTO.companyName}"></h:inputText>
+                        <h:outputText value="Address"></h:outputText>
+                        <h:inputText value="#{userAction.companyRegisterDTO.companyAddress}"></h:inputText>
+                        <h:outputText value="Area"></h:outputText>
+                        <h:inputText value="#{userAction.companyRegisterDTO.companyAreas}"></h:inputText>
+                        <h:outputText value=""></h:outputText>
+                        <h:commandButton value="Edit" styleClass="btn btn-success">
+                        	<p:ajax listener="#{userAction.editCompanyValue}" process="@form" update="@form" />
+                        </h:commandButton>
+					</h:panelGrid> 
+				</h:form>
+				</p:panel>
+				</div>
+			</div>
+			
+			
+          </div>
+        </div>
+        <!-- table section ends here -->
+      </div>
+    </div>
+  </div><br/><br/><br/><br/>
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+</pm:view>
+</pm:page>
+</f:view>
+</html>

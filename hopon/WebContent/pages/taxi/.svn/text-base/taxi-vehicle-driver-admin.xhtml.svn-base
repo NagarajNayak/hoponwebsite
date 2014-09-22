@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+<f:view>
+	<pm:page>
+		<pm:view>
+			<ui:include src="../../pages/common/headerScript.xhtml"></ui:include>
+			<h:head></h:head>
+			<h:body>
+				<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+				<!-- Start: MAIN CONTENT -->
+				<div class="content">
+					<div class="container">
+						<div class="row">
+							<div class="span2">
+
+								<div class="smv-leftnav">
+
+									<!-- Include leftPanel.xhtml -->
+									<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+								</div>
+							</div>
+							 <div class="span10">
+							 <div class="page-header">
+                               <h1>Vehicle List </h1>
+                              </div>
+                             <pm:content rendered="#{sessionScope.user_role ne 'T'}">
+                             	<span class="span10 muted lead"><h3><h:outputText value="${msgs['error.permissionDenied']}"></h:outputText></h3></span>
+                             </pm:content>
+							<pm:content rendered="#{sessionScope.user_role == 'T'}">
+								<div id="ui-table-1">.
+								<h:form id="form">
+								<p:dataTable id="vehicleTable" value="#{userAction.vehicleMasterDTOList}" var="vehicle">
+								<p:column headerText="DeLink" rendered="#{vehicle.drivername ne 'NoDriver'}">
+								<p:commandLink styleClass="btn btn-danger" value="DeLink" update="vehicleTable,:form:mycircles,:form:mycircles1" action="#{userAction.addDriverForVehicle}" oncomplete="modalUpdate(); updateDataTable();">
+			                   <f:param value="delink" name="delink"></f:param>
+			                   <f:setPropertyActionListener target="#{userAction.vehicleMasterDTO}" value="#{vehicle}"></f:setPropertyActionListener>
+			                   </p:commandLink>
+								</p:column>
+								<p:column headerText="Vehicle-Model" rendered="#{vehicle.drivername ne 'NoDriver'}">
+								<h:outputText value="#{vehicle.model}"></h:outputText>
+								</p:column>
+								<p:column headerText="Reg-No" rendered="#{vehicle.drivername ne 'NoDriver'}">
+								<h:outputText value="#{vehicle.reg_NO}"></h:outputText>
+								</p:column>
+								<p:column headerText="Capacity" rendered="#{vehicle.drivername ne 'NoDriver'}">
+								<h:outputText value="#{vehicle.capacity}"></h:outputText>
+								</p:column>
+								<p:column headerText="Driver-Id" rendered="#{vehicle.drivername ne 'NoDriver'}">
+								<h:outputText value="#{vehicle.driverid}"></h:outputText>
+								</p:column>
+								<p:column headerText="Driver-Name" rendered="#{vehicle.drivername ne 'NoDriver'}">
+								<h:outputText value="#{vehicle.drivername}"></h:outputText>
+								</p:column>
+								</p:dataTable>
+								<div class="span3">
+								<h:outputText value="List Of Vehicle" styleClass="muted lead"></h:outputText>
+								<p:selectOneListbox  id="mycircles" styleClass="input-xlarge" value="#{userAction.vehicleMasterDTO.vehicleID}" style="width:215px;height:110px" >
+				                <f:selectItems   value="#{userAction.vehicleListForDriver}"></f:selectItems>
+			                    </p:selectOneListbox>
+			                    </div>
+			                    <div class="span4">
+			                    <h:outputText value="Search For Driver" styleClass="muted lead"></h:outputText>
+			                    <p:selectOneListbox  id="mycircles1" styleClass="input-xlarge" value="#{userAction.forregistrationOnly.first_name}" style="width:215px;height:110px" >
+                    				<f:selectItems   value="#{userAction.allUserForACircle}"></f:selectItems>
+                       			</p:selectOneListbox>
+			                    </div>
+			                    
+			                    <div class="span10" style="margin-top:5px;">
+			                    <p:commandLink styleClass="btn btn-info" value="Link" update="vehicleTable,:form:mycircles,:form:mycircles1" action="#{userAction.addDriverForVehicle}" oncomplete="modalUpdate(); updateDataTable();">
+			                   	<f:param value="link" name="link"></f:param>
+			                   	</p:commandLink>
+			                   	
+			                   	</div>
+								</h:form>
+								</div>
+								</pm:content>
+								</div>
+						</div>
+					</div>
+				</div>
+				<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+			</h:body>
+		</pm:view>
+	</pm:page>
+</f:view>
+</html>

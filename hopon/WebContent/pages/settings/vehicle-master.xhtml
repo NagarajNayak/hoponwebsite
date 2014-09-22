@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"  
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>     
+        <pm:page>
+<pm:view>   
+
+		<ui:include src="../../pages/common//headerScript.xhtml"></ui:include>
+
+		<script type="text/javascript">$(document).ready(function(){if($("#ui-table-1 tr th:first").length>0){$("#ui-table-1 tr th:first").attr("class","").html("")}$("#vehicleDownloadform\\:vehicleDownloadLink").attr("class","btn btn-xs btn-link").attr("style","background: none repeat scroll 0 0 rgba(0, 0, 0, 0);border: medium none;box-shadow: 0 0 0 #FFFFFF;color: #0088CC;display: inline;font-size: 12px;font-weight:normal;margin: -6px 1px 0 9px;padding: 3px;");$("#vehicleDownloadform").css("display","inline");$("#vehicleDownloadform\\:vehicleDownloadLink").find("span:first").css("margin-top","3px");$("#vehicleDownloadform\\:vehicleDownloadLink").unbind("hover")});function validateAddVehicle(){if($("#add\\:make").val().trim().length==0){$("#add-msg").html("Make is required.");return false}if($("#add\\:regNo").val().trim().length==0){$("#add-msg").html("Reg. No. is required.");return false}var a=parseInt($("#add\\:cap").val());if(isNaN(a)){$("#add-msg").html("Capacity is required.");return false}else{if(1>a){$("#add-msg").html("Capacity must be Betbeen 1 to 60.");return false}if(a>60){$("#add-msg").html("Capacity must be Betbeen 1 to 60.");return false}}return true}function validateEditVehicle(){if($("#update\\:make").val().trim().length==0){$("#update-msg").html("Make is required.");return false}if($("#update\\:regNo").val().trim().length==0){$("#update-msg").html("Reg. No. is required.");return false}var a=parseInt($("#update\\:editcap").val());if(isNaN(a)){$("#update-msg").html("Capacity is required.");return false}else{if(1>a){$("#update-msg").html("Capacity must be Betbeen 1 to 60");return false}if(a>60){$("#update-msg").html("Capacity must be Betbeen 1 to 60");return false}}return true};</script>
+		
+	<h:head></h:head>
+<h:body> 
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+	
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <!-- <div class="page-header">
+        <h1>The HopOn frequently asked questions</h1>
+      </div>  --> 
+      <div class="row">
+        <!-- <div class="span2"></div>  bs-docs-sidenav affix nav-tabs nav-stacked-->
+        <div class="span2">
+
+          <div class="smv-leftnav">
+            
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>
+        		
+        		
+		<div class="span10">
+        	<div class="page-header">
+            	<h1>Vehicle Master</h1>
+          	</div>
+          	<div class="row">
+            	<div class="span10">
+
+
+
+<pm:content rendered="#{sessionScope.user_role == 'P' || sessionScope.user_role == 'B' || sessionScope.user_role == 'T'}">
+<h:form id="form1">	
+	<p:message for=":add:cap" ></p:message>
+	<p:message for=":update:editcap" ></p:message>
+	<div id="ui-table-1">
+	<p:dataTable id="table1" value="#{userAction.vehicleMasterDataModel}" var="veh" selection="#{userAction.vehicleMasterDtos}">
+		<p:ajax event="rowSelectCheckbox" process="@this"/>
+		<p:ajax event="rowUnselectCheckbox" process="@this"/>
+      	<p:ajax event="toggleSelect" process="@this"/>
+		<p:column  headerText="" selectionMode="multiple" style="width:2%"/> 
+		<p:column headerText="Make">
+			<h:outputText value="#{veh.make}"></h:outputText>
+		</p:column>
+		<p:column headerText="Model">
+			<h:outputText value="#{veh.model}"></h:outputText>
+		</p:column>
+		<p:column headerText="Color">
+			<h:outputText value="#{veh.color}"></h:outputText>
+		</p:column>
+		<p:column headerText="Regn-No">
+			<h:outputText value="#{veh.reg_NO}"></h:outputText>
+		</p:column>
+        <p:column headerText="Capacity">
+           	<h:outputText value="#{veh.capacity}"></h:outputText>
+        </p:column>
+        <p:column headerText="">
+			<span class="modal-link-span-3">
+           	<p:commandLink styleClass="btn btn-default" value="edit" oncomplete="return false;" update=":modalPanel-3-panel">
+           	<f:setPropertyActionListener target="#{userAction.vehicleMasterDTO}" value="#{veh}"></f:setPropertyActionListener>
+           	</p:commandLink>
+           	</span>
+        </p:column>
+		<p:column headerText="Default">
+			<p:selectBooleanCheckbox value="#{veh.is_default}">
+				<f:param name="vehicleID" value="#{veh.vehicleID}"></f:param>
+				<p:ajax listener="#{userAction.vehicleDefaultUpdate}" event="change" update="table1" oncomplete="updateDataTable1(); modalUpdate(); if($('#ui-table-1 tr th:first').length > 0) $('#ui-table-1 tr th:first').attr('class', '').html(''); "></p:ajax>
+			</p:selectBooleanCheckbox>			
+		</p:column>
+	</p:dataTable>
+	</div>
+	<div class="spa" style="margin-top:15px;">
+		<span class="modal-link-span-2" style="margin-left: 3px;">
+		<h:commandLink styleClass="btn btn-success" value="Add Vehicle" onclick="$('#add table input[type=text]').val(''); $('#add-success-msg').html(''); return false;"/>&nbsp;
+		</span>
+		<h:commandLink styleClass="btn btn-danger" value="Delete">
+			<p:ajax listener="#{userAction.inActivateVehicle}" process="@form" update="@form,:messagePanel" oncomplete="updateDataTable1();modalUpdate();if($('#ui-table-1 tr th:first').length > 0) $('#ui-table-1 tr th:first').attr('class', '').html('');"/>
+		</h:commandLink>
+	</div>
+</h:form>
+
+<h3 class="muted" style="display:inline"><h:outputFormat value="#{msgs['vehicle.upload.header']}"></h:outputFormat></h3> 
+<h:form id="vehicleDownloadform">  
+  
+<p:commandButton styleClass="" id="vehicleDownloadLink" value="Download Template" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"   
+        icon="ui-icon-arrowthick-1-s">  
+    <p:fileDownload value="#{userAction.vehicleFile}" />  
+</p:commandButton>  
+  
+</h:form>  
+  
+        
+<h:form id="uploadForm">  
+  
+    <p:fileUpload fileUploadListener="#{userAction.handleVehicleUpload}" mode="advanced" dragDropSupport="false"  
+                  update="messages,:uploadForm,:messagePanel,:form1" sizeLimit="100000" fileLimit="1" allowTypes="/(\.|\/)(xls)$/" 
+                  invalidFileMessage="#{msgs['upload.file.support']}" multiple="false" oncomplete="updateDataTable1();modalUpdate();if($('#ui-table-1 tr th:first').length > 0) $('#ui-table-1 tr th:first').attr('class', '').html('');" />  
+  
+    <p:growl id="messages" showDetail="true"/>  
+  
+</h:form>  
+
+			${userAction.clearScreenMessage()}
+			
+			<script type="text/javascript">$(document).ready(function(){$("#messagePanel").attr("class","");$("#messagePanel_content").attr("class","");$("#messagePanel .alert").each(function(){if($(this).find(".form-message").html().trim().length>0){$(this).show()}else{$(this).hide()}})});</script>
+
+			<p:panel id="messagePanel" style="border:none;margin-left: -18px;margin-right: -18px;">			
+			<c:forEach var="sucMessage" items="${userAction.successMessage}">
+					<div class="alert fade in alert-success" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${sucMessage}</span>
+					</div>
+			</c:forEach>
+			<c:forEach var="errMessage" items="${userAction.errorMessage}">
+					<div class="alert fade in alert-error" syle="display:none;">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						<span class="form-message">${errMessage}</span>
+					</div>
+			</c:forEach>
+			${userAction.clearScreenMessage()}
+			</p:panel>
+</pm:content>
+
+
+<pm:content rendered="#{sessionScope.user_role != 'P' and sessionScope.user_role != 'B' and sessionScope.user_role != 'T'}">
+	<span class="span10 muted lead"><h3><h:outputText value="${msgs['error.permissionDenied']}"></h:outputText></h3></span>
+</pm:content>
+		
+		
+		<div id="modalPanel-2" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Add Vehicle</h3></div>
+			<div class="modal-body"> 				
+				<p:panel style="border: medium none;" id="modalPanel-2-panel">
+				
+				<h:form id="add">
+				<span style="color:#55AB55;" id="add-success-msg">
+					<pm:content rendered="#{userAction.vehicleMasterDTO.reg_NO != 'fault'}">
+						<h:outputText value="Vehicle added Successfully."></h:outputText>
+					</pm:content>
+				</span>
+				<span style="color:#B94A48;" id="add-msg">
+				<pm:content rendered="#{userAction.vehicleMasterDTO.reg_NO == 'fault'}">
+					<h:outputText style="color:#B94A48;" value="${msgs['error.registrationNumber']}"></h:outputText>
+				</pm:content>
+				</span>
+				<h:panelGrid columns="2">
+					<h:outputText value="Make"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.make}" id="make"/>
+					<h:outputText value="Model"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.model}" id="model"></h:inputText> 
+					<h:outputText value="Color"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.color}" id="color"></h:inputText> 
+					<h:outputText value="Reg.No."></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.reg_NO}" id="regNo"></h:inputText>  
+					<h:outputText value="Capacity"></h:outputText>
+					<h:inputText style="width:40px" validatorMessage="Capacity is in Betbeen 1 to 60" id="cap" value="#{userAction.vehicleMasterDTO.capacity}" maxlength="2">
+		            <f:validateLongRange minimum="1" maximum="60"></f:validateLongRange> 
+		            </h:inputText>&nbsp;
+		            <h:commandButton onclick="return validateAddVehicle();" styleClass="btn btn-success" value="Save">
+		            	<p:ajax oncomplete="updateDataTable1();modalUpdate();if($('#ui-table-1 tr th:first').length > 0) $('#ui-table-1 tr th:first').attr('class', '').html('');" process="@this,add" update=":add,:form1" listener="#{userAction.registerVehicleMaster}"/>
+		            </h:commandButton>
+				</h:panelGrid>   
+				</h:form>
+				</p:panel>         
+			</div>  
+        </div> 
+		
+		
+		<div id="modalPanel-3" class="modal hide fade in" style="display: none; ">
+        	<div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Edit Vehicle</h3></div>
+			<div class="modal-body">  
+				<p:panel style="border: medium none;" id="modalPanel-3-panel">
+				<h:form id="update">
+				<span style="color:#B94A48;" id="update-msg"></span>
+				<h:panelGrid columns="2">
+					<h:outputText value="Make"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.make}" id="make"></h:inputText> 
+					<h:outputText value="Model"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.model}" id="model"></h:inputText> 
+					<h:outputText value="Color"></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.color}" id="color"></h:inputText> 
+					<h:outputText value="Reg.No."></h:outputText>
+					<h:inputText value="#{userAction.vehicleMasterDTO.reg_NO}" id="regNo"></h:inputText> 
+					<h:outputText value="Capacity"></h:outputText>
+					<h:inputText style="width:40px" validatorMessage="Capacity is in Betbeen 1 to 60" id="editcap" value="#{userAction.vehicleMasterDTO.capacity}" maxlength="2">
+		            <f:validateLongRange minimum="1" maximum="60"></f:validateLongRange>
+		            </h:inputText>&nbsp;
+		            <h:commandButton onclick="return validateEditVehicle();" styleClass="btn btn-success" value="Save">
+		            	<p:ajax listener="#{userAction.updateVehicle}" oncomplete="updateDataTable1();modalUpdate();if($('#ui-table-1 tr th:first').length > 0) $('#ui-table-1 tr th:first').attr('class', '').html('');" process="@this,update" update=":update,:form1,:messagePanel" />
+		            </h:commandButton>
+				</h:panelGrid>  
+				</h:form>
+				</p:panel>          
+			</div>  
+        </div> 
+        
+            	</div>            	
+            </div>			
+      	</div>
+    
+      
+
+		</div>
+    </div>
+  </div>
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>

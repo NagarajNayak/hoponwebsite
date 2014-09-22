@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile"  
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+  <f:view>     
+        <pm:page>
+<pm:view>   
+
+		<ui:include src="../../pages/common//headerScript.xhtml"></ui:include>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				if($("#ui-table-1 tr th:first").length > 0) {
+					$("#ui-table-1 tr th:first").attr("class", "").html("");
+				}
+				$("#userDownloadform\\:userDownloadLink").attr("class", "btn btn-xs btn-link").attr("style", "background: none repeat scroll 0 0 rgba(0, 0, 0, 0);border: medium none;box-shadow: 0 0 0 #FFFFFF;color: #0088CC;display: inline;font-size: 12px;font-weight:normal;margin: -6px 1px 0 9px;padding: 3px;");
+				$("#userDownloadform").css("display", "inline");
+				$("#userDownloadform\\:userDownloadLink").find("span:first").css("margin-top", "3px");
+				$("#userDownloadform\\:userDownloadLink").unbind('hover');
+
+			});
+		</script>
+		
+	<h:head></h:head>
+<h:body> 
+	<ui:include src="../../pages/common/headerContent.xhtml"></ui:include>
+	
+  <!-- Start: MAIN CONTENT -->
+  <div class="content">
+    <div class="container">
+      <!-- <div class="page-header">
+        <h1>The BP Circles frequently asked questions</h1>
+      </div>  --> 
+      <div class="row">
+        <!-- <div class="span2"></div>  bs-docs-sidenav affix nav-tabs nav-stacked-->
+        <div class="span2">
+
+          <div class="smv-leftnav">
+            
+          	<!-- Include leftPanel.xhtml -->
+          	<ui:include src="../../pages/common/leftPanel.xhtml"></ui:include>
+          </div>
+        </div>
+        		
+        		
+		<div class="span10">
+        	<div class="page-header">
+            	<h1>Upload Circle Member</h1>
+          	</div>
+          	<div class="row">
+            	<div class="span10">
+			
+			<pm:content rendered="#{sessionScope.user_role ne 'P' and sessionScope.user_role ne 'B' and sessionScope.user_role ne 'C'}">
+				<span class="span10 muted lead"><h3><h:outputText value="${msgs['error.permissionDenied']}"></h:outputText></h3></span>			
+			</pm:content>
+			<pm:content rendered="#{sessionScope.user_role == 'P' || sessionScope.user_role == 'B' || sessionScope.user_role == 'C'}">
+				<h3 class="muted" style="display:inline">Upload users from Excel(xls) Sheet.</h3>
+				<h:form id="userDownloadform">
+					<p:commandButton styleClass="" id="userDownloadLink" value="Download Template" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)" icon="ui-icon-arrowthick-1-s">  
+    					<p:fileDownload value="#{userAction.userFile}" />  
+					</p:commandButton>
+				</h:form>  
+				<h:form id="userUploadForm">  
+					<p:fileUpload fileUploadListener="#{userAction.handleUserUpload}" mode="advanced" dragDropSupport="false"  
+                  		update="messages,:userUploadForm,:messagePanel" sizeLimit="100000" fileLimit="1" allowTypes="/(\.|\/)(xls)$/" 
+                  		invalidFileMessage="Only excel(xls) file are supported." multiple="false" />  
+					<p:growl id="messages" showDetail="true"/>  
+				</h:form>
+				
+				${userAction.clearScreenMessage()}
+			
+				<script type="text/javascript">
+				$(document).ready(function(){
+					$("#messagePanel").attr("class" , "");
+					$("#messagePanel_content").attr("class" , "");
+					$("#messagePanel .alert").each(function(){
+						if($(this).find(".form-message").html().trim().length > 0 ) $(this).show();
+						else $(this).hide();
+					});
+				});
+				</script>
+	
+				<p:panel id="messagePanel" style="border:none;margin-left: -18px;margin-right: -18px;">			
+				<c:forEach var="sucMessage" items="${userAction.successMessage}">
+						<div class="alert fade in alert-success" syle="display:none;">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							<span class="form-message">${sucMessage}</span>
+						</div>
+				</c:forEach>
+				<c:forEach var="errMessage" items="${userAction.errorMessage}">
+						<div class="alert fade in alert-error" syle="display:none;">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							<span class="form-message">${errMessage}</span>
+						</div>
+				</c:forEach>
+				</p:panel>
+			</pm:content>
+		
+		
+		
+        
+            	</div>            	
+            </div>			
+      	</div>
+    
+      
+
+		</div>
+    </div>
+  </div>
+  <!-- End: MAIN CONTENT -->
+
+	<ui:include src="../../pages/common/footer-content.xhtml"></ui:include>
+
+</h:body>
+
+</pm:view>
+</pm:page>
+</f:view>
+</html>
